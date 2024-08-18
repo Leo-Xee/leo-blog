@@ -5,6 +5,13 @@ import '@/styles/reset.css';
 import { ThemeProvider } from 'next-themes';
 import { darkTheme, lightTheme } from '@/styles/themes.css';
 import { AppBar } from '@/components/common/AppBar';
+import localFont from 'next/font/local';
+
+const pretendard = localFont({
+  src: '../../public/assets/fonts/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,7 +24,7 @@ export default function IndexLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning className={pretendard.className}>
       <body>
         <ThemeProvider
           attribute="class"
