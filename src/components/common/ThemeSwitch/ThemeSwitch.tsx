@@ -2,23 +2,29 @@
 
 import { useTheme } from 'next-themes';
 import React from 'react';
+import { MoonIcon } from '@heroicons/react/20/solid';
+import { SunIcon } from '@heroicons/react/16/solid';
+import * as styles from './ThemeSwitch.css';
 
 function ThemeSwitch() {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
-  const handleButtonClick = (theme: string) => {
-    setTheme(theme);
+  const handleButtonClick = (currentTheme?: string) => {
+    setTheme(currentTheme === 'light' ? 'dark' : 'light');
   };
 
   return (
-    <div>
-      <button type="button" onClick={() => handleButtonClick('light')}>
-        light
-      </button>
-      <button type="button" onClick={() => handleButtonClick('dark')}>
-        dark
-      </button>
-    </div>
+    <button
+      type="button"
+      className={styles.themeSwitch}
+      onClick={() => handleButtonClick(theme)}
+    >
+      {theme === 'light' ? (
+        <SunIcon width={24} height={24} />
+      ) : (
+        <MoonIcon width={24} height={24} />
+      )}
+    </button>
   );
 }
 

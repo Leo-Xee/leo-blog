@@ -18,7 +18,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@posts/*": ["./posts/*"],
+      "@assets/*": ["./public/assets/*"]
     }
   },
   "include": [
