@@ -4,7 +4,7 @@ import '@/styles/layers.css';
 import '@/styles/reset.css';
 import { ThemeProvider } from 'next-themes';
 import { darkTheme, lightTheme } from '@/styles/themes.css';
-import { ThemeSwitch } from '@/components/common/ThemeSwitch';
+import { AppBar } from '@/components/common/AppBar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -23,10 +23,7 @@ export default function IndexLayout({
           attribute="class"
           value={{ light: lightTheme, dark: darkTheme }}
         >
-          <header>
-            <nav>NAV</nav>
-          </header>
-          <ThemeSwitch />
+          <AppBar />
           {children}
           <footer>FOOTER</footer>
         </ThemeProvider>
