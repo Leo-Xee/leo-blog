@@ -12,6 +12,7 @@
     "@vanilla-extract/css": "^1.15.3",
     "gray-matter": "^4.0.3",
     "next": "14.2.5",
+    "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
     "rehype-pretty-code": "^0.13.2",
