@@ -1,3 +1,5 @@
+import { Container } from '@/components/common/Container';
+import { Markdown } from '@/components/common/Markdown';
 import { getAllPosts, getPost } from '@/libs/api';
 import markdownToHtml from '@/libs/markdown-to-html';
 
@@ -13,10 +15,9 @@ export default async function Post({ params: { slug } }: Params) {
 
   return (
     <main>
-      <div
-        style={{ width: '768px' }}
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+      <Container>
+        <Markdown content={content} />
+      </Container>
     </main>
   );
 }
