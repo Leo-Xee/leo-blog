@@ -1,6 +1,6 @@
 ---
 title: '이벤트 루프란?'
-description: '테스트 테스트 테스트'
+description: '이벤트 루프에 대해서 설명합니다.'
 thumbnail: '/assets/blog/dynamic-routing/cover.jpg'
 tags: ['test1', 'test2']
 createdAt: '2024-03-19T05:35:07.322Z'
