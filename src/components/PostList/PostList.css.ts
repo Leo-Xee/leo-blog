@@ -19,6 +19,7 @@ export const postList = style({
 export const postListItem = style({
   display: 'inline-block',
   width: '100%',
+  padding: vars.space.space02,
 });
 
 export const postTitle = style({
