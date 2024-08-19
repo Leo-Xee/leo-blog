@@ -14,8 +14,8 @@ const navItems = [
     path: '/',
   },
   {
-    title: 'Posts',
-    path: '/posts',
+    title: 'Articles',
+    path: '/articles',
   },
   {
     title: 'PS',
