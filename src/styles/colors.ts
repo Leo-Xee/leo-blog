@@ -1,6 +1,7 @@
 export const lightThemeColors = {
   appBar: 'rgba(255, 255, 255, 0.9)',
   background: '#f9fafb',
+  heading: '#000',
   text: '#000000EE',
   white: '#fff',
   black: '#000',
@@ -89,6 +90,7 @@ export const lightThemeColors = {
 export const darkThemeColors = {
   appBar: 'rgba(25, 25, 25, 0.9)',
   background: '#161615',
+  heading: '#fff',
   text: '#eeeeee',
   white: '#fff',
   black: '#000',

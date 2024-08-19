@@ -1109,6 +1109,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vanilla-extract/css-utils@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@vanilla-extract/css-utils@npm:0.1.4"
+  checksum: 10c0/b822770927fa201cdd0363d25734f213ba57b9f03d97557729fdcc39a5898d122b91e694f2baf0711f65254964ecdb1e26341889f53596fb4b4c23a8a80e8a22
+  languageName: node
+  linkType: hard
+
 "@vanilla-extract/css@npm:^1.15.3":
   version: 1.15.3
   resolution: "@vanilla-extract/css@npm:1.15.3"
@@ -3753,6 +3760,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^7.0.0"
     "@typescript-eslint/parser": "npm:^7.0.0"
     "@vanilla-extract/css": "npm:^1.15.3"
+    "@vanilla-extract/css-utils": "npm:^0.1.4"
     "@vanilla-extract/next-plugin": "npm:^2.4.3"
     eslint: "npm:^8"
     eslint-config-airbnb: "npm:^19.0.4"
