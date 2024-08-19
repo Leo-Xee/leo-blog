@@ -9,8 +9,8 @@ type Params = {
   };
 };
 
-export default async function Post({ params: { slug } }: Params) {
-  const post = getContent('posts', slug);
+export default async function Book({ params: { slug } }: Params) {
+  const post = getContent('books', slug);
   const content = await markdownToHtml(post.content);
 
   return (
@@ -23,7 +23,7 @@ export default async function Post({ params: { slug } }: Params) {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllContents('posts');
+  const posts = getAllContents('books');
 
   return posts.map((post) => ({
     slug: post.slug,
