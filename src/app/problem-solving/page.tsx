@@ -4,7 +4,7 @@ import { PostListSummary } from '@/components/PostListSummary';
 import { getAllPosts } from '@/libs/api';
 
 export default function Problems() {
-  const posts = getAllPosts('articles');
+  const posts = getAllPosts('problem-solving');
 
   return (
     <main>
