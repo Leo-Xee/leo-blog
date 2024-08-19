@@ -1,6 +1,6 @@
 import { Container } from '@/components/common/Container';
 import { Markdown } from '@/components/common/Markdown';
-import { getAllContents, getContent } from '@/libs/api';
+import { getAllPosts, getPost } from '@/libs/api';
 import markdownToHtml from '@/libs/markdown-to-html';
 
 type Params = {
@@ -10,7 +10,7 @@ type Params = {
 };
 
 export default async function Book({ params: { slug } }: Params) {
-  const post = getContent('books', slug);
+  const post = getPost('books', slug);
   const content = await markdownToHtml(post.content);
 
   return (
@@ -23,7 +23,7 @@ export default async function Book({ params: { slug } }: Params) {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllContents('books');
+  const posts = getAllPosts('books');
 
   return posts.map((post) => ({
     slug: post.slug,

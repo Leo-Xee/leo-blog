@@ -1,11 +1,11 @@
-import { Content, ContentType } from '@/types/content';
+import { Post, PostType } from '@/types/post';
 import { readdirSync, readFileSync } from 'fs';
 import matter from 'gray-matter';
 import { join } from 'path';
 
-const getDir = (type: ContentType) => join(process.cwd(), `__contents/${type}`);
+const getDir = (type: PostType) => join(process.cwd(), `__contents/${type}`);
 
-const getContent = (type: ContentType, slug: string) => {
+const getPost = (type: PostType, slug: string) => {
   const contentDir = getDir(type);
 
   const slugWithoutExtension = slug.replace(/\.md$/, '');
@@ -13,18 +13,18 @@ const getContent = (type: ContentType, slug: string) => {
   const fileContents = readFileSync(fullPath, 'utf-8');
   const { content, data } = matter(fileContents);
 
-  return { ...data, slug: slugWithoutExtension, content } as Content;
+  return { ...data, slug: slugWithoutExtension, content } as Post;
 };
 
-const getAllContents = (type: ContentType) => {
+const getAllPosts = (type: PostType) => {
   const contentDir = getDir(type);
 
   const slugs = readdirSync(contentDir);
   const contents = slugs
-    .map((slug) => getContent(type, slug))
+    .map((slug) => getPost(type, slug))
     .sort((first, second) => (first.createdAt > second.createdAt ? -1 : 1));
 
   return contents;
 };
 
-export { getContent, getAllContents };
+export { getPost, getAllPosts };

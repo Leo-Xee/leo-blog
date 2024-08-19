@@ -1,6 +1,6 @@
-export type ContentType = 'posts' | 'problem-solving' | 'books';
+export type PostType = 'articles' | 'problem-solving' | 'books';
 
-export type Content = {
+export type Post = {
   slug: string;
   title: string;
   description: string;

@@ -1,10 +1,10 @@
 import { Container } from '@/components/common/Container';
 
-export default function Posts() {
+export default function Articles() {
   return (
     <main>
       <Container>
-        <div>Posts</div>
+        <div>Articles</div>
       </Container>
     </main>
   );
