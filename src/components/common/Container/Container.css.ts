@@ -2,7 +2,7 @@ import { vars } from '@/styles/themes.css';
 import { style } from '@vanilla-extract/css';
 
 export const container = style({
-  paddingTop: vars.space.space04,
+  paddingTop: vars.space.space15,
   paddingBottom: vars.space.space10,
   paddingRight: vars.space.space06,
   paddingLeft: vars.space.space06,
