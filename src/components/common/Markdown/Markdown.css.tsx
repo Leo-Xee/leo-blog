@@ -9,41 +9,48 @@ export const markdown = style({});
 
 globalStyle(`${markdown} h1`, {
   fontSize: vars.fontSize.heading1,
+  fontWeight: vars.fontWeight.bold,
+  color: vars.themeColor.heading,
 });
 
 globalStyle(`${markdown} h2`, {
-  fontSize: vars.fontSize.heading2,
   marginTop: vars.space.space08,
   marginBottom: vars.space.space03,
-  borderBottom: `1px solid ${vars.themeColor.gray300}`,
+  fontSize: vars.fontSize.heading2,
+  fontWeight: vars.fontWeight.bold,
+  color: vars.themeColor.heading,
 });
 
 globalStyle(`${markdown} h3`, {
-  fontSize: vars.fontSize.heading3,
   marginTop: vars.space.space08,
   marginBottom: vars.space.space03,
-  borderBottom: `1px solid ${vars.themeColor.gray300}`,
+  fontSize: vars.fontSize.heading3,
+  fontWeight: vars.fontWeight.bold,
+  color: vars.themeColor.heading,
 });
 
 globalStyle(`${markdown} h4`, {
-  fontSize: vars.fontSize.heading4,
   marginTop: vars.space.space08,
   marginBottom: vars.space.space03,
-  borderBottom: `1px solid ${vars.themeColor.gray300}`,
+  fontSize: vars.fontSize.heading4,
+  fontWeight: vars.fontWeight.bold,
+  color: vars.themeColor.heading,
 });
 
 globalStyle(`${markdown} h5`, {
-  fontSize: vars.fontSize.heading5,
   marginTop: vars.space.space08,
   marginBottom: vars.space.space03,
-  borderBottom: `1px solid ${vars.themeColor.gray300}`,
+  fontSize: vars.fontSize.heading5,
+  fontWeight: vars.fontWeight.bold,
+  color: vars.themeColor.heading,
 });
 
 globalStyle(`${markdown} h6`, {
-  fontSize: vars.fontSize.heading6,
   marginTop: vars.space.space08,
   marginBottom: vars.space.space03,
-  borderBottom: `1px solid ${vars.themeColor.gray300}`,
+  fontSize: vars.fontSize.heading6,
+  fontWeight: vars.fontWeight.bold,
+  color: vars.themeColor.heading,
 });
 
 /**
@@ -109,14 +116,14 @@ globalStyle(`${markdown} > ul.contains-task-list`, {
 
 globalStyle(`${markdown} ul.contains-task-list input[type="checkbox"]`, {
   position: 'relative',
-  border: `1px solid ${vars.themeColor.gray300}`,
+  border: `1px solid ${vars.themeColor.gray200}`,
   width: '14px',
   height: '14px',
   borderRadius: vars.borderRadius.radii01,
 });
 
 globalStyle(`${markdown} input[type="checkbox"]:checked:disabled`, {
-  backgroundColor: '#f2f4f6',
+  backgroundColor: vars.themeColor.gray100,
 });
 
 globalStyle(`${markdown} input[type="checkbox"]:checked::after`, {
@@ -126,7 +133,7 @@ globalStyle(`${markdown} input[type="checkbox"]:checked::after`, {
   left: '4px',
   width: '5px',
   height: '10px',
-  border: `solid ${vars.themeColor.blue600}`,
+  border: `solid ${vars.themeColor.heading}`,
   borderWidth: '0 2px 2px 0',
   transform: 'rotate(45deg)',
 });
@@ -136,7 +143,14 @@ globalStyle(`${markdown} input[type="checkbox"]:checked::after`, {
  */
 
 globalStyle(`${markdown} img`, {
-  width: '100%',
+  width: '90%',
+  borderRadius: vars.borderRadius.radii05,
+});
+
+globalStyle(`${markdown} p img`, {
+  display: 'block',
+  margin: `${vars.space.none} auto`,
+  boxShadow: vars.themeColor.shadowSmall,
 });
 
 /**
@@ -144,8 +158,11 @@ globalStyle(`${markdown} img`, {
  */
 
 globalStyle(`${markdown} table, th, td`, {
-  padding: vars.space.space04,
-  border: '1px solid',
+  paddingTop: vars.space.space02,
+  paddingBottom: vars.space.space02,
+  paddingLeft: vars.space.space05,
+  paddingRight: vars.space.space05,
+  border: `1px solid ${vars.themeColor.gray300}`,
 });
 
 /**

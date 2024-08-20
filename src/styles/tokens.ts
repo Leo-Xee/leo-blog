@@ -30,7 +30,7 @@ export const fontSize = {
   lg: '18px',
   xl: '20px',
   heading1: '48px',
-  heading2: '32px',
+  heading2: '30px',
   heading3: '28px',
   heading4: '24px',
   heading5: '20px',
@@ -38,7 +38,7 @@ export const fontSize = {
 } as const;
 
 export const lineHeight = {
-  base: '1.6',
+  base: '1.8',
 } as const;
 
 export const fontWeight = {
