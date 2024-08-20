@@ -62,16 +62,12 @@ const { data } = useQuery("/carts", getCarts, {
 ```
 
 - `queryKey`
-
   - 데이터를 GET하는 요청들을 구분하는 Key값을 받으며 이는 해시화되어 관리된다.
   - useQuery는 Key값을 기반으로 캐싱을 하기 떄문에 Key값이 동일하면 다른 데이터에 대한 요청일지라도 같은 요청으로 인식하고 캐시를 관리한다.
   - 타입으로는 문자열이나 배열을 받는다.
-
 - `queryFn`
-
   - GET 요청에 사용할 비동기함수를 받는다.
   - 인자가 필요한 비동기함수일 경우에는 함수 호출문을 넣지않도록 주의해야한다.
-
 - `OptionObj`
   - useQuery에서 사용할 옵션 객체를 받으며 일반적으로 사용되는 옵션은 다음과 같다.
     - `onSuccess`, `onError`, `onSettled`: 성공, 실패, 완료 시에 실행할 Side Effect를 정의
@@ -98,10 +94,8 @@ addCartMutation.mutate(products);
 ```
 
 - `mutationFn`
-
   - POST, PUT, PATCH, DELETE 요청을 수행할 비동기 함수를 받는다.
   - useMutation을 실행하기 위해서는 반환 객체의 메소드인 `mutate`를 사용해야한다.
-
 - `optionObj`
   - useMutation에서 사용할 옵션 객체를 받는다.
 

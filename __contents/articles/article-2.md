@@ -48,10 +48,11 @@ createdAt: '2024-03-19T05:35:07.322Z'
 위에서는 태스크 큐가 하나인 것처럼 동작 과정을 설명했지만 사실 태스크 큐는 다음과 같이 2가지 종류로 나누어진다.
 
 - **매크로태스크큐(Macrotask Queue)**
-  - requestAnimationFrame
-  - I/O (네트워크나 하드웨어 작업)
-  - UI rendering
-  - Timer(setTimeout, setInterval, setImmediate)
+- requestAnimationFrame
+- I/O (네트워크나 하드웨어 작업)
+- UI rendering
+- Timer(setTimeout, setInterval, setImmediate)
+
 - **마이크로태스크큐(Microtask Queue)**
   - process.nextTick
   - Promises
