@@ -62,6 +62,8 @@ _HELLO WORLD_
 
 ---
 
+![테스트](/assets/posts/test2.png)
+
 [![ALT](/assets/posts/test.JPG)](https://github.com/leo-xee)
 
 ---
