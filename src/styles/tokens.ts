@@ -29,6 +29,7 @@ export const fontSize = {
   base: '16px',
   lg: '18px',
   xl: '20px',
+  xl2: '24px',
   heading1: '48px',
   heading2: '30px',
   heading3: '28px',
