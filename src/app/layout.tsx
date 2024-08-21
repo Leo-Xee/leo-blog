@@ -28,6 +28,7 @@ export default function IndexLayout({
       <body>
         <ThemeProvider
           attribute="class"
+          enableSystem
           value={{ light: lightTheme, dark: darkTheme }}
         >
           <AppBar />

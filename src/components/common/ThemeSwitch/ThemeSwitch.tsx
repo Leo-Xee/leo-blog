@@ -1,29 +1,32 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import React from 'react';
-import { MoonIcon } from '@heroicons/react/20/solid';
-import { SunIcon } from '@heroicons/react/16/solid';
+import React, { useEffect, useState } from 'react';
+import { MoonIcon, SunIcon } from '@heroicons/react/20/solid';
 import * as styles from './ThemeSwitch.css';
 
 function ThemeSwitch() {
-  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
 
   const handleButtonClick = (currentTheme?: string) => {
     setTheme(currentTheme === 'light' ? 'dark' : 'light');
   };
 
+  useEffect(() => setMounted(true), []);
+
   return (
     <button
       type="button"
       className={styles.themeSwitch}
-      onClick={() => handleButtonClick(theme)}
+      onClick={() => handleButtonClick(resolvedTheme)}
     >
-      {theme === 'light' ? (
-        <SunIcon width={24} height={24} />
-      ) : (
-        <MoonIcon width={24} height={24} />
-      )}
+      {mounted &&
+        (resolvedTheme === 'light' ? (
+          <SunIcon width={24} height={24} />
+        ) : (
+          <MoonIcon width={24} height={24} />
+        ))}
     </button>
   );
 }
