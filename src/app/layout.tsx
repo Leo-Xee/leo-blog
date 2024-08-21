@@ -4,8 +4,8 @@ import '@/styles/layers.css';
 import '@/styles/reset.css';
 import { ThemeProvider } from 'next-themes';
 import { darkTheme, lightTheme } from '@/styles/themes.css';
-import { AppBar } from '@/components/common/AppBar';
 import localFont from 'next/font/local';
+import { AppBarContainer } from '@/components/common/AppBarContainer';
 
 const pretendard = localFont({
   src: '../../public/assets/fonts/PretendardVariable.woff2',
@@ -31,7 +31,7 @@ export default function IndexLayout({
           enableSystem
           value={{ light: lightTheme, dark: darkTheme }}
         >
-          <AppBar />
+          <AppBarContainer />
           {children}
           <footer>FOOTER</footer>
         </ThemeProvider>

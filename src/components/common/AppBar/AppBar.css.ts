@@ -9,6 +9,12 @@ export const container = style({
   top: 0,
   display: 'flex',
   justifyContent: 'center',
+
+  '@media': {
+    'screen and (max-width: 768px)': {
+      display: 'none',
+    },
+  },
 });
 
 export const appBar = style({

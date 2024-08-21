@@ -5,27 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import AvatarImg from '@assets/leo.png';
 import { usePathname } from 'next/navigation';
+import { NAV_ITEMS } from '@/constants';
 import { ThemeSwitch } from '../ThemeSwitch';
 import * as styles from './AppBar.css';
-
-const navItems = [
-  {
-    title: 'Home',
-    path: '/',
-  },
-  {
-    title: 'Articles',
-    path: '/articles',
-  },
-  {
-    title: 'PS',
-    path: '/problem-solving',
-  },
-  {
-    title: 'Books',
-    path: '/books',
-  },
-];
 
 function AppBar() {
   const pathname = usePathname();
@@ -42,7 +24,7 @@ function AppBar() {
 
           <nav>
             <ul className={styles.navList}>
-              {navItems.map(({ title, path }) => {
+              {NAV_ITEMS.map(({ title, path }) => {
                 const isActive = path.split('/')[1] === pathname.split('/')[1];
 
                 return (

@@ -12,6 +12,7 @@
     "@heroicons/react": "^2.1.5",
     "@vanilla-extract/css": "^1.15.3",
     "@vanilla-extract/css-utils": "^0.1.4",
+    "framer-motion": "^11.3.28",
     "gray-matter": "^4.0.3",
     "next": "14.2.5",
     "next-themes": "^0.3.0",
