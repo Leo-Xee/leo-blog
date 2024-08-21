@@ -23,14 +23,16 @@ export const appBar = style({
   paddingLeft: vars.space.space05,
   paddingRight: vars.space.space05,
   maxWidth: vars.breakpoint.tablet,
-  width: '100%',
+  width: vars.breakpoint.tablet,
   display: 'flex',
   justifyContent: 'space-between',
+  gap: vars.space.space03,
   alignItems: 'center',
   border: `1px solid ${vars.themeColor.gray200}`,
   borderRadius: vars.borderRadius.radii02,
   backgroundColor: vars.themeColor.appBar,
   backdropFilter: 'blur(3px)',
+  boxShadow: vars.themeColor.shadowSmall,
 });
 
 export const wrapper = style({
@@ -39,20 +41,10 @@ export const wrapper = style({
   gap: vars.space.space03,
 });
 
-export const brand = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: vars.space.space02,
-  fontSize: vars.fontSize.lg,
-  fontWeight: vars.fontWeight.bold,
-});
-
 export const navList = style({
   display: 'flex',
   gap: vars.space.space01,
 });
-
-export const navListItem = style({});
 
 export const navItem = style({
   display: 'inline-block',
@@ -68,12 +60,16 @@ export const navItem = style({
   ':hover': {
     backgroundColor: vars.themeColor.gray100,
   },
+
+  ':active': {
+    transform: 'scale(0.9)',
+  },
 });
 
 export const ActiveNavItem = style([
   navItem,
   {
-    WebkitTextStroke: `1.2px ${vars.themeColor.text}`,
+    fontWeight: vars.fontWeight.bold,
   },
 ]);
 

@@ -33,7 +33,7 @@ export const button = style({
   padding: vars.space.space02,
   width: '40px',
   height: '40px',
-  borderRadius: vars.borderRadius.round,
+  borderRadius: vars.borderRadius.rounded,
 
   ':hover': {
     backgroundColor: vars.themeColor.gray100,
