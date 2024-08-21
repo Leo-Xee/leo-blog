@@ -58,5 +58,5 @@ export const borderRadius = {
   radii06: '24px',
   radii07: '28px',
   radii08: '32px',
-  round: '9999px',
+  rounded: '99px',
 } as const;
