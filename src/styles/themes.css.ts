@@ -2,7 +2,6 @@ import {
   createGlobalTheme,
   createTheme,
   createThemeContract,
-  globalStyle,
 } from '@vanilla-extract/css';
 import { darkThemeColors, lightThemeColors } from './colors';
 import {
@@ -36,11 +35,3 @@ export const darkTheme = createTheme(themeColor, {
 });
 
 export const vars = { ...global, themeColor };
-
-globalStyle('body', {
-  backgroundColor: vars.themeColor.background,
-  color: vars.themeColor.text,
-  lineHeight: vars.lineHeight.base,
-  fontFamily:
-    '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif',
-});

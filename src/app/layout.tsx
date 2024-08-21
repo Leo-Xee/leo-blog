@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
-
-import '@/styles/layers.css';
-import '@/styles/reset.css';
 import { ThemeProvider } from 'next-themes';
 import { darkTheme, lightTheme } from '@/styles/themes.css';
 import localFont from 'next/font/local';
 import { AppBarContainer } from '@/components/common/AppBarContainer';
+import { Footer } from '@/components/common/Footer';
+
+import '@/styles/reset.css';
+import '@/styles/global.css';
 
 const pretendard = localFont({
   src: '../../public/assets/fonts/PretendardVariable.woff2',
@@ -33,7 +34,7 @@ export default function IndexLayout({
         >
           <AppBarContainer />
           {children}
-          <footer>FOOTER</footer>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
