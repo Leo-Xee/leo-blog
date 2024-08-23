@@ -8,6 +8,7 @@ export const markdown = style({});
  */
 
 export const commonHeading = style({
+  position: 'relative',
   marginTop: vars.space.space08,
   marginBottom: vars.space.space03,
   color: vars.themeColor.heading,
@@ -52,7 +53,6 @@ export const paragraph = style({
 export const anchor = style({
   textDecoration: 'underline dashed',
   textUnderlineOffset: '0.35em',
-  transition: 'color 0.3s',
 
   ':hover': {
     color: vars.themeColor.blue700,
@@ -70,6 +70,37 @@ export const strong = style({
 
 export const deletedText = style({
   textDecoration: 'line-through',
+});
+
+/**
+ *  Fragment
+ */
+
+export const headingFragment = style({
+  textDecoration: 'none',
+
+  ':hover': {
+    color: vars.themeColor.heading,
+    textDecoration: 'none',
+  },
+
+  '@media': {
+    'screen and (min-width: 769px)': {
+      ':hover': {
+        color: vars.themeColor.heading,
+        textDecoration: 'none',
+      },
+
+      selectors: {
+        [`&:hover:before`]: {
+          position: 'absolute',
+          left: '-0.8em',
+          content: '#',
+          color: vars.themeColor.heading,
+        },
+      },
+    },
+  },
 });
 
 /**

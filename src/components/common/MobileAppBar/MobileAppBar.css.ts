@@ -15,6 +15,7 @@ export const appBar = style({
   backgroundColor: vars.themeColor.appBar,
   backdropFilter: 'blur(3px)',
   boxShadow: vars.themeColor.shadowSmall,
+  zIndex: 100,
 
   '@media': {
     'screen and (min-width: 769px)': {
@@ -53,7 +54,6 @@ export const navContainer = style({
   paddingLeft: vars.space.space06,
   paddingRight: vars.space.space06,
   backgroundColor: vars.themeColor.background,
-  zIndex: 1,
 });
 
 export const navHeader = style({
