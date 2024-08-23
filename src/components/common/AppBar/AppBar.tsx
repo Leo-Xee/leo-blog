@@ -28,7 +28,10 @@ function AppBar() {
     <header className={styles.container}>
       <motion.div
         className={styles.appBar}
-        transition={{ duration: 0.4 }}
+        transition={{
+          duration: 0.5,
+          type: 'spring',
+        }}
         animate={{
           width: isTop ? vars.breakpoint.tablet : '408px',
           borderRadius: isTop
