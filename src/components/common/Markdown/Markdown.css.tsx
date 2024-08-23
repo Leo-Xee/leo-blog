@@ -7,74 +7,62 @@ export const markdown = style({});
  * Heading
  */
 
-globalStyle(`${markdown} h1`, {
+export const commonHeading = style({
+  marginTop: vars.space.space08,
+  marginBottom: vars.space.space03,
+  color: vars.themeColor.heading,
+  fontWeight: vars.fontWeight.bold,
+});
+
+export const heading1 = style({
+  marginTop: vars.space.none,
+  marginBottom: vars.space.none,
   fontSize: vars.fontSize.heading1,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.themeColor.heading,
 });
 
-globalStyle(`${markdown} h2`, {
-  marginTop: vars.space.space08,
-  marginBottom: vars.space.space03,
+export const heading2 = style({
   fontSize: vars.fontSize.heading2,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.themeColor.heading,
 });
 
-globalStyle(`${markdown} h3`, {
-  marginTop: vars.space.space08,
-  marginBottom: vars.space.space03,
+export const heading3 = style({
   fontSize: vars.fontSize.heading3,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.themeColor.heading,
 });
 
-globalStyle(`${markdown} h4`, {
-  marginTop: vars.space.space08,
-  marginBottom: vars.space.space03,
+export const heading4 = style({
   fontSize: vars.fontSize.heading4,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.themeColor.heading,
 });
 
-globalStyle(`${markdown} h5`, {
-  marginTop: vars.space.space08,
-  marginBottom: vars.space.space03,
+export const heading5 = style({
   fontSize: vars.fontSize.heading5,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.themeColor.heading,
 });
 
-globalStyle(`${markdown} h6`, {
-  marginTop: vars.space.space08,
-  marginBottom: vars.space.space03,
+export const heading6 = style({
   fontSize: vars.fontSize.heading6,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.themeColor.heading,
 });
 
 /**
  * Text
  */
 
-globalStyle(`${markdown} p`, {
+export const paragraph = style({
   marginTop: vars.space.space04,
   marginBottom: vars.space.space04,
 });
 
-globalStyle(`${markdown} a`, {
-  color: vars.themeColor.blue500,
+export const anchor = style({
+  color: vars.themeColor.blue600,
 });
 
-globalStyle(`${markdown} em`, {
+export const emphasis = style({
   fontStyle: 'italic',
 });
 
-globalStyle(`${markdown} strong`, {
+export const strong = style({
   fontWeight: vars.fontWeight.bold,
+  boxShadow: `inset 0 -6px 0 ${vars.themeColor.yellow100}`,
 });
 
-globalStyle(`${markdown} del`, {
+export const deletedText = style({
   textDecoration: 'line-through',
 });
 
@@ -82,50 +70,47 @@ globalStyle(`${markdown} del`, {
  * List
  */
 
-globalStyle(`${markdown} ul`, {
+export const unorderedList = style({
   listStyleType: 'disc',
   paddingLeft: vars.space.space06,
 });
 
-globalStyle(`${markdown} ol`, {
+export const orderedList = style({
   listStyleType: 'decimal',
   paddingLeft: vars.space.space06,
 });
 
-globalStyle(`${markdown} > ul`, {
-  marginTop: vars.space.space04,
-  marginBottom: vars.space.space04,
-});
-
-globalStyle(`${markdown} > ol`, {
-  marginTop: vars.space.space04,
-  marginBottom: vars.space.space04,
+export const firstListItem = style({
+  marginTop: vars.space.space01,
+  marginBottom: vars.space.space01,
 });
 
 /**
  * Task List
  */
 
-globalStyle(`${markdown} ul.contains-task-list`, {
+export const taskList = style({
   listStyleType: 'none',
 });
 
-globalStyle(`${markdown} > ul.contains-task-list`, {
+// globalStyle(`${markdown} > ul.contains-task-list`, {
+export const firstTaskList = style({
   paddingLeft: vars.space.none,
 });
 
-globalStyle(`${markdown} ul.contains-task-list input[type="checkbox"]`, {
+export const taskListCheckbox = style({
   position: 'relative',
-  border: `1px solid ${vars.themeColor.gray200}`,
+  border: `1px solid ${vars.themeColor.gray300}`,
   width: '14px',
   height: '14px',
   borderRadius: vars.borderRadius.radii01,
 });
 
-globalStyle(`${markdown} input[type="checkbox"]:checked:disabled`, {
+export const taskListCheckboxDisabled = style({
   backgroundColor: vars.themeColor.gray100,
 });
 
+// FIXME: rehype-class-names 패키지에서 ::after, ::before를 지원하지 않아서 globalStyle로 임시 작성
 globalStyle(`${markdown} input[type="checkbox"]:checked::after`, {
   content: '',
   position: 'absolute',
@@ -142,22 +127,22 @@ globalStyle(`${markdown} input[type="checkbox"]:checked::after`, {
  * Image
  */
 
-globalStyle(`${markdown} img`, {
-  width: '90%',
-  borderRadius: vars.borderRadius.radii05,
-});
-
-globalStyle(`${markdown} p img`, {
+export const imageContainer = style({
   display: 'block',
   margin: `${vars.space.none} auto`,
   boxShadow: vars.themeColor.shadowSmall,
+});
+
+export const image = style({
+  width: '90%',
+  borderRadius: vars.borderRadius.radii05,
 });
 
 /**
  * Table
  */
 
-globalStyle(`${markdown} table, th, td`, {
+export const table = style({
   paddingTop: vars.space.space02,
   paddingBottom: vars.space.space02,
   paddingLeft: vars.space.space05,
@@ -169,7 +154,7 @@ globalStyle(`${markdown} table, th, td`, {
  * etc
  */
 
-globalStyle(`${markdown} hr`, {
+export const ThematicBreak = style({
   marginTop: vars.space.space04,
   marginBottom: vars.space.space04,
   borderTop: `1px solid ${vars.themeColor.gray300}`,
