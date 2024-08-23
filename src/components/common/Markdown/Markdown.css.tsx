@@ -50,7 +50,13 @@ export const paragraph = style({
 });
 
 export const anchor = style({
-  color: vars.themeColor.blue600,
+  textDecoration: 'underline dashed',
+  textUnderlineOffset: '0.35em',
+  transition: 'color 0.3s',
+
+  ':hover': {
+    color: vars.themeColor.blue700,
+  },
 });
 
 export const emphasis = style({
