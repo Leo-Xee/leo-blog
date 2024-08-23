@@ -22,7 +22,6 @@ export const appBar = style({
   paddingBottom: vars.space.space03,
   paddingLeft: vars.space.space05,
   paddingRight: vars.space.space05,
-  maxWidth: vars.breakpoint.tablet,
   width: vars.breakpoint.tablet,
   display: 'flex',
   justifyContent: 'space-between',
