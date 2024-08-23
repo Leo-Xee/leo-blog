@@ -4,11 +4,14 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import addClasses from 'rehype-class-names';
+import addHeadingSlug from 'rehype-slug';
+import autoLinkHeading from 'rehype-autolink-headings';
 import { unified } from 'unified';
 import * as styles from '@/components/common/Markdown/Markdown.css';
 
 const classStyles = {
   'h1,h2,h3,h4,h5,h6': styles.commonHeading,
+  'h1>a,h2>a,h3>a,h4>a,h5>a,h6>a': styles.headingFragment,
   h1: styles.heading1,
   h2: styles.heading2,
   h3: styles.heading3,
@@ -38,6 +41,8 @@ const markdownToHtml = async (markdown: string) => {
     .use(remarkParse)
     .use(remarkRehype)
     .use(remarkGfm)
+    .use(addHeadingSlug)
+    .use(autoLinkHeading, { behavior: 'wrap' })
     .use(addClasses, classStyles)
     .use(rehypePrettyCode, { theme: 'dracula' })
     .use(rehypeStringify)

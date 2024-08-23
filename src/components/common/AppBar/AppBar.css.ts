@@ -9,6 +9,7 @@ export const container = style({
   top: 0,
   display: 'flex',
   justifyContent: 'center',
+  zIndex: 100,
 
   '@media': {
     'screen and (max-width: 768px)': {

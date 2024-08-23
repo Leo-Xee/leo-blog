@@ -2,6 +2,11 @@ import { globalStyle } from '@vanilla-extract/css';
 import { vars } from './themes.css';
 import * as layers from './layers.css';
 
+globalStyle('html', {
+  scrollPaddingTop: '100px',
+  scrollBehavior: 'smooth',
+});
+
 globalStyle('body', {
   '@layer': {
     [layers.global]: {
