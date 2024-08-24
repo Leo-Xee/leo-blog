@@ -46,8 +46,8 @@ export const heading6 = style({
  */
 
 export const paragraph = style({
-  marginTop: vars.space.space04,
-  marginBottom: vars.space.space04,
+  marginTop: vars.space.space05,
+  marginBottom: vars.space.space05,
 });
 
 export const anchor = style({
@@ -177,8 +177,8 @@ export const table = style({
  */
 
 export const blockquote = style({
-  marginTop: vars.space.space04,
-  marginBottom: vars.space.space04,
+  marginTop: vars.space.space05,
+  marginBottom: vars.space.space05,
   padding: `${vars.space.space05} ${vars.space.space10}`,
   borderRadius: vars.borderRadius.radii03,
   backgroundColor: vars.themeColor.blockquoteBackground,
@@ -194,7 +194,7 @@ export const blockquoteParagraph = style({
  */
 
 export const ThematicBreak = style({
-  marginTop: vars.space.space04,
-  marginBottom: vars.space.space04,
+  marginTop: vars.space.space05,
+  marginBottom: vars.space.space05,
   borderTop: `1px solid ${vars.themeColor.gray300}`,
 });

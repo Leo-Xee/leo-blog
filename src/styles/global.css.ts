@@ -63,8 +63,8 @@ globalStyle(`${darkTheme} code[data-theme*="dracula"] span`, {
 /* Code Container */
 
 globalStyle(`figure`, {
-  marginTop: vars.space.space04,
-  marginBottom: vars.space.space04,
+  marginTop: vars.space.space05,
+  marginBottom: vars.space.space05,
   lineHeight: vars.lineHeight.code,
 });
 
