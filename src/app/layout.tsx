@@ -15,7 +15,11 @@ const pretendard = localFont({
 });
 
 const firaCode = localFont({
-  src: '../../public/assets/fonts/FiraCode-VF.woff2',
+  src: [
+    { path: '../../public/assets/fonts/FiraCode-VF.woff2' },
+    { path: '../../public/assets/fonts/FiraCode-Retina.ttf' },
+  ],
+  variable: '--font-firacode',
   display: 'swap',
   weight: '45 920',
 });
