@@ -173,6 +173,23 @@ export const table = style({
 });
 
 /**
+ * Blockquote
+ */
+
+export const blockquote = style({
+  marginTop: vars.space.space04,
+  marginBottom: vars.space.space04,
+  padding: `${vars.space.space05} ${vars.space.space10}`,
+  borderRadius: vars.borderRadius.radii03,
+  backgroundColor: vars.themeColor.blockquoteBackground,
+});
+
+export const blockquoteParagraph = style({
+  marginTop: vars.space.none,
+  marginBottom: vars.space.none,
+});
+
+/**
  * etc
  */
 
