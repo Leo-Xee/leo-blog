@@ -1,5 +1,5 @@
 import { vars } from '@/styles/themes.css';
-import { globalStyle, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 export const markdown = style({});
 
@@ -65,7 +65,6 @@ export const emphasis = style({
 
 export const strong = style({
   fontWeight: vars.fontWeight.bold,
-  boxShadow: `inset 0 -6px 0 ${vars.themeColor.yellow100}`,
 });
 
 export const deletedText = style({
@@ -130,7 +129,6 @@ export const taskList = style({
   listStyleType: 'none',
 });
 
-// globalStyle(`${markdown} > ul.contains-task-list`, {
 export const firstTaskList = style({
   paddingLeft: vars.space.none,
 });
@@ -145,19 +143,6 @@ export const taskListCheckbox = style({
 
 export const taskListCheckboxDisabled = style({
   backgroundColor: vars.themeColor.gray100,
-});
-
-// FIXME: rehype-class-names 패키지에서 ::after, ::before를 지원하지 않아서 globalStyle로 임시 작성
-globalStyle(`${markdown} input[type="checkbox"]:checked::after`, {
-  content: '',
-  position: 'absolute',
-  top: '1px',
-  left: '4px',
-  width: '5px',
-  height: '10px',
-  border: `solid ${vars.themeColor.heading}`,
-  borderWidth: '0 2px 2px 0',
-  transform: 'rotate(45deg)',
 });
 
 /**

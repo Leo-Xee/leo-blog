@@ -30,9 +30,9 @@ boj.kr/16968
 
 ## 소스 코드
 
-```js
+```js {1-2,4,6}
 const fs = require('fs');
-const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt'sdkfjsdlkfjsdlfkjsdflksdjfklsdjfsldkfjsdklf;
 const input = fs.readFileSync(filePath).toString();
 
 function solution(str) {

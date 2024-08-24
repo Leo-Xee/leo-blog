@@ -40,6 +40,7 @@ export const fontSize = {
 
 export const lineHeight = {
   base: '1.8',
+  code: '1.6',
 } as const;
 
 export const fontWeight = {
