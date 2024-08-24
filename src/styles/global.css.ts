@@ -14,7 +14,7 @@ globalStyle('body', {
       color: vars.themeColor.text,
       lineHeight: vars.lineHeight.base,
       fontFamily:
-        '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif',
+        'Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, Helvetica Neue, Segoe UI, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, sans-serif',
       minHeight: '100vh',
       margin: 0,
       display: 'grid',
@@ -100,7 +100,7 @@ globalStyle('figcaption + pre', {
 
 globalStyle(`pre > code`, {
   counterReset: 'line',
-  fontFamily: 'Fira Code',
+  fontFamily: 'Fira Code, monospace',
   fontSize: vars.fontSize.xs,
 });
 
@@ -120,7 +120,7 @@ globalStyle(`span code > span`, {
   padding: '4px 6px',
   border: `1px solid ${vars.themeColor.gray200}`,
   borderRadius: vars.borderRadius.radii01,
-  fontFamily: 'Fira Code',
+  fontFamily: 'Fira Code, monospace',
   fontSize: vars.fontSize.xs,
 });
 
