@@ -44,7 +44,16 @@ const markdownToHtml = async (markdown: string) => {
     .use(addHeadingSlug)
     .use(autoLinkHeading, { behavior: 'wrap' })
     .use(addClasses, classStyles)
-    .use(rehypePrettyCode, { theme: 'dracula' })
+    .use(rehypePrettyCode, {
+      theme: {
+        light: 'github-light',
+        dark: 'dracula',
+      },
+      defaultLang: {
+        inline: 'plaintext',
+        block: 'javascript',
+      },
+    })
     .use(rehypeStringify)
     .process(markdown);
   return String(result);
