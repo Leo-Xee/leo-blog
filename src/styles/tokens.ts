@@ -31,11 +31,11 @@ export const fontSize = {
   xl: '20px',
   xl2: '24px',
   heading1: '48px',
-  heading2: '30px',
-  heading3: '28px',
-  heading4: '24px',
-  heading5: '20px',
-  heading6: '18px',
+  heading2: '32px',
+  heading3: '24px',
+  heading4: '20px',
+  heading5: '18px',
+  heading6: '16px',
 } as const;
 
 export const lineHeight = {

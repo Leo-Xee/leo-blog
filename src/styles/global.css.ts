@@ -70,13 +70,14 @@ globalStyle(`figure`, {
 
 globalStyle(`pre`, {
   margin: vars.space.none,
+  padding: `${vars.space.space03} 0`,
   border: `1px solid ${vars.themeColor.gray200}`,
   borderRadius: vars.borderRadius.radii02,
   overflowX: 'auto',
 });
 
 globalStyle('pre code > span', {
-  padding: `0 ${vars.space.space05}`,
+  padding: `0 ${vars.space.space02}`,
   borderLeft: `3px solid transparent`,
 });
 
