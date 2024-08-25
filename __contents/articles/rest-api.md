@@ -1,0 +1,104 @@
+---
+title: REST API
+description: REST API에 대해서 정리합니다.
+thumbnail:
+tags: ['Computer Science']
+createdAt: 2022-11-25T13:32:11.716Z
+---
+
+> ## TL;DR
+>
+> - **REST API 개념과 구성**: REST는 HTTP를 기반으로 자원(Resource), 행위(Verb), 표현(Representation)을 통해 클라이언트와 서버 간의 데이터를 주고받는 아키텍처 스타일입니다. 자원은 URI로 식별되며, HTTP 메서드(GET, POST, PUT, DELETE 등)를 사용해 자원에 대한 CRUD 작업을 수행합니다.
+> - **REST의 주요 특징**:
+>   - 무상태성(Stateless): 각 요청은 독립적으로 처리되며, 서버는 상태 정보를 저장하지 않습니다.
+>   - 캐시(Caching): HTTP의 캐시 기능을 활용할 수 있어 성능 향상에 기여합니다.
+>   - 클라이언트-서버 구조: 역할이 명확히 분리되어 있어 서버와 클라이언트 간의 의존성이 줄어듭니다.
+> - **REST API 설계 가이드**: URI는 자원을 명확히 표현해야 하며, 행위는 HTTP 메서드로 표현합니다. URI는 계층 구조를 반영해야 하며, 읽기 쉽게 소문자와 `-` 를 사용하는 것이 권장됩니다.
+
+# REST API란?
+
+**REST(REpresentational State Transfer)는 HTTP 통신에서 자원에 대한 CRUD 요청을 Resource와 Method로 표현하여 특정한 형태로 전달하는 아키텍처 스타일을 의미합니다.** 이는 HTTP의 주요 저자 중 한 사람인 로이 필딩(Roy Fielding)의 2000년 박사학위 논문에서 소개되었습니다. REST 아키텍처 형식을 따르는 시스템에 RESTful이라는 표현을 주로 사용하며, REST 형식을 따라 API를 구현했을 때 이를 RESTful API라고 합니다.
+
+## 구성 요소
+
+REST API는 다음과 같은 구성 요소로 이루어져 있습니다.
+
+- **자원(Resource)**
+
+  - URI 서버는 유일한 Resource를 가지고 있으며, 클라이언트는 Resource에 요청을 보냅니다. 여기서 Resource를 URI라고 일컫습니다.
+
+- **행위(Verb)**
+
+  - HTTP METHOD는 서버에 요청을 보내기 위한 방식으로, GET, POST, PUT, DELETE가 있습니다. CRUD 연산 중에서 처리를 위한 연산에 Method를 사용하여 서버에 요청합니다.
+
+- **표현(Representations)**
+
+  - 클라이언트와 서버가 데이터를 주고받는 형태로 주로 JSON을 사용합니다.
+
+### URI와 URL의 차이
+
+**URI는 어떤 자원을 식별하기 위한 데이터 서식을 정의한 기술 표준입니다.** 자원을 식별하는 방식으로는 두 가지가 있는데, 바로 `URN`과 `URL`입니다. URN은 자원의 이름으로 식별하는 방식으로, `urn:namespace:the:Id:for:file`과 같은 형식으로 사용됩니다. 반면, `URL`은 자원의 위치로 식별하는 방식으로, `https://github.com/leo-xee`와 같은 형식으로 사용됩니다.
+
+![그림 URI, URN, URL의 관계도](/assets/contents/rest-api/1.png)
+
+## 특징
+
+- **Uniform Interface**
+
+  - Uniform Interface는 URI로 지정한 리소스에 대한 조작을 통일되고 한정적인 인터페이스로 수행하는 아키텍처 스타일을 의미합니다.
+
+- **Stateless(무상태성)**
+
+  - REST는 작업을 위한 상태 정보를 따로 저장 및 관리하지 않습니다. 세션이나 쿠키 정보를 별도로 저장하고 관리하지 않기 때문에, API 서버는 요청만 처리하면 됩니다. 이로 인해 서비스의 자유도가 높아지고, 서버에서 불필요한 정보를 관리하지 않음으로써 구현이 단순해집니다.
+
+- **Cache(캐시)**
+
+  - REST는 HTTP라는 웹 표준을 그대로 사용하기 때문에, HTTP의 인프라를 그대로 활용할 수 있습니다. 따라서 HTTP가 가진 캐싱 기능(Last-Modified, E-Tag)이 적용 가능합니다.
+
+- **Self-descriptiveness(자체 표현 구조)**
+
+  - REST API는 메시지만으로도 목적을 쉽게 이해할 수 있는 자체 표현 구조로 되어 있습니다.
+
+- **Client-Server(클라이언트-서버)**
+
+  - REST에서 서버와 클라이언트는 각각의 역할이 확실하게 구분되기 때문에 서로에 대한 복잡한 의존성이 줄어듭니다.
+
+- **Layered System(계층형 구조)**
+
+  - REST에서 서버는 다중 계층으로 구성될 수 있기 때문에 구조상의 유연성을 가질 수 있습니다.
+
+## 디자인 가이드
+
+REST API 설계 시 가장 중요한 항목은 다음 두 가지로 요약할 수 있습니다.
+
+**URI는 정보의 자원을 표현해야 합니다.**
+
+- `GET /posts/delete/1` ----- (x)
+- `GET /posts/1` ----- (o)
+
+**자원에 대한 행위는 HTTP Method(GET, POST, PUT, PATCH, DELETE)로 표현해야 합니다.**
+
+- `GET`: GET으로 해당 리소스를 조회
+- `POST`: POST로 해당 URI로 요청하면 리소스를 생성
+- `PUT`: PUT으로 해당 리소스를 수정(전체 교체)
+- `PATCH`: PATCH로 해당 리소스를 수정(부분 교체)
+- `DELETE`: DELETE로 해당 리소스를 삭제
+
+## 주의 사항
+
+- `/`는 계층 관계를 나타내는 데 사용해야 합니다.
+- URI 마지막 문자로 `/`를 사용하지 않습니다.
+- `-`를 사용하여 URI의 가독성을 높입니다.
+- `_`를 URI에 사용하지 않습니다. (잘 보이지 않음)
+- URI에 주로 알파벳 소문자를 사용합니다.
+- URI에 파일 확장자를 포함시키지 않습니다.
+
+## 응답 코드
+
+![그림2. 응답 코드](/assets/contents/rest-api/2.png)
+
+## 참조
+
+- https://ko.wikipedia.org/wiki/REST
+- https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm
+- https://javaplant.tistory.com/18

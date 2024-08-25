@@ -13,18 +13,23 @@ export const title = style({
 export const postList = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: vars.space.space04,
+  gap: vars.space.space03,
 });
 
 export const postListItem = style({
-  display: 'inline-block',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: vars.space.space02,
   width: '100%',
   padding: vars.space.space02,
 });
 
 export const postTitle = style({
-  fontSize: calc.subtract(vars.fontSize.heading3, '8px'),
+  fontSize: calc.subtract(vars.fontSize.heading3, '2px'),
   fontWeight: vars.fontWeight.bold,
-  paddingBottom: vars.space.space02,
   color: vars.themeColor.heading,
+});
+
+export const postDescription = style({
+  fontSize: '15px',
 });

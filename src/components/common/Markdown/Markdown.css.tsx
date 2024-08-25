@@ -186,7 +186,6 @@ export const blockquote = style({
 
 export const blockquoteParagraph = style({
   marginTop: vars.space.none,
-  marginBottom: vars.space.none,
 });
 
 /**
