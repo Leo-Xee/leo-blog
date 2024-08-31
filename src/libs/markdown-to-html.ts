@@ -10,7 +10,6 @@ import { unified } from 'unified';
 import * as styles from '@/components/common/Markdown/Markdown.css';
 
 const classStyles = {
-  'h1,h2,h3,h4,h5,h6': styles.commonHeading,
   'h1>a,h2>a,h3>a,h4>a,h5>a,h6>a': styles.headingFragment,
   h1: styles.heading1,
   h2: styles.heading2,
