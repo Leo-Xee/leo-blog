@@ -15,10 +15,9 @@ globalStyle('body', {
       lineHeight: vars.lineHeight.base,
       fontFamily:
         'Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, Helvetica Neue, Segoe UI, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, sans-serif',
+      display: 'flex',
+      flexDirection: 'column',
       minHeight: '100vh',
-      margin: 0,
-      display: 'grid',
-      gridTemplateRows: 'auto 1fr auto',
     },
   },
 });
@@ -100,6 +99,7 @@ globalStyle('figcaption + pre', {
 /* Block Code */
 
 globalStyle(`pre > code`, {
+  display: 'grid',
   counterReset: 'line',
   fontFamily: 'Fira Code, monospace',
   fontSize: vars.fontSize.xs,

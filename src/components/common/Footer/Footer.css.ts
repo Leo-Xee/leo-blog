@@ -2,6 +2,7 @@ import { vars } from '@/styles/themes.css';
 import { style } from '@vanilla-extract/css';
 
 export const container = style({
+  marginTop: 'auto',
   paddingTop: vars.space.space06,
   paddingBottom: vars.space.space10,
   display: 'flex',
