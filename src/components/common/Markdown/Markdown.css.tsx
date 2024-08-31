@@ -125,6 +125,7 @@ export const headingFragment = style({
  */
 
 export const unorderedList = style({
+  wordBreak: 'break-all',
   listStyleType: 'disc',
   paddingLeft: vars.space.space06,
 });
