@@ -1,5 +1,6 @@
 import { Container } from '@/components/common/Container';
 import { Markdown } from '@/components/common/Markdown';
+import { PostTitle } from '@/components/PostTitle';
 import { getAllPosts, getPost } from '@/libs/api';
 
 type Params = {
@@ -14,6 +15,7 @@ export default async function Problem({ params: { slug } }: Params) {
   return (
     <main>
       <Container>
+        <PostTitle post={post} />
         <Markdown post={post} />
       </Container>
     </main>

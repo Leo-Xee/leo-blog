@@ -15,31 +15,49 @@ export const commonHeading = style({
   fontWeight: vars.fontWeight.bold,
 });
 
-export const heading1 = style({
-  marginTop: vars.space.none,
-  marginBottom: vars.space.none,
-  fontSize: vars.fontSize.heading1,
-});
+export const heading1 = style([
+  commonHeading,
+  {
+    marginTop: vars.space.none,
+    marginBottom: vars.space.none,
+    fontSize: vars.fontSize.heading1,
+  },
+]);
 
-export const heading2 = style({
-  fontSize: vars.fontSize.heading2,
-});
+export const heading2 = style([
+  commonHeading,
+  {
+    fontSize: vars.fontSize.heading2,
+  },
+]);
 
-export const heading3 = style({
-  fontSize: vars.fontSize.heading3,
-});
+export const heading3 = style([
+  commonHeading,
+  {
+    fontSize: vars.fontSize.heading3,
+  },
+]);
 
-export const heading4 = style({
-  fontSize: vars.fontSize.heading4,
-});
+export const heading4 = style([
+  commonHeading,
+  {
+    fontSize: vars.fontSize.heading4,
+  },
+]);
 
-export const heading5 = style({
-  fontSize: vars.fontSize.heading5,
-});
+export const heading5 = style([
+  commonHeading,
+  {
+    fontSize: vars.fontSize.heading5,
+  },
+]);
 
-export const heading6 = style({
-  fontSize: vars.fontSize.heading6,
-});
+export const heading6 = style([
+  commonHeading,
+  {
+    fontSize: vars.fontSize.heading6,
+  },
+]);
 
 /**
  * Text
