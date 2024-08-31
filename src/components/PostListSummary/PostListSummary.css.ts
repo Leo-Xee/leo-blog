@@ -1,11 +1,8 @@
 import { vars } from '@/styles/themes.css';
 import { style } from '@vanilla-extract/css';
+import { heading1 } from '../common/Markdown/Markdown.css';
 
-export const title = style({
-  fontSize: vars.fontSize.heading1,
-  fontWeight: vars.fontWeight.bold,
-  color: vars.themeColor.heading,
-});
+export const title = style([heading1, {}]);
 
 export const description = style({
   paddingLeft: vars.space.space02,

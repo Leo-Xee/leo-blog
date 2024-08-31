@@ -36,6 +36,10 @@ export const fontSize = {
   heading4: '20px',
   heading5: '18px',
   heading6: '16px',
+  mobileHeading1: '32px',
+  mobileHeading2: '26px',
+  mobileHeading3: '22px',
+  mobileHeading4: '20px',
 } as const;
 
 export const lineHeight = {

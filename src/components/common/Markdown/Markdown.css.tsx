@@ -21,6 +21,12 @@ export const heading1 = style([
     marginTop: vars.space.none,
     marginBottom: vars.space.none,
     fontSize: vars.fontSize.heading1,
+
+    '@media': {
+      'screen and (max-width: 768px)': {
+        fontSize: vars.fontSize.mobileHeading1,
+      },
+    },
   },
 ]);
 
@@ -28,6 +34,12 @@ export const heading2 = style([
   commonHeading,
   {
     fontSize: vars.fontSize.heading2,
+
+    '@media': {
+      'screen and (max-width: 768px)': {
+        fontSize: vars.fontSize.mobileHeading2,
+      },
+    },
   },
 ]);
 
@@ -35,6 +47,12 @@ export const heading3 = style([
   commonHeading,
   {
     fontSize: vars.fontSize.heading3,
+
+    '@media': {
+      'screen and (max-width: 768px)': {
+        fontSize: vars.fontSize.mobileHeading3,
+      },
+    },
   },
 ]);
 
@@ -42,6 +60,12 @@ export const heading4 = style([
   commonHeading,
   {
     fontSize: vars.fontSize.heading4,
+
+    '@media': {
+      'screen and (max-width: 768px)': {
+        fontSize: vars.fontSize.mobileHeading4,
+      },
+    },
   },
 ]);
 
