@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { ThemeProvider } from 'next-themes';
 import { darkTheme, lightTheme } from '@/styles/themes.css';
 import localFont from 'next/font/local';
@@ -23,6 +23,13 @@ const firaCode = localFont({
   display: 'swap',
   weight: '45 920',
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: 'Create Next App',
