@@ -36,8 +36,12 @@ export const button = style({
   height: '40px',
   borderRadius: vars.borderRadius.rounded,
 
-  ':hover': {
-    backgroundColor: vars.themeColor.gray100,
+  '@media': {
+    '(hover: hover) and (pointer: fine)': {
+      ':hover': {
+        backgroundColor: vars.themeColor.gray100,
+      },
+    },
   },
 
   ':active': {
@@ -72,7 +76,11 @@ export const navItem = style({
   fontSize: vars.fontSize.xl2,
   fontWeight: vars.fontWeight.bold,
 
-  ':hover': {
-    textDecoration: 'underline',
+  '@media': {
+    '(hover: hover) and (pointer: fine)': {
+      ':hover': {
+        textDecoration: 'underline',
+      },
+    },
   },
 });

@@ -7,9 +7,13 @@ export const themeSwitch = style({
   height: '40px',
   borderRadius: vars.borderRadius.rounded,
 
-  ':hover': {
-    padding: vars.space.space02,
-    backgroundColor: vars.themeColor.gray100,
+  '@media': {
+    '(hover: hover) and (pointer: fine)': {
+      ':hover': {
+        padding: vars.space.space02,
+        backgroundColor: vars.themeColor.gray100,
+      },
+    },
   },
 
   ':active': {
