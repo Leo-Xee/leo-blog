@@ -31,8 +31,12 @@ export const listItem = style({
   transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
   transitionDuration: '150ms',
 
-  ':hover': {
-    backgroundColor: vars.themeColor.gray100,
+  '@media': {
+    '(hover: hover) and (pointer: fine)': {
+      ':hover': {
+        backgroundColor: vars.themeColor.gray100,
+      },
+    },
   },
 
   ':active': {
