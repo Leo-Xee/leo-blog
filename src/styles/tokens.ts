@@ -37,9 +37,9 @@ export const fontSize = {
   heading5: '18px',
   heading6: '16px',
   mobileHeading1: '32px',
-  mobileHeading2: '26px',
-  mobileHeading3: '22px',
-  mobileHeading4: '20px',
+  mobileHeading2: '24px',
+  mobileHeading3: '20px',
+  mobileHeading4: '18px',
 } as const;
 
 export const lineHeight = {
