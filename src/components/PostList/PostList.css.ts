@@ -7,6 +7,7 @@ export const title = style([heading2, {}]);
 export const postList = style({
   display: 'flex',
   flexDirection: 'column',
+  gap: vars.space.space03,
 });
 
 export const postListItem = style({
@@ -14,26 +15,7 @@ export const postListItem = style({
   flexDirection: 'column',
   gap: vars.space.space01,
   width: '100%',
-  padding: vars.space.space03,
-  borderRadius: vars.borderRadius.radii03,
-  transitionDuration: '0.3s',
-
-  '@media': {
-    '(hover: hover) and (pointer: fine)': {
-      ':hover': {
-        backgroundColor: vars.themeColor.gray100,
-        transform: 'translateX(8px)',
-      },
-
-      ':active': {
-        transform: 'scale(0.98)',
-      },
-    },
-  },
-
-  ':active': {
-    transform: 'scale(0.98)',
-  },
+  padding: vars.space.space02,
 });
 
 export const postTitle = style([
