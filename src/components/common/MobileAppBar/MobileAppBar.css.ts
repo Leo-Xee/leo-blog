@@ -24,6 +24,11 @@ export const appBar = style({
   },
 });
 
+export const avatar = style({
+  display: 'flex',
+  alignItems: 'center',
+});
+
 export const menus = style({
   display: 'flex',
   alignItems: 'center',
