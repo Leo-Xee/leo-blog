@@ -27,7 +27,7 @@ function Particles() {
   return (
     <motion.div
       className={styles.container}
-      animate={{ scale: isMobile ? 1.3 : 1.5 }}
+      animate={{ scale: isMobile ? 1.4 : 1.4 }}
       transition={{ type: 'spring', duration: 0.5 }}
     >
       <motion.div
@@ -35,7 +35,7 @@ function Particles() {
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_3}px, ${yPos / LAYER_3}px)`
-            : 'translate(-10px, 0)',
+            : 'translate(-25px, 0)',
         }}
       />
       <motion.div
@@ -67,7 +67,7 @@ function Particles() {
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_1}px, ${yPos / LAYER_1}px)`
-            : 'translate(-15px, 0)',
+            : 'translate(-20px, 0)',
         }}
       />
       <motion.div
@@ -91,7 +91,7 @@ function Particles() {
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_3}px, ${yPos / LAYER_3}px)`
-            : 'translate(10px, 0)',
+            : 'translate(20px, 0)',
         }}
       />
     </motion.div>

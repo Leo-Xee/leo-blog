@@ -4,7 +4,7 @@ import { style } from '@vanilla-extract/css';
 export const container = style({
   position: 'absolute',
   top: '-20px',
-  width: '100%',
+  width: '75%',
   height: '300px',
   willChange: 'transform, opacity',
 });
@@ -48,7 +48,7 @@ export const particle3 = style({
 export const particle4 = style({
   position: 'absolute',
   top: '90px',
-  right: '20%',
+  right: '18%',
   width: '12px',
   height: '12px',
   opacity: 0.15,
@@ -71,7 +71,7 @@ export const particle5 = style({
 
 export const particle6 = style({
   position: 'absolute',
-  bottom: '100px',
+  bottom: '90px',
   left: '36%',
   width: '16px',
   height: '16px',
@@ -96,7 +96,7 @@ export const particle7 = style({
 export const particle8 = style({
   position: 'absolute',
   bottom: '120px',
-  right: '23%',
+  right: '20%',
   width: '12px',
   height: '12px',
   opacity: 0.2,
