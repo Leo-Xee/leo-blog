@@ -1,11 +1,11 @@
 import Container from '@/components/common/Container/Container';
-import { Introduction } from '@/components/Introduction';
+import test from './page.css';
 
 export default function Index() {
   return (
     <main>
       <Container>
-        <Introduction />
+        <div className={test}>HELLO WORLD</div>
       </Container>
     </main>
   );
