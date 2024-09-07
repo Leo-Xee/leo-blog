@@ -27,15 +27,16 @@ function Particles() {
   return (
     <motion.div
       className={styles.container}
-      animate={{ scale: isMobile ? 1.4 : 1.4 }}
-      transition={{ type: 'spring', duration: 0.5 }}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1.4 }}
+      transition={{ type: 'spring', duration: 1 }}
     >
       <motion.div
         className={styles.particle1}
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_3}px, ${yPos / LAYER_3}px)`
-            : 'translate(-25px, 0)',
+            : 'translate(0, 0)',
         }}
       />
       <motion.div
@@ -43,7 +44,7 @@ function Particles() {
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_2}px, ${yPos / LAYER_2}px)`
-            : '',
+            : 'translate(0, 0)',
         }}
       />
       <motion.div
@@ -51,7 +52,7 @@ function Particles() {
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_3}px, ${yPos / LAYER_3}px)`
-            : '',
+            : 'translate(0, 0)',
         }}
       />
       <motion.div
@@ -59,7 +60,7 @@ function Particles() {
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_1}px, ${yPos / LAYER_1}px)`
-            : 'translate(20px, 0)',
+            : 'translate(0, 0)',
         }}
       />
       <motion.div
@@ -67,7 +68,7 @@ function Particles() {
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_1}px, ${yPos / LAYER_1}px)`
-            : 'translate(-20px, 0)',
+            : 'translate(0, 0)',
         }}
       />
       <motion.div
@@ -75,7 +76,7 @@ function Particles() {
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_2}px, ${yPos / LAYER_2}px)`
-            : '',
+            : 'translate(0, 0)',
         }}
       />
       <motion.div
@@ -83,7 +84,7 @@ function Particles() {
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_2}px, ${yPos / LAYER_2}px)`
-            : 'translate(10px, -5px)',
+            : 'translate(0, 0)',
         }}
       />
       <motion.div
@@ -91,7 +92,7 @@ function Particles() {
         animate={{
           transform: !isMobile
             ? `translate(${xPos / LAYER_3}px, ${yPos / LAYER_3}px)`
-            : 'translate(20px, 0)',
+            : 'translate(0, 0)',
         }}
       />
     </motion.div>
