@@ -26,13 +26,13 @@ export const postListItem = style({
       },
 
       ':active': {
-        transform: 'scale(0.98)',
+        transform: 'scale(0.95)',
       },
     },
   },
 
   ':active': {
-    transform: 'scale(0.98)',
+    transform: 'scale(0.95)',
   },
 });
 
