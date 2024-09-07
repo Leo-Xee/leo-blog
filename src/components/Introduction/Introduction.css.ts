@@ -25,7 +25,7 @@ export const title = style({
 });
 
 export const location = style({
-  paddingTop: vars.space.space06,
+  paddingTop: vars.space.space04,
   paddingBottom: vars.space.space12,
   display: 'flex',
   alignItems: 'center',
