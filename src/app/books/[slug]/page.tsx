@@ -1,6 +1,7 @@
 import { Container } from '@/components/common/Container';
 import { Markdown } from '@/components/common/Markdown';
 import { PostTitle } from '@/components/PostTitle';
+import { POST_LIST_SUMMARY } from '@/constants';
 import { getAllPosts, getPost } from '@/libs/api';
 
 type Params = {
@@ -8,6 +9,23 @@ type Params = {
     slug: string;
   };
 };
+
+export async function generateMetadata({ params: { slug } }: Params) {
+  const post = getPost('books', slug);
+
+  return {
+    title: post.title,
+    description: POST_LIST_SUMMARY[2].description,
+    openGraph: {
+      title: post.title,
+      description: POST_LIST_SUMMARY[2].description,
+    },
+    twitter: {
+      title: post.title,
+      description: POST_LIST_SUMMARY[2].description,
+    },
+  };
+}
 
 export default async function Book({ params: { slug } }: Params) {
   const post = getPost('books', slug);

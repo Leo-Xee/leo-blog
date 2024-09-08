@@ -9,6 +9,23 @@ type Params = {
   };
 };
 
+export async function generateMetadata({ params: { slug } }: Params) {
+  const post = getPost('articles', slug);
+
+  return {
+    title: post.title,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+    },
+    twitter: {
+      title: post.title,
+      description: post.description,
+    },
+  };
+}
+
 export default async function Article({ params: { slug } }: Params) {
   const post = getPost('articles', slug);
 
