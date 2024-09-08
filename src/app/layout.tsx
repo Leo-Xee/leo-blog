@@ -33,6 +33,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://leo-xee.dev'),
   title: {
     template: '%s | 레오의 기술 블로그',
     default: '레오의 기술 블로그',
