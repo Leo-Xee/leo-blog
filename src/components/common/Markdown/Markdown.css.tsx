@@ -220,8 +220,8 @@ export const table = style({
  */
 
 export const blockquote = style({
-  marginTop: vars.space.space05,
-  marginBottom: vars.space.space05,
+  marginTop: vars.space.space10,
+  marginBottom: vars.space.space10,
   padding: `${vars.space.space05} ${vars.space.space10}`,
   borderRadius: vars.borderRadius.radii03,
   backgroundColor: vars.themeColor.blockquoteBackground,
