@@ -1,6 +1,6 @@
 ---
 title: 문자셋과 인코딩
-description: 문자셋과 인코딩에 대해서 탐구합니다.
+description: 문자셋과 인코딩의 개념과 종류에 대해서 알아봅니다.
 thumbnail:
 tags: ['Computer Science']
 createdAt: 2023-12-30T08:12:31.118Z

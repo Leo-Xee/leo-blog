@@ -1,6 +1,6 @@
 ---
 title: Vim
-description: 이 글에서는 Vim의 개념에서 시작해서 내가 Vim에 입문하게 된 계기와 연습 방법 그리고 주로 사용하는 단축키를 정리합니다.
+description: Vim에 대한 기본적인 개념과 함께 입문하게 된 계기와 연습 방법을 정리합니다.
 thumbnail:
 tags: ['Tool']
 createdAt: 2023-01-15T23:34:21.811Z

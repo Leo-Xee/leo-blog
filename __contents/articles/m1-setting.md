@@ -1,6 +1,6 @@
 ---
 title: M1 MacBook 초기 세팅하기
-description: 이 글에서는 최근에 회사에서 지급 받은 M1 MacBook Pro를 초기 세팅하면서 겪었던 병목을 다시 겪지 않고자 세팅 내용을 간단히 정리합니다.
+description: 회사에 입사하며 M1 MacBook Pro를 초기 세팅한 내용을 정리합니다.
 thumbnail:
 tags: ['Tool']
 createdAt: 2022-09-12T11:24:42.219Z

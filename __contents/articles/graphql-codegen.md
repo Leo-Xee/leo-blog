@@ -1,6 +1,6 @@
 ---
 title: GraphQL Code Generator로 타입선언 자동화하기
-description: 개인 프로젝트를 진행하면서 사용했었던 GraphQL Code Generator에 대해서 정리합니다.
+description: Github-Graph 프로젝트를 진행하면서 사용해본 GraphQL Code Generator에 대해 정리합니다.
 thumbnail:
 tags: ['GraphQL']
 createdAt: 2023-03-27T12:31:14.761Z

@@ -1,6 +1,6 @@
 ---
 title: GraphQL
-description: 이 글은 GitHub-Graph 프로젝트를 진행하면서 처음 사용해본 GraphQL의 개념을 정리합니다.
+description: Github-Graph 프로젝트를 진행하면서 처음 사용해본 GraphQL의 기본적인 개념을 정리합니다.
 thumbnail:
 tags: ['GraphQL']
 createdAt: 2023-02-18T18:15:27.693Z

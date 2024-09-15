@@ -1,6 +1,6 @@
 ---
 title: REST API
-description: REST API에 대해서 정리합니다.
+description: REST API에 대한 기본적인 내용을 정리합니다.
 thumbnail:
 tags: ['Computer Science']
 createdAt: 2022-11-25T13:32:11.716Z

@@ -1,6 +1,6 @@
 ---
 title: 이벤트 루프
-description: 자바스크립트의 이벤트 루프 동작에 대해서 정리합니다.
+description: 자바스크립트의 이벤트 루프에 대해서 알아봅니다.
 thumbnail:
 tags: ['JavaScript']
 createdAt: 2023-09-17T09:27:29.879Z

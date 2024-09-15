@@ -1,6 +1,6 @@
 ---
 title: this
-description: 자바스크립트의 this 동작에 대하서 탐구합니다.
+description: 자바스크립트의 this 동작에 대해서 알아봅니다.
 thumbnail:
 tags: ['JavaScript']
 createdAt: 2023-08-07T10:12:51.128Z

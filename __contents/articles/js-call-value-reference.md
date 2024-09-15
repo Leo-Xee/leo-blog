@@ -1,6 +1,6 @@
 ---
 title: call by value와 call by reference
-description: 자바스크립트의 call by value와 call by reference 동작에 대해서 정리합니다.
+description: 자바스크립트에서의 call by value와 call by reference 동작에 대해서 알아봅니다.
 thumbnail:
 tags: ['JavaScript']
 createdAt: 2023-09-05T10:11:42.731Z

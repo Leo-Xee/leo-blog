@@ -1,6 +1,6 @@
 ---
 title: CSR과 SSR
-description: 웹 개발자라면 제대로 이해하고 있어야할 용어인 CSR/SSR 뿐만 아니라 SPA/MPA, SSG, PWA, TTV, TTI에 대해서 정리합니다.
+description: 웹 개발자에게 기본 지식 중 하나인 CSR/SSR 뿐만 아니라 SPA/MPA, SSG, PWA, TTV, TTI 개념에 대해 알아봅니다.
 thumbnail:
 tags: ['Frontend']
 createdAt: 2023-05-22T11:34:39.577Z

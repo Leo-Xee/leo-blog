@@ -1,6 +1,6 @@
 ---
 title: 프로젝트에서 타입 관리하기
-description: 프로젝트를 Typescript로 구현하면서 각기 다른 위치에 커스텀 타입 선언이 생겨나서 관리가 힘들어지는 문제가 발생했습니다. 이러한 문제를 해결하기 위한 방법을 정리합니다.
+description: 프로젝트에서 타입스크립트의 타입 파일을 관리하는 방법을 정리합니다.
 thumbnail:
 tags: ['TypeScript']
 createdAt: 2023-01-05T18:05:11.661Z

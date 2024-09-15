@@ -1,6 +1,6 @@
 ---
 title: Prettier 에러를 발생시키는 CR과 LF의 차이
-description: 이 글에서는 최근에 회사에서 지급 받은 M1 MacBook Pro를 초기 세팅하면서 겪었던 병목을 다시 겪지 않고자 세팅 내용을 간단히 정리합니다.
+description: 줄바꿈 방식(CR, LF)의 차이로 인해 Prettier 에러가 발생했던 내용을 정리합니다.
 thumbnail:
 tags: ['Trouble Shooting']
 createdAt: 2022-08-22T18:14:42.919Z
