@@ -1,6 +1,6 @@
 ---
 title: SSH
-description: SSH에 대해서 정리합니다.
+description: SSH(Secure Shell)에 대한 기본적인 내용을 정리합니다.
 thumbnail:
 tags: ['Computer Science']
 createdAt: 2022-10-28T11:45:19.193Z

@@ -1,6 +1,6 @@
 ---
 title: MSW로 API 모킹하기
-description: 프론트엔드 테스트에 대해서 공부하다가 MSW라는 유용한 라이브러리를 알게되어 이에 대한 개념과 간단하게 사용한 내용을 정리합니다.
+description: MSW(Mock Service Worker) 라이브러리의 개념과 간단한 사용 예시를 정리합니다.
 thumbnail:
 tags: ['Frontend']
 createdAt: 2023-06-16T14:57:21.766Z

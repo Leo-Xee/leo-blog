@@ -1,6 +1,6 @@
 ---
 title: 실행 컨텍스트
-description: 자바스크립트의 실행 컨텍스트에 대해서 탐구합니다.
+description: 자바스크립트의 실행 컨텍스트에 대해서 알아봅니다.
 thumbnail:
 tags: ['JavaScript']
 createdAt: 2023-05-23T13:42:01.872Z

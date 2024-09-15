@@ -1,6 +1,6 @@
 ---
 title: 64비트 시스템
-description: 64비트 시스템이 어떤 의미를 가지는지 알아봅니다.
+description: 32비트, 64비트 시스템이 어떤 의미를 가지는지 알아봅니다.
 thumbnail:
 tags: ['Computer Science']
 createdAt: 2023-11-28T14:25:39.713Z

@@ -1,6 +1,6 @@
 ---
 title: setState와 Batch
-description: 프론트엔드 테스트에 대해서 공부하다가 MSW라는 유용한 라이브러리를 알게되어 이에 대한 개념과 간단하게 사용한 내용을 정리합니다.
+description: setState의 비동기 동작과 내부 성능 최적화를 위한 Batch 동작을 알아봅니다.
 thumbnail:
 tags: ['React']
 createdAt: 2023-02-06T12:11:34.361Z

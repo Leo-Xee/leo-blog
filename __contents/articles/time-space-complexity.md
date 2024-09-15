@@ -1,6 +1,6 @@
 ---
 title: 시간복잡도와 공간복잡도
-description: 시간복잡도와 공간복잡도의 기초적인 개념에 대해서 정리합니다.
+description: 시간복잡도와 공간복잡도의 개념에 대해서 정리합니다.
 thumbnail:
 tags: ['Algorithm']
 createdAt: 2023-01-14T19:25:09.112Z

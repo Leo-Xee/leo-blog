@@ -1,6 +1,6 @@
 ---
 title: 웹 브라우저의 렌더링
-description: 자바스크립트의 이벤트 루프 동작에 대해서 정리합니다.
+description: 브라우저의 동작 원리를 개별 과정을 분석해보며 알아봅니다.
 thumbnail:
 tags: ['Frontend']
 createdAt: 2023-06-16T14:57:21.766Z
