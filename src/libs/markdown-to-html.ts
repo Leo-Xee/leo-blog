@@ -34,7 +34,7 @@ const classStyles = {
   'ul.contains-task-list input[type="checkbox"]': styles.taskListCheckbox,
   'input[type="checkbox"]:checked:disabled': styles.taskListCheckboxDisabled,
   blockquote: styles.blockquote,
-  'blockquote p, blockquote *:first-child': styles.blockquoteParagraph,
+  'blockquote p, blockquote > h2': styles.blockquoteParagraph,
 };
 
 const markdownToHtml = async (markdown: string) => {

@@ -222,13 +222,14 @@ export const table = style({
 export const blockquote = style({
   marginTop: vars.space.space10,
   marginBottom: vars.space.space10,
-  padding: `${vars.space.space05} ${vars.space.space10}`,
+  padding: `${vars.space.space05} ${vars.space.space08}`,
   borderRadius: vars.borderRadius.radii03,
   backgroundColor: vars.themeColor.blockquoteBackground,
 });
 
 export const blockquoteParagraph = style({
-  marginTop: vars.space.none,
+  marginTop: vars.space.space02,
+  marginBottom: vars.space.space02,
 });
 
 /**
