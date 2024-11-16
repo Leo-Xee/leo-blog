@@ -1,3 +1,4 @@
+import { openGraph, twitter } from '@/app/shared-metadata';
 import { Container } from '@/components/common/Container';
 import { Markdown } from '@/components/common/Markdown';
 import { PostTitle } from '@/components/PostTitle';
@@ -17,10 +18,12 @@ export async function generateMetadata({ params: { slug } }: Params) {
     title: post.title,
     description: POST_LIST_SUMMARY[2].description,
     openGraph: {
+      ...openGraph,
       title: post.title,
       description: POST_LIST_SUMMARY[2].description,
     },
     twitter: {
+      ...twitter,
       title: post.title,
       description: POST_LIST_SUMMARY[2].description,
     },
