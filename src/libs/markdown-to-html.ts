@@ -7,6 +7,8 @@ import addClasses from 'rehype-class-names';
 import addHeadingSlug from 'rehype-slug';
 import autoLinkHeading from 'rehype-autolink-headings';
 import { unified } from 'unified';
+import remarkMath from 'remark-math';
+import rehypeMathjax from 'rehype-mathjax';
 import * as styles from '@/components/common/Markdown/Markdown.css';
 
 const classStyles = {
@@ -41,6 +43,8 @@ const markdownToHtml = async (markdown: string) => {
   const result = await unified()
     .use(remarkParse)
     .use(remarkRehype)
+    .use(remarkMath)
+    .use(rehypeMathjax)
     .use(remarkGfm)
     .use(addHeadingSlug)
     .use(autoLinkHeading, { behavior: 'wrap' })
