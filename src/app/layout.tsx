@@ -8,6 +8,7 @@ import { Footer } from '@/components/common/Footer';
 import '@/styles/reset.css';
 import '@/styles/global.css';
 import { INTRODUCTION } from '@/constants';
+import { openGraph, twitter } from './shared-metadata';
 
 const pretendard = localFont({
   src: '../../public/assets/fonts/PretendardVariable.woff2',
@@ -51,23 +52,20 @@ export const metadata: Metadata = {
   referrer: 'origin',
   robots: 'noindex, nofollow',
   openGraph: {
+    ...openGraph,
     title: {
       template: '%s | 레오의 기술 블로그',
       default: '레오의 기술 블로그',
     },
     description: INTRODUCTION.description,
-    type: 'website',
-    url: 'https://leo-xee.dev',
-    images: ['https://leo-xee.dev/opengraph-image.png'],
   },
   twitter: {
+    ...twitter,
     title: {
       template: '%s | 레오의 기술 블로그',
       default: '레오의 기술 블로그',
     },
     description: INTRODUCTION.description,
-    card: 'summary_large_image',
-    images: ['https://leo-xee.dev/twitter-image.png'],
   },
 };
 
