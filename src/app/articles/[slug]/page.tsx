@@ -1,8 +1,8 @@
-import { openGraph, twitter } from '@/app/shared-metadata';
-import { Container } from '@/components/common/Container';
 import { Markdown } from '@/components/common/Markdown';
 import { PostTitle } from '@/components/PostTitle';
 import { getAllPosts, getPost } from '@/libs/api';
+import { TOC } from '@/components/common/TOC';
+import { Template } from '@/components/common/Template';
 
 type Params = {
   params: {
@@ -17,12 +17,10 @@ export async function generateMetadata({ params: { slug } }: Params) {
     title: post.title,
     description: post.description,
     openGraph: {
-      ...openGraph,
       title: post.title,
       description: post.description,
     },
     twitter: {
-      ...twitter,
       title: post.title,
       description: post.description,
     },
@@ -33,12 +31,17 @@ export default async function Article({ params: { slug } }: Params) {
   const post = getPost('articles', slug);
 
   return (
-    <main>
-      <Container>
+    <Template.Root>
+      <Template.Header>
         <PostTitle post={post} />
+      </Template.Header>
+      <Template.Main>
         <Markdown post={post} />
-      </Container>
-    </main>
+      </Template.Main>
+      <Template.Aside>
+        <TOC />
+      </Template.Aside>
+    </Template.Root>
   );
 }
 

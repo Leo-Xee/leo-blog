@@ -21,6 +21,11 @@ export const space = {
   space13: '52px',
   space14: '56px',
   space15: '60px',
+  space16: '64px',
+  space17: '68px',
+  space18: '72px',
+  space19: '76px',
+  space20: '80px',
 };
 
 export const fontSize = {

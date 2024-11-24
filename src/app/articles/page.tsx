@@ -1,4 +1,4 @@
-import { Container } from '@/components/common/Container';
+import { Template } from '@/components/common/Template';
 import { PostList } from '@/components/PostList';
 import { PostListSummary } from '@/components/PostListSummary';
 import { POST_LIST_SUMMARY } from '@/constants';
@@ -25,11 +25,11 @@ export default function Articles() {
   const posts = getAllPosts('articles');
 
   return (
-    <main>
-      <Container>
+    <Template.Root>
+      <Template.Main>
         <PostListSummary type="articles" posts={posts} />
         <PostList type="articles" posts={posts} />
-      </Container>
-    </main>
+      </Template.Main>
+    </Template.Root>
   );
 }
