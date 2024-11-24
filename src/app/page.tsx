@@ -1,4 +1,4 @@
-import Container from '@/components/common/Container/Container';
+import { Template } from '@/components/common/Template';
 import { Introduction } from '@/components/Introduction';
 import { INTRODUCTION } from '@/constants';
 import { Metadata } from 'next';
@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 
 export default function Index() {
   return (
-    <main>
-      <Container>
+    <Template.Root>
+      <Template.Main>
         <Introduction />
-      </Container>
-    </main>
+      </Template.Main>
+    </Template.Root>
   );
 }

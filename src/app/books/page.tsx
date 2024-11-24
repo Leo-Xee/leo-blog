@@ -1,4 +1,4 @@
-import { Container } from '@/components/common/Container';
+import { Template } from '@/components/common/Template';
 import { PostList } from '@/components/PostList';
 import { PostListSummary } from '@/components/PostListSummary';
 import { POST_LIST_SUMMARY } from '@/constants';
@@ -25,11 +25,11 @@ export default function Books() {
   const posts = getAllPosts('books');
 
   return (
-    <main>
-      <Container>
+    <Template.Root>
+      <Template.Main>
         <PostListSummary type="books" posts={posts} />
         <PostList type="books" posts={posts} />
-      </Container>
-    </main>
+      </Template.Main>
+    </Template.Root>
   );
 }

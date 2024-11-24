@@ -8,4 +8,5 @@ export const description = style({
   paddingTop: vars.space.space03,
   paddingLeft: vars.space.space02,
   paddingRight: vars.space.space02,
+  paddingBottom: vars.space.space10,
 });

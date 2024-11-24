@@ -8,7 +8,7 @@ export const container = style({
   alignItems: 'center',
   gap: vars.space.space05,
   marginTop: vars.space.space10,
-  marginBottom: vars.space.space15,
+  marginBottom: vars.space.space20,
 });
 
 export const postTitle = style([
