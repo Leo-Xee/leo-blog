@@ -35,6 +35,12 @@ export const heading2 = style([
   {
     fontSize: vars.fontSize.heading2,
 
+    selectors: {
+      '&:first-child': {
+        marginTop: vars.space.none,
+      },
+    },
+
     '@media': {
       'screen and (max-width: 768px)': {
         fontSize: vars.fontSize.mobileHeading2,
@@ -90,6 +96,12 @@ export const heading6 = style([
 export const paragraph = style({
   marginTop: vars.space.space05,
   marginBottom: vars.space.space05,
+
+  selectors: {
+    '&:first-child': {
+      marginTop: vars.space.none,
+    },
+  },
 });
 
 export const anchor = style({
@@ -225,6 +237,12 @@ export const blockquote = style({
   padding: `${vars.space.space05} ${vars.space.space08}`,
   borderRadius: vars.borderRadius.radii03,
   backgroundColor: vars.themeColor.blockquoteBackground,
+
+  selectors: {
+    '&:first-child': {
+      marginTop: vars.space.none,
+    },
+  },
 });
 
 export const blockquoteParagraph = style({

@@ -40,7 +40,7 @@ export default async function Problem({ params: { slug } }: Params) {
         <Markdown post={post} />
       </Template.Main>
       <Template.Aside>
-        <TOC />
+        <TOC post={post} />
       </Template.Aside>
     </Template.Root>
   );

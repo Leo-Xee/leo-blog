@@ -6,7 +6,7 @@ tags: ['Frontend']
 createdAt: 2023-06-16T14:57:21.766Z
 ---
 
-> ### TL;DR
+> ## TL;DR
 >
 > - **Critical Rendering Path (CRP) 개요**: CRP는 웹 페이지가 사용자 화면에 렌더링되기까지의 일련의 과정으로, 크게 6단계(DOM 트리 생성, CSSOM 트리 생성, 자바스크립트 실행, 렌더 트리 생성, Layout 구성, Painting)로 구성됩니다.
 > - **주요 단계 설명**:

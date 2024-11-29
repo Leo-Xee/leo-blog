@@ -1,3 +1,4 @@
+import { TOC_WIDTH } from '@/constants';
 import { vars } from '@/styles/themes.css';
 import { style } from '@vanilla-extract/css';
 
@@ -6,7 +7,7 @@ export const root = style({
   display: 'grid',
   justifyContent: 'center',
   columnGap: vars.space.space20,
-  gridTemplateColumns: '260px 768px 260px',
+  gridTemplateColumns: `${TOC_WIDTH}px 768px ${TOC_WIDTH}px`,
   gridTemplateAreas: `
     ". header ."
     ". main aside"
@@ -40,7 +41,7 @@ export const aside = style({
   gridArea: 'aside',
   position: 'sticky',
   top: vars.space.space06,
-  width: '260px',
+  width: TOC_WIDTH,
 
   '@media': {
     'screen and (max-width: 1480px)': {

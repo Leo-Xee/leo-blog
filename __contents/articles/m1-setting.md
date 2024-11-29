@@ -173,20 +173,20 @@ brew install karabiner-elements
 ### Node
 
 ```shell
-## 설치
+# 설치
 brew install node
 
-## 버전 확인
+# 버전 확인
 node -v
 ```
 
 ### Yarn
 
 ```shell
-## 설치 (이미 설치한 node 제외 옵션)
+# 설치 (이미 설치한 node 제외 옵션)
 brew install yarn --ignore-dependencies
 
-## 버전 확인
+# 버전 확인
 yarn -v
 ```
 

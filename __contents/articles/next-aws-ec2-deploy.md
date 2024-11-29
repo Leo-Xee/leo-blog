@@ -253,9 +253,9 @@ pm2 start "yarn start" --name <프로젝트명>
 
 ```nginx title="/etc/nginx/nginx.conf"
 # ...
-##
+
 # Virtual Host Configs
-##
+
 
 include /etc/nginx/conf.d/*.conf;
 include /etc/nginx/sites-enabled/*;
