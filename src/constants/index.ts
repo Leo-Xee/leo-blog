@@ -1,3 +1,6 @@
+export const APP_BAR_HEIGHT = 90;
+export const TOC_WIDTH = 280;
+
 export const NAV_ITEMS = [
   {
     title: 'Home',
