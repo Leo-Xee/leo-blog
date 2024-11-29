@@ -28,7 +28,7 @@ $ yarn dev
 - [x] 코드 블럭 하이라이트
 - [ ] 댓글 시스템
 - [ ] 태그 시스템
-- [ ] TOC(Table of Content)
+- [x] TOC(Table of Content)
 - [ ] SEO
 
 ## 라이센스
