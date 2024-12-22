@@ -1,0 +1,67 @@
+---
+title: 백준 10988 - 팰린드롬인지 확인하기
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2024-08-22T15:50:18.129Z
+---
+
+## 문제 링크
+
+[10988 - 팰린드롬인지 확인하기](https://www.acmicpc.net/problem/10988)
+
+## 사용 알고리즘
+
+- 구현
+- 문자열
+
+## 시간 복잡도
+
+- $O(1)$
+
+## 문제 풀이
+
+문자열을 뒤집어서 비교하는 문제입니다.
+
+자바스크립트의 경우 문자열을 뒤집는 `reverse` 메소드를 지원하지 않아서 배열의 메소드를 활용해서 풀 수 있습니다.
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+string a, b;
+
+int main() {
+  cin >> a;
+
+  b.resize(a.length());
+  reverse_copy(a.begin(), a.end(), b.begin());
+
+  if (a == b) {
+    cout << 1;
+  } else {
+    cout << 0;
+  }
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().split('\n');
+
+const a = input.shift();
+const b = a.split('').reverse().join('');
+
+if (a === b) {
+  console.log(1);
+} else {
+  console.log(0);
+}
+```
