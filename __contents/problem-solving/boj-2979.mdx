@@ -1,0 +1,94 @@
+---
+title: 백준 2979 - 트럭 주차
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2024-08-20T15:04:50.660Z
+---
+
+## 문제 링크
+
+[2979 - 트럭 주차](https://www.acmicpc.net/problem/2979)
+
+## 사용 알고리즘
+
+- 구현
+
+## 시간 복잡도
+
+- $O(1)$
+
+## 문제 풀이
+
+단순한 구현 문제이지만 자바스크립트의 입출력과 자유로운 형변환 때문에 아래 하이라이트의 `.map((v) => +v);`부분을 누락해서 잠깐 **맞왜틀**을 겪었습니다.
+
+풀이 과정은 아래와 같습니다.
+
+1. 숫자 `0`으로 구성된 배열 선언
+2. 3번 순회
+   1. 트럭이 주차장에 도착한 시간부터 떠난 시간 **직전**까지의 구간에 한해 위 배열에 `+1` 증감
+3. 배열을 순회
+   1. `1`이면 비용 A, `2`이면 비용 B, `3`이면 비용 C를 곱하기
+   2. 곱한 값을 누적해서 출력
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int a, b, c, t[104], from, to, cnt;
+
+int main() {
+  cin >> a >> b >> c;
+
+  for (int i = 0; i < 3; i++) {
+    cin >> from >> to;
+    for (int j = from; j < to; j++) {
+      t[j]++;
+    }
+  }
+
+  for (auto it : t) {
+    if (it == 1) cnt += it * a;
+    if (it == 2) cnt += it * b;
+    if (it == 3) cnt += it * c;
+  }
+
+  cout << cnt << ' ';
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript" hl={11}
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+let cnt = 0;
+const t = Array.from({ length: 100 }).fill(0);
+const [a, b, c] = input.shift().split(' ');
+
+const solution = () => {
+  input.forEach((v) => {
+    const [from, to] = v.split(' ').map((v) => +v); // 숫자 변환 누락 유의!
+
+    for (let i = from; i < to; i++) {
+      t[i]++;
+    }
+  });
+
+  t.forEach((v) => {
+    if (v === 1) cnt += v * a;
+    if (v === 2) cnt += v * b;
+    if (v === 3) cnt += v * c;
+  });
+
+  return cnt;
+};
+
+console.log(solution());
+```
