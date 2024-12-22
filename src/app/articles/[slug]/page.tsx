@@ -1,8 +1,8 @@
-import { Markdown } from '@/components/common/Markdown';
 import { PostTitle } from '@/components/PostTitle';
 import { getAllPosts, getPost } from '@/libs/api';
 import { TOC } from '@/components/common/TOC';
 import { Template } from '@/components/common/Template';
+import { CustomMDXRemote } from '@/components/common/CustomMDXRemote';
 
 type Params = {
   params: {
@@ -36,7 +36,7 @@ export default async function Article({ params: { slug } }: Params) {
         <PostTitle post={post} />
       </Template.Header>
       <Template.Main>
-        <Markdown post={post} />
+        <CustomMDXRemote post={post} />
       </Template.Main>
       <Template.Aside>
         <TOC post={post} />

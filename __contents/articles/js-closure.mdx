@@ -1,0 +1,101 @@
+---
+title: 클로저
+description: 자바스크립트의 클로저에 대해서 탐구합니다.
+thumbnail:
+tags: ['JavaScript']
+createdAt: 2023-08-23T15:12:01.712Z
+---
+
+## TL;DR
+
+<Blockquote type="info">
+
+- **클로저**: 클로저는 내부 함수가 외부 함수의 변수에 접근할 수 있는 현상으로, 외부 함수가 종료된 후에도 내부 함수에서 외부 함수의 변수를 참조할 수 있게 해줍니다.
+- **클로저의 작동 원리**: 내부 함수가 외부 함수의 변수를 참조하는 경우, 외부 함수의 실행 컨텍스트는 종료되지 않고 계속해서 유지됩니다. 이를 통해 외부 함수의 지역 변수가 내부 함수에 의해 지속적으로 접근되고 사용될 수 있습니다.
+- **클로저의 장점**: 클로저는 변수의 접근 권한을 제어하고, 지역 변수를 보호하며, 데이터를 보존 및 활용하는 데 유용합니다. 이를 통해 변수의 상태를 안전하게 유지하고, 외부로부터 보호할 수 있습니다.
+
+</Blockquote>
+
+## 클로저란?
+
+**클로저(Closure)란, 내부 함수가 외부 함수의 지역 변수를 참조할 때, 외부 함수가 종료된 이후에도 내부 함수가 외부 함수의 지역 변수를 참조할 수 있는 현상을 일컫습니다.** 한 가지 예제를 통해 클로저를 이해해보도록 하겠습니다.
+
+아래는 클로저가 발생한 소스 코드의 전체 실행 과정입니다. 이 과정을 한 단계씩 알아보겠습니다.
+
+![그림1. 클로저의 발생 과정](/assets/contents/js-closure/1.gif)
+
+1. 먼저 전역 실행 컨텍스트가 열리고 `environmentRecord`에 전역 공간의 식별 정보를 수집합니다.
+
+![그림2. 클로저 1번 과정](/assets/contents/js-closure/2.png)
+
+2. `outer()`를 실행하기 위해 `Outer` 실행 컨텍스트가 열리고, 식별 정보를 `environmentRecord`에 수집합니다.
+
+![그림3. 클로저 2번 과정](/assets/contents/js-closure/3.png)
+
+3. `outer()`의 반환 값으로 `inner` 함수를 반환하고 `outer2`에 할당합니다.
+
+![그림4. 클로저 3번 과정](/assets/contents/js-closure/4.png)
+
+4. 원래는 `outer` 함수의 실행이 종료됨과 동시에 `Outer` 실행 컨텍스트도 소멸되어야 합니다. 그러나 `outer` 함수의 지역 변수 `a`는 `outer2`에 할당된 `inner` 함수를 통해 참조될 수 있기 때문에(**`a`의 참조 카운트가 남아있다고 표현합니다.**) `Outer` 실행 컨텍스트의 `a`는 소멸되지 않고 남아 있습니다.
+
+![그림5. 클로저 4번 과정](/assets/contents/js-closure/5.png)
+
+5. 이제 `outer2`를 실행합니다. 이는 할당된 `inner` 함수를 실행하는 것과 동일하기 때문에 `Inner` 실행 컨텍스트가 열리고, `outerEnvironmentReference`를 통해 `Outer` 실행 컨텍스트의 `a`를 찾아서 `1`만큼 증가시킨 `2`를 반환한 후 `Inner` 실행 컨텍스트는 소멸됩니다. 하지만 `Outer` 실행 컨텍스트의 `a`는 여전히 남아 있습니다.
+
+![그림6. 클로저 5번 과정](/assets/contents/js-closure/6.png)
+
+6. 반환된 값인 `2`를 콘솔에 출력합니다.
+
+![그림7. 클로저 6번 과정](/assets/contents/js-closure/7.png)
+
+7. 5번과 동일하게 동작하지만, 이번에는 `2`를 `1`만큼 증가시킨 `3`을 반환합니다. 마찬가지로 `a`의 참조 카운트가 유효하기 때문에 `Outer` 실행 컨텍스트의 `a`는 여전히 남아 있습니다.
+
+![그림8. 클로저 7번 과정](/assets/contents/js-closure/8.png)
+
+8. 반환된 값인 `3`을 콘솔에 출력합니다.
+
+![그림9. 클로저 8번 과정](/assets/contents/js-closure/9.png)
+
+9. 실행이 종료됩니다. 하지만 `outer2`에 할당된 `inner` 함수가 여전히 `Outer` 실행 컨텍스트의 `a`를 참조하고 있습니다. 따라서 `outer2`에 다른 값을 재할당하여 참조를 끊지 않는 한, `Outer` 실행 컨텍스트의 `a` 값은 계속 남아 있습니다.
+
+![그림10. 클로저 9번 과정](/assets/contents/js-closure/10.png)
+
+## 클로저를 사용하는 이유?
+
+이러한 클로저를 사용하면 이점이 크게 3가지가 있습니다.
+
+- 접근 권한 제어
+- 지역변수 보호
+- 데이터 보존 및 활용
+
+```js
+function user(_name) {
+  var _logged = true;
+  return {
+    get name() {
+      return _name;
+    },
+    set name(v) {
+      _name = v;
+    },
+    login() {
+      _logged = true;
+    },
+    logout() {
+      _logged = false;
+    },
+    get status() {
+      return _logged ? 'login' : 'logout';
+    },
+  };
+}
+
+var leo = user('레오');
+```
+
+- `leo._name = "레오"` 으로 변경하려해도 변경되지 않습니다. (접근 권한 제어, 지역변수 보호)
+- `getter` 와 `setter` 를 사용해야 원하는 변수에 접근 가능합니다. (데이터 보존 및 활용)
+
+## 참조
+
+- https://bit.ly/3L1uo8d

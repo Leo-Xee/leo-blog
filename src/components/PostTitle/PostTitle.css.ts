@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/styles/themes.css';
-import { heading1 } from '../common/Markdown/Markdown.css';
+import { heading1 } from '../common/CustomMDXRemote/CustomMDXRemote.css';
 
 export const container = style({
   display: 'flex',

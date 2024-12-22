@@ -1,0 +1,97 @@
+---
+title: 백준 16968 - 차량 번호판 1
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2024-08-11T12:11:53.921Z
+---
+
+## 문제 링크
+
+[16968 - 차량 번호판 1](https://www.acmicpc.net/problem/16968)
+
+## 사용 알고리즘
+
+- 조합
+
+## 시간 복잡도
+
+- $O(1)$
+
+## 문제 풀이
+
+차량 번호판으로 사용할 수 있는 숫자는 0 - 9까지 총 10개이고 문자는 a - z까지 총 26개입니다. 하지만 동일한 숫자나 동일한 문자가 연속으로 나열되면 안되기 때문에 경우의 수가 1만큼 적어집니다.
+
+예를 들면, `ccc`의 경우에 `26 * 26 * 26{:js}` 이 아닌 `26 * 25 * 25{:js}`의 경우의 수를 가질 수 있습니다. 그렇기 때문에 `d`와 `c`를 각각 처리하되 이전 값과 형식이 같을 경우에 경우의 수를 `-1`해서 `cnt`에 곱해주는 방식으로 풀었습니다.
+
+### C++
+
+```cpp title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+string s;
+int cnt = 1;
+
+int main() {
+  cin >> s;
+
+  for (int i = 0; i < s.size(); i++) {
+    if (s[i] == 'd') {
+      if (s[i - 1] == s[i]) {
+        cnt *= 9;
+      } else {
+        cnt *= 10;
+      }
+    }
+
+    if (s[i] == 'c') {
+      if (s[i - 1] == s[i]) {
+        cnt *= 25;
+      } else {
+        cnt *= 26;
+      }
+    }
+  }
+
+  cout << cnt;
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString();
+
+function solution(str) {
+  let cnt = 1;
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === 'd') {
+      if (str[i] === str[i - 1]) {
+        cnt *= 9;
+      } else {
+        cnt *= 10;
+      }
+    }
+
+    if (str[i] === 'c') {
+      if (str[i] === str[i - 1]) {
+        cnt *= 25;
+      } else {
+        cnt *= 26;
+      }
+    }
+  }
+
+  return cnt;
+}
+
+console.log(solution(input));
+```
+
+<br />

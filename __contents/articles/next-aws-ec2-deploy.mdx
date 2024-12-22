@@ -1,0 +1,454 @@
+---
+title: AWS EC2에 Next.js 배포하기
+description: Next.js 프로젝트를 AWS EC2 인스턴스에 HTTPS를 적용해서 배포한 과정을 정리합니다.
+thumbnail:
+tags: ['Frontend', 'Infra']
+createdAt: 2024-09-08T00:00:00.000Z
+---
+
+기존에 사용해왔던 [기술 블로그 템플릿(gatsby-starter-bee)](https://github.com/JaeYeopHan/gatsby-starter-bee)을 더이상 관리하지 않는다는 메인테이너의 [소식](https://jbee.io/articles/tool/Obsidian%20publish%20%EC%82%AC%EC%9A%A9%EA%B8%B0)을 늦게나마 확인했습니다. 그래서 이 기회에 평소 구상해온 디자인과 기능을 갖춘 기술 블로그 프로젝트를 직접 구현했고 이를 AWS EC2를 사용해서 직접 배포를 진행해보았습니다. 이 글에서는 배포 과정에 대해서 정리합니다. 물론 Zero Configure 플랫폼(Vercel, Github Pages, Netlify...)이 존재하지만 원하는 도메인으로 서비스하고 싶다는 점과 배포 과정을 밑바닥부터 숙련하고자는 마음이 커서 직접 배포하게 되었습니다.
+
+## TL;DR
+
+<Blockquote type="info">
+
+- **EC2 인스턴스 생성 준비**
+  - 리전을 서울로 설정하고, 보안 그룹에서 HTTP(80), HTTPS(443), SSH(22) 포트를 열어둡니다.
+  - SSH 접속을 위해 키 페어를 생성하고 다운로드한 .pem 파일을 보관합니다.
+- **EC2 인스턴스 생성 및 접속**
+  - Ubuntu 24.04 LTS로 EC2 인스턴스를 생성하고 SSH로 접속합니다.
+  - Node.js를 설치하고 프로젝트 의존성을 설치한 후, PM2로 서버를 실행합니다.
+  - 메모리 부족 현상을 해결하기 위해 스왑 메모리를 적용합니다.
+- **SSL/TLS 인증서 발급 및 HTTPS 설정**
+  - Route53에 구매한 도메인을 등록하고 EC2 인스턴스에 연결합니다.
+  - Certbot을 이용해 Let's Encrypt SSL/TLS 인증서를 발급받고 nginx 설정을 통해 HTTP 트래픽을 HTTPS로 리다이렉트합니다.
+
+</Blockquote>
+
+## EC2 인스턴스 생성
+
+### 준비
+
+먼저 EC2 생성 전에 미리 체크하고 변경해두면 편리해지는 다음 3가지 사항을 변경 및 추가합니다.
+
+#### 리전 변경
+
+제가 배포할 프로젝트는 주로 국내 사용자를 대상으로 하기 때문에 리전을 아시아 태평양 서울(ap-northeast-2)로 변경합니다. 특정 리전을 기본 설정하고 싶다면 `설정(상단바의 톱니바퀴 아이콘) > 더 많은 사용자 설정` 클릭 후 기본 리전을 변경해주면 됩니다.
+
+#### 보안 그룹 추가
+
+보안 그룹(Security Group)은 EC2 인스턴스의 가상 방화벽 역할을 하고 수신 및 발신되는 트래픽을 제어합니다. **수신되는 트래픽에 대한 규칙을 인바운드(inbound) 규칙, 발신되는 트래픽에 대한 규칙을 아웃바운드(outbound) 규칙이라고 합니다.**
+
+EC2 대시보드 페이지에서 보안 그룹 섹션으로 이동해서 다음과 같이 인바운드 규칙을 추가해서 보안 그룹을 생성합니다.
+
+![그림1. AWS 보안 그룹의 인바운드 규칙](/assets/contents/next-aws-ec2-deploy/1.png)
+
+웹 서비스를 위한 **HTTP(80), HTTPS(443), 인스턴스에 접속하기 위한 SSH(22)를 위한 포트를 추가**하고 아웃바운드 규칙은 따로 규칙을 추가하지 않습니다.
+
+#### 키 페어 추가
+
+AWS에서는 보안 상의 이유로 ID/PASSWORD 방식을 권장하지 않고 개인키와 공개키로 구성된 키 페어(Key Pair)를 사용해서 가상 서버에 접속해야합니다.
+
+EC2 대시보드 페이지에서 키 페어 섹션으로 이동해서 다음과 같이 키 페어를 생성합니다. 이 때 자동으로 다운로드되는 **키 페어 파일(.pem)은 추가로 발급이 불가능하고 분실 시에 EC2 접속할 수 없기 때문에 잘 보관해두어야 합니다.**
+
+![그림2. AWS 키페어 생성](/assets/contents/next-aws-ec2-deploy/2.png)
+
+### 생성
+
+이제 EC2 인스턴스를 다음과 같은 옵션을 생성합니다.
+
+- 이름 및 태그: leo-blog
+- 애플리케이션 및 OS 이미지(AMI)
+  - Ubuntu > Ubuntu Server 24.04 LTS
+  - 64비트(x86)
+- 인스턴스 유형: t2.micro
+- 키 페어: 이전에 생성한 키 페어명 선택
+- 네트워크 설정: 이전에 생성한 보안 그룹 선택
+- 스토리지 구성: 8GIB - gp3
+
+### 에러
+
+위와 같이 EC2 인스턴스를 생성했을 때, 저는 다음과 같은 에러가 발생했습니다.
+
+```sh title="EC2 인스턴스 생성 페이지에서 노출된 에러 로그"
+This account is currently blocked and not recognized as a valid account. Please contact https://support.console.aws.amazon.com/support/home?region=us-east-1#/case/create?issueType=customer-service&serviceCode=account-management&categoryCode=account-verification if you have questions.
+```
+
+이를 해결하기 위해서 검색을 해보니 아래 2가지 방법으로 해결했다는 내용을 확인했습니다.
+
+**1. Multi-Factor Authentication(MFA) 등록**
+
+`우측 상단 계정 > 보안 자격 증명` 클릭 후 `MFA 디바이스 할당`을 클릭하고 디바이스 옵션 중 인증 관리자 앱을 선택해서 인증하고 MFA를 등록합니다. 참고로 MFA를 등록한 다음에 최초 로그인 시에 코드를 2번 채울 것을 요구하는데 연속된 코드로 채워줘야합니다. 저는 같은 코드를 채워넣다가 시간 낭비를 조금 했던 것 같네요.
+
+**2. 고객센터를 통해 계정에 리전 락 해제 문의**
+
+`우측 물음표 아이콘 > 지원 센터` 클릭 후 사례 생성으로 문의합니다. 저는 다음과 같이 문의를 작성했더니 대략 3-4일 정도 후에 리전 락이 정상적으로 해제되었다는 답변을 받을 수 있었습니다.
+
+```plain title="AWS에 문의한 내용"
+Dear AWS Support Team,
+
+I am encountering an issue when attempting to launch an EC2 instance in the Seoul region. The following error message appears:
+
+"This account is currently blocked and not recognized as a valid account. Please contact https://support.console.aws.amazon.com/support/home?region=us-east-1#/case/create?issueType=customer-service&serviceCode=account-management&categoryCode=account-verification  if you have questions."
+
+I am unsure why my account is blocked, as it was functioning correctly in the past. Could you please assist me in resolving this issue so that I can launch instances in the Seoul region?
+
+Thank you for your support.
+```
+
+```plain title="AWS의 답변 내용"
+Hello,
+
+Good news! Your account is now active, and you should have access to launch an EC2 instance in the Seoul region.
+
+If you continue to have issues, then contact our Billing and Accounts team through the AWS Support Center: https://console.aws.amazon.com/support/home#/?nc2=h_l2_su
+
+I appreciate your time, patience and comprehension.
+
+We value your feedback. Please share your experience by rating this and other correspondences in the AWS Support Center. You can rate a correspondence by selecting the stars in the top right corner of the correspondence.
+```
+
+## EC2 인스턴스 접속
+
+`EC2 대시보드 페이지 > 인스턴스 > 생성한 인스턴스 체크 후 연결`을 클릭하면 SSH 클라이언트 연결 방법을 확인할 수 있습니다. 다른 방법도 제공하지만 일반적으로 SSH 클라이언트로 접속하는 편입니다.
+
+이제 제공해주는 가이드대로 명령어를 다음과 같이 작성합니다.
+
+```sh title="EC2 인스턴스 접속"
+# 비밀키 권한 제한
+chmod 400 "leo-admin-seoul.pem"
+
+# SSH로 인스턴스 연결
+ssh -i "<키 페어명>.pem" ubuntu@<EC2 식별자>.amazonaws.com
+```
+
+다음와 같이 인스턴스에 접속된 것을 확인할 수 있습니다.
+
+```sh title="EC2 인스턴스 접속 성공"
+Welcome to Ubuntu 24.04 LTS (GNU/Linux 6.8.0-1012-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+ # ...
+```
+
+## EC2 인스턴스 설정
+
+### 기본 설정
+
+EC2 인스턴스의 기본 설정과 Next.js를 실행하기 위한 런타임 환경인 Node.js를 NVM을 통해 설치합니다.
+
+```sh title="기본 설정"
+# 관리자 계정 패스워드 생성
+sudo passwd
+
+# 시간대 설정
+sudo timedatectl set-timezone Asia/Seoul
+
+# 패키지 관리자 업데이트
+sudo apt update
+
+# 패키지 목록 업데이트
+sudo apt upgrade
+
+# 필수 패키지 설치
+sudo apt install nginx net-tools htop
+
+# nvm 설치
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+# node 설치
+nvm install <version>
+```
+
+```sh title="node, npm 버전 확인"
+node --version
+npm --version
+```
+
+이제 해당 EC2 인스턴스의 퍼블릭 IP 주소나 퍼블릭 DNS로 접근하면 다음과 같이 nginx 기본 페이지를 확인할 수 있습니다.
+
+![그림3. 퍼블릭 IP 접근 시 nginx 기본 페이지 확인](/assets/contents/next-aws-ec2-deploy/3.png)
+
+### Github에서 프로젝트 가져오기
+
+Github 퍼블릭 레포지토리를 HTTPS 방식으로 클론할 경우에는 프로젝트를 바로 가져올 수 있지만 그렇지 않다면 SSH 키를 생성해서 Github에 공개 키를 등록해주어야 합니다.
+
+```sh title="Github에 등록할 SSH 키 생성"
+# SSH 키 생성
+ssh-keygen
+
+# 생성된 공개 키 열기(환경별로 파일명이 달라질 수 있음)
+cat ~/.ssh/<id_rsa_pub | id_ed25519.pub | id_ecdsa.pub>
+```
+
+위의 명령어로 확인한 공개 키를 Github의 `Setting > Access > SSH and GPG Keys`에서 SSH key를 생성해 공개 키를 등록해줍니다.
+
+이후 프로젝트를 SSH로 클론하고 필요한 모듈을 설치합니다. 제가 배포할 프로젝트는 yarn으로 의존성을 관리하고 있고 yarn berry를 사용하고 있어서 다음과 같이 yarn을 설치하고 버전을 업데이트했습니다.
+
+추가로 Node.js 프로세스를 관리하기 위한 패키지인 [PM2](https://pm2.keymetrics.io/)도 설치합니다.
+
+```sh title="프로젝트 의존성과 PM2 설치"
+# 프로젝트 클론 (~/app)
+git clone <git@github.com:프로젝트명>
+
+# yarn, pm2 글로벌 설치
+npm install -g yarn pm2
+
+# yarn 버전 업데이트 (1.x -> 4.x)
+yarn set version berry
+```
+
+#### 스왑 메모리 설정
+
+현재 사용하고 있는 EC2 인스턴스(t2.micro)의 메모리는 1GB밖에 되지 않기 때문에 의존성을 일괄 설치하거나 프로젝트를 빌드할 경우 메모리 부족 현상이 발생할 수 있습니다. 이를 해결하기 위해 스케일 업이나 스케일 아웃을 통해 인스턴스의 성능을 높일 수도 있지만 사이드 프로젝트인 만큼 비용 절감의 우선 순위도 높기 때문에 디스크 용량으로 부족한 메모리를 대체하는 방법을 사용해보려고 합니다.
+
+```sh title="스왑 메모리 설정"
+# swapfile 메모리 할당 (16=2GB, 32=4GB)
+sudo dd if=/dev/zero of=/swapfile bs=128M count=16
+
+# swapfile 권한 설정
+sudo chmod 600 /swapfile
+
+# swap 공간 생성
+sudo mkswap /swapfile
+
+# swapfile 스왑 메모리 추가
+sudo swapon /swapfile
+
+# 성공했는지 확인
+swapon -s
+
+# 재시작 할 때마다 메모리 할당
+sudo vim /etc/fstab
+/swapfile swap swap defaults 0 0 # 파일에 내용 추가
+
+# 메모리 적용 확인
+free
+```
+
+다음과 같이 스왑 메모리가 추가된 것을 확인할 수 있습니다.
+
+```sh title="스왑 메모리 적용 상황"
+               total        used        free      shared  buff/cache   available
+Mem:          980420      374424      175464         908      595108      605996
+Swap:        2097148           0     2097148
+```
+
+#### 프로젝트 빌드
+
+프로젝트 의존성을 설치한 다음 빌드를 진행하고 빌드 결과물을 PM2를 통해서 실행(메모리에 적재)합니다.
+
+```sh title="프로젝트 빌드"
+# 프로젝트 의존성 설치 및 빌드
+yarn install
+yarn build
+
+# 프로젝트 시작
+pm2 start "yarn start" --name <프로젝트명>
+```
+
+#### nginx로 리버스 프록시 설정
+
+현재 서비스가 기본 포트인 3000번에서 실행되고 있지만 앞서 nginx를 설치하고 실행했기 때문에 EC2 인스턴스로 들어오는 외부 요청은 nginx가 받아서 관리하는 상황입니다. 그렇기 때문에 외부 요청을 서비스가 실행되고 있는 3000번 포트로 보내주도록 nginx의 세팅을 변경해줘야합니다.
+
+`/etc/nginx/nginx.conf`은 nginx 설정 파일입니다. 내부 코드를 확인해보면 다음과 같이 `include{:nginx}` 부분을 확인할 수 있는데 이 부분이 nginx의 설정을 확장성 있게 모듈화해서 관리할 수 있도록 합니다.
+
+```nginx title="/etc/nginx/nginx.conf"
+# ...
+
+# Virtual Host Configs
+
+
+include /etc/nginx/conf.d/*.conf;
+include /etc/nginx/sites-enabled/*;
+# ...
+```
+
+```sh title="nginx 설정 파일 추가"
+# nginx 설정 파일로 이동
+cd /etc/nginx/conf.d
+
+# nginx 설정 파일 추가
+sudo vim leo-blog.conf
+```
+
+`server_name(도메인명)`으로 들어오는 HTTP(80번 포트) 요청을 현재 서비스되고 있는 3000번 포트로 보내주도록 다음과 같이 설정을 추가합니다.
+
+```nginx title="/etc/nginx/conf.d/leo-blog.conf" hl:{2,3,6}
+server {
+	listen 80;
+	server_name <도메인명(퍼블릭 IP 주소, 퍼블릭 DNS 가능)>;
+
+	location / {
+		proxy_pass http://localhost:3000;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection 'upgrade';
+		proxy_set_header Host $host;
+		proxy_cache_bypass $http_upgrade;
+	}
+}
+```
+
+```sh title="nginx 설정 검증 후 반영"
+# nginx 설정 테스트
+sudo nginx -t
+
+# nginx 재시작
+sudo systemctl restart nginx
+```
+
+#### HTTP 응답 확인
+
+이제 추가한 도메인명으로 HTTP로 접속하면 서비스가 다음과 같이 정상적으로 노출되는 것을 확인할 수 있습니다.
+
+![그림4. HTTP 접속 시 서비스 정상 응답](/assets/contents/next-aws-ec2-deploy/4.png)
+
+## Route53에 도메인 등록
+
+### 도메인 구매
+
+저는 Dev 도메인을 원해서 찾아보던 중 [가비아](https://www.gabia.com/)에서 도메인을 구매했습니다. 참고로 HTTPS를 적용하기 위해서는 기본적으로 개별 도메인이 필요하고 SSL/TLS 인증서를 발급 받아야합니다.
+
+### 도메인 등록
+
+`Route53 대시보드 페이지 > 호스팅 영역`에서 구매한 도메인에 대한 호스팅 영역을 생성합니다.
+
+![그림5. Route53 호스팅 영역 생성](/assets/contents/next-aws-ec2-deploy/5.png)
+
+생성된 호스팅 영역의 페이지로 이동한 후 **NS 유형 레코드의 값/트래픽 라우팅 대상에 맵핑되어 있는 4개의 주소를 가비아 네임서버에 차례대로 입력한 다음 저장합니다.** 참고로 마지막에 붙은 `.`은 제거합니다.
+
+마지막으로 A 유형의 레코드를 생성하고 EC2 인스턴스의 탄력적 IP를 값으로 추가합니다. **여기서 중요한 점은 EC2의 탄력적 IP를 할당 받아서 추가해야한다는 점입니다.** 기본적으로 EC2는 재부팅되면 매번 새로운 IP를 할당받는데 탄력적 IP를 할당 받아서 추가하면 IP를 고정해서 사용할 수 있습니다.
+
+![그림6. Route53 호스팅 영역에 A 유형 레코드 추가](/assets/contents/next-aws-ec2-deploy/6.png)
+
+## HTTPS 적용
+
+HTTPS 적용을 휘해 SSL/TLS 인증서를 발급 받는 방법은 크게보면 2가지가 있습니다.
+
+1. ACM(AWS Certificate Manager) 활용
+
+   - 앞 단에 ELB(Elastic Load Balancing)를 추가해야만 사용이 가능함
+
+2. Let's encrypt 활용
+
+   - EC2에 바로 사용이 가능함
+
+1번의 경우에는 트래픽이 커져서 스케일 아웃하고 로드 밸런서를 추가해야하는 상황이라면 고려해볼만하지만 현재로서는 추가 비용만 발생하고 불필요하다고 판단해서 2번 방법으로 적용하기로 결정했습니다.
+
+#### Certbot으로 Let's Encrypt 인증서 발급
+
+Certbot은 [Let's Encrypt](https://letsencrypt.org/)에서 제공하는 SSL/TLS 인증서를 발급하고 갱신하는 역할을 합니다.
+
+```sh title="certbot으로 SSL/TLS 인증서 발급"
+# certbot, nginx 플러그인 설치
+sudo apt install certbot python3-certbot-nginx
+
+# SSL/TLS 인증서 발급
+sudo certbot --nginx
+```
+
+```sh title="발급 과정 중 옵션" hl:{32-34}
+# 인증서가 만료되기 전에 알림을 받을 이메일을 입력합니다.
+Enter email address (used for urgent renewal and security notices) (Enter 'c' to cancel):
+
+# 약관에 동의하기 위해 A를 입력합니다.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Please read the Terms of Service at
+https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf. You must
+agree in order to register with the ACME server at
+https://acme-v02.api.letsencrypt.org/directory
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(A)gree/(C)ancel: A
+
+# EFF로부터 관련 정보에 대한 이메일 수신 여부를 거부합니다.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would you be willing to share your email address with the Electronic Frontier
+Foundation, a founding partner of the Let's Encrypt project and the non-profit
+organization that develops Certbot? We'd like to send you email about our work
+encrypting the web, EFF news, campaigns, and ways to support digital freedom.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: N
+
+# 인증서를 발급받을 도메인을 번호를 입력합니다.
+Which names would you like to activate HTTPS for?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: leo-xee.dev
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# 인증 과정 후에 다음과 같은 메시지를 확인할 수 있습니다.
+Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+```
+
+위에서 2번을 선택하면 HTTP로 접속 시에 HTTPS로 Redirect 되도록 자동으로 nginx 설정이 다음과 같이 수정되었음을 확인할 수 있습니다.
+
+```nginx title="/etc/nginx/conf.d/leo-blog.conf" hl:{2, 5, 13, 21-23, 26-27}
+server {
+   server_name leo-xee.dev;
+
+   location / {
+     proxy_pass http://localhost:3000;
+     proxy_http_version 1.1;
+     proxy_set_header Upgrade $http_upgrade;
+     proxy_set_header Connection 'upgrade';
+     proxy_set_header Host $host;
+     proxy_cache_bypass $http_upgrade;
+   }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/leo-xee.dev/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/leo-xee.dev/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = leo-xee.dev) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+   listen 80;
+   server_name leo-xee.dev;
+    return 404; # managed by Certbot
+
+
+}
+```
+
+```sh title="nginx 설정 검증 후 반영"
+# nginx 설정 테스트
+sudo nginx -t
+
+# nginx 재시작
+sudo systemctl restart nginx
+```
+
+마지막으로 인증서가 만료되기 전에 자동 갱신되도록 Crontab을 설정합니다.
+
+```sh title="crontab으로 인증서 자동 갱신"
+# crontab 설정 파일 오픈 후 편집기 선택
+sudo crontab -e
+
+# 아래 값을 해당 파일에 붙여넣고 저장
+0 18 1 * * certbot renew --renew-hook="sudo systemctl restart nginx"
+```
+
+#### HTTPS 적용 확인
+
+도메인에 HTTPS로 접속했을 경우에 다음과 같이 정상적으로 적용되어 응답하는 것을 확인할 수 있습니다.
+
+![그림7. HTTPS 접속 시 서비스 정상 응답](/assets/contents/next-aws-ec2-deploy/7.png)
+
+## 참조
+
+- https://diary-developer.tistory.com/32

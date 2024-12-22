@@ -1,4 +1,4 @@
-import { Markdown } from '@/components/common/Markdown';
+import CustomMDXRemote from '@/components/common/CustomMDXRemote/CustomMDXRemote';
 import { Template } from '@/components/common/Template';
 import { TOC } from '@/components/common/TOC';
 import { PostTitle } from '@/components/PostTitle';
@@ -37,7 +37,7 @@ export default async function Problem({ params: { slug } }: Params) {
         <PostTitle post={post} />
       </Template.Header>
       <Template.Main>
-        <Markdown post={post} />
+        <CustomMDXRemote post={post} />
       </Template.Main>
       <Template.Aside>
         <TOC post={post} />
