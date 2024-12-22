@@ -8,8 +8,8 @@ const getDir = (type: PostType) => join(process.cwd(), `__contents/${type}`);
 const getPost = (type: PostType, slug: string) => {
   const contentDir = getDir(type);
 
-  const slugWithoutExtension = slug.replace(/\.md$/, '');
-  const fullPath = join(contentDir, `${slugWithoutExtension}.md`);
+  const slugWithoutExtension = slug.replace(/\.mdx$/, '');
+  const fullPath = join(contentDir, `${slugWithoutExtension}.mdx`);
   const fileContents = readFileSync(fullPath, 'utf-8');
   const { content, data } = matter(fileContents);
 

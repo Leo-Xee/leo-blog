@@ -118,11 +118,12 @@ globalStyle(`pre > code > span[data-line]::before`, {
 
 globalStyle(`span code > span`, {
   margin: '0 2px',
-  padding: '4px 6px',
+  padding: '4px 8px',
   border: `1px solid ${vars.themeColor.gray200}`,
-  borderRadius: vars.borderRadius.radii01,
+  borderRadius: vars.borderRadius.radii02,
   fontFamily: 'Fira Code, monospace',
   fontSize: vars.fontSize.xs,
+  backgroundColor: vars.themeColor.codeInlineBackground,
 });
 
 /* HighLighting */
