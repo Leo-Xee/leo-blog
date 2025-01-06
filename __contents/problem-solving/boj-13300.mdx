@@ -1,0 +1,100 @@
+---
+title: 백준 13300 - 방 배정
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2025-02-08T14:21:12.729Z
+---
+
+## 문제 링크
+
+[13300 - 방 배정](https://www.acmicpc.net/problem/13300)
+
+## 사용 알고리즘
+
+- 수학
+- 구현
+
+## 시간 복잡도
+
+- O(N)
+
+## 문제 풀이
+
+학생의 성별로 배열을 2개 만들고 각각의 배열의 원소에 학년별 학생 수를 저장합니다.
+그리고 각 배열의 원소를 방의 정원으로 나눈 몫을 더하고 나머지가 있으면 1을 더합니다.
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, k, s, y, a[7], b[7], ret;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  cin >> n >> k;
+
+  for (int i = 0; i < n; i++) {
+    cin >> s >> y;
+    if (s) {
+      a[y]++;
+    } else {
+      b[y]++;
+    }
+  }
+
+  for (int it : a) {
+    ret += it / k;
+    if (it % k) ret++;
+  }
+
+  for (int it : b) {
+    ret += it / k;
+    if (it % k) ret++;
+  }
+
+  cout << ret;
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+let ret = 0;
+const men = Array.from({ length: 7 }).fill(0);
+const women = Array.from({ length: 7 }).fill(0);
+const [n, k] = input
+  .shift()
+  .split(' ')
+  .map((v) => +v);
+
+input.forEach((v) => {
+  const [s, g] = v.split(' ').map((v) => +v);
+
+  if (s === 0) women[g]++;
+  if (s === 1) men[g]++;
+});
+
+men.forEach((v) => {
+  ret += Math.floor(v / k);
+  if (v % k) ret++;
+});
+
+women.forEach((v) => {
+  ret += Math.floor(v / k);
+  if (v % k) ret++;
+});
+
+console.log(ret);
+```

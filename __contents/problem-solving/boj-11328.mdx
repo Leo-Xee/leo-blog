@@ -1,0 +1,104 @@
+---
+title: 백준 11328 - Strfry
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2025-02-08T14:21:12.729Z
+---
+
+## 문제 링크
+
+[11328 - Strfry](https://www.acmicpc.net/problem/11328)
+
+## 사용 알고리즘
+
+- 문자열
+
+## 시간 복잡도
+
+- O(N)
+
+## 문제 풀이
+
+공백으로 구분된 2개의 문자열을 구성하는 문자의 개수가 동일한지의 여부를 구분하는 문제입니다.
+
+풀이 과정은 아래와 같습니다.
+
+1. 첫 번째 문자열을 순회
+   1. 각 알파벳마다 알파벳 카운트 배열에 1 증가
+2. 두 번째 문자열을 순회
+   1. 각 알파벳마다 알파벳 카운트 배열에 1 감소
+3. 알파벳 카운트 배열 순회
+   1. 0이 아닌 경우에 플래그를 `false`로 변경
+4. 플래그가 `true`인 경우 `Possible` 출력, 플래그가 `false`인 경우 `Impossible` 출력
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int n;
+string a, b;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  cin >> n;
+
+  while (n--) {
+    cin >> a >> b;
+
+    int cnt[26] = {};
+    bool f = true;
+
+    for (char c : a) cnt[c - 'a']++;
+    for (char c : b) cnt[c - 'a']--;
+
+    for (int i = 0; i < 26; i++) {
+      if (cnt[i] != 0) f = false;
+    }
+
+    if (f)
+      cout << "Possible\n";
+    else
+      cout << "Impossible\n";
+  }
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+const n = Number(input.shift());
+
+input.forEach((v) => {
+  const cnt = Array.from({ length: 26 }).fill(0);
+  let isPossible = true;
+
+  const [a, b] = v.split(' ');
+
+  a.split('').forEach((v) => {
+    cnt[v.charCodeAt() - 'a'.charCodeAt()]++;
+  });
+
+  b.split('').forEach((v) => {
+    cnt[v.charCodeAt() - 'a'.charCodeAt()]--;
+  });
+
+  cnt.forEach((v) => {
+    if (v !== 0) isPossible = false;
+  });
+
+  if (isPossible) console.log('Possible');
+  else console.log('Impossible');
+});
+```
