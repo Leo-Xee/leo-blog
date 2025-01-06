@@ -1,0 +1,216 @@
+---
+title: 백준 1021 - 회전하는 큐
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2025-02-16T14:21:12.729Z
+---
+
+## 문제 링크
+
+[1021 - 회전하는 큐](https://www.acmicpc.net/problem/1021)
+
+## 사용 알고리즘
+
+- 자료구조
+- 연결리스트
+- 덱
+
+## 시간 복잡도
+
+- $O(NM)$
+
+## 문제 풀이
+
+덱 자료구조를 활용하는 문제입니다. 자바스크립트의 경우에는 배열을 덱 자료구조처럼 사용해도 되지만 `array.shift()`의 메소드의 경우 $O(N)$의 시간 복잡도를 가지기 때문에 연결리스트 기반 덱을 구현하면 시간 복잡도에서 이점을 얻을 수 있습니다.
+
+1. 덱 자료구조에 큐의 크기만큼 원소 추가
+2. 뽑고자 하는 원소의 개수만큼 순회
+   1. 덱의 첫 번째 원소가 뽑고자하는 원소일 경우까지 순회
+      1. 덱의 첫 번째 원소가 뽑고자하는 원소의 인덱스가 덱의 길이의 절반보다 작으면 왼쪽으로 회전
+      2. 덱의 첫 번째 원소가 뽑고자하는 원소의 인덱스가 덱의 길이의 절반보다 크면 오른쪽으로 회전
+      3. 회전한 횟수 `+1` 증가
+   2. 덱의 첫 번째 원소가 뽑고자하는 원소일 경우 덱에서 제거
+3. 회전한 횟수 출력
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, m, ret;
+deque<int> dq;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  cin >> n >> m;
+
+  for (int i = 1; i <= n; i++) dq.push_back(i);
+
+  while (m--) {
+    int a;
+    cin >> a;
+
+    int idx = find(dq.begin(), dq.end(), a) - dq.begin();
+
+    while (dq.front() != a) {
+      if (idx <= dq.size() / 2) {
+        dq.push_back(dq.front());
+        dq.pop_front();
+      } else {
+        dq.push_front(dq.back());
+        dq.pop_back();
+      }
+      ret++;
+    }
+    dq.pop_front();
+  }
+
+  cout << ret;
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : '../input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.prev = null;
+    this.next = null;
+  }
+}
+
+class Deque {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.size = 0;
+  }
+
+  getSize() {
+    return this.size;
+  }
+
+  isEmtpy() {
+    return this.size === 0;
+  }
+
+  front() {
+    return this.head.value;
+  }
+
+  back() {
+    return this.tail.value;
+  }
+
+  findIndex(value) {
+    let curr = this.head;
+    let idx = 0;
+    while (curr !== null) {
+      if (curr.value === value) {
+        return idx;
+      }
+      curr = curr.next;
+      idx++;
+    }
+
+    return -1;
+  }
+
+  pushFront(value) {
+    const node = new Node(value);
+    if (this.isEmtpy()) {
+      this.head = node;
+      this.tail = node;
+    } else {
+      node.next = this.head;
+      this.head.prev = node;
+      this.head = node;
+    }
+    this.size++;
+  }
+
+  pushBack(value) {
+    const node = new Node(value);
+    if (this.isEmtpy()) {
+      this.head = node;
+      this.tail = node;
+    } else {
+      this.tail.next = node;
+      node.prev = this.tail;
+      this.tail = node;
+    }
+    this.size++;
+  }
+
+  popFront() {
+    if (this.isEmtpy()) {
+      return null;
+    }
+    const value = this.head.value;
+    this.head = this.head.next;
+    this.size--;
+    return value;
+  }
+
+  popBack() {
+    if (this.isEmtpy()) {
+      return null;
+    }
+    const value = this.tail.value;
+    if (this.size === 1) {
+      this.head = null;
+      this.tail = null;
+    } else {
+      this.tail = this.tail.prev;
+      this.tail.next = null;
+    }
+    this.size--;
+    return value;
+  }
+}
+
+const solution = (n, _, arr) => {
+  const dq = new Deque();
+  let ret = 0;
+
+  for (let i = 1; i <= n; i++) dq.pushBack(i);
+
+  arr.forEach((v) => {
+    const idx = dq.findIndex(v);
+
+    while (v !== dq.front()) {
+      if (idx <= Math.floor(dq.getSize() / 2)) {
+        dq.pushBack(dq.popFront());
+      } else {
+        dq.pushFront(dq.popBack());
+      }
+      ret++;
+    }
+
+    dq.popFront();
+  });
+
+  return ret;
+};
+
+const [n, m] = input
+  .shift()
+  .split(' ')
+  .map((v) => +v);
+
+const arr = input[0].split(' ').map((v) => +v);
+
+console.log(solution(n, m, arr));
+```

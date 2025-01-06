@@ -1,0 +1,104 @@
+---
+title: 백준 9375 - 패션왕 신해빈
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2024-10-06T00:57:09.913Z
+---
+
+## 문제 링크
+
+[9375 - 패션왕 신해빈](https://www.acmicpc.net/problem/9375)
+
+## 사용 알고리즘
+
+- 수학
+- 자료 구조
+- 조합론
+- 해시를 사용한 집합과 맵
+
+## 시간 복잡도
+
+- $O(N)$
+
+## 문제 풀이
+
+이 문제는 Map 자료구조와 조합론을 활용하여 풀 수 있습니다. 풀이 과정은 아래와 같습니다.
+
+1. 의상 개수만큼 순회
+   1. 의상 종류에 따라 Map에 저장하고 `value` 값을 1 증가
+2. 의상 종류에 따라 저장된 Map을 순회
+   1. 의상 종류에 포함된 의상 개수에 1을 더한 값을 곱하여 전체 경우의 수를 계산
+3. 전체 경우의 수에서 1을 빼서 출력
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, p;
+string a, b;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  cin >> n;
+
+  for (int i = 0; i < n; i++) {
+    map<string, int> mp;
+    cin >> p;
+
+    for (int j = 0; j < p; j++) {
+      cin >> a >> b;
+      mp[b]++;
+    }
+
+    int ret = 1;
+    for (auto it : mp) {
+      ret *= it.second + 1;
+    }
+    ret--;
+
+    cout << ret << '\n';
+  }
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+let t = Number(input.shift());
+
+while (t--) {
+  const n = Number(input.shift());
+
+  const mp = new Map();
+  let ret = 1;
+
+  for (let i = 0; i < n; i++) {
+    const [_, b] = input.shift().split(' ');
+
+    if (mp.has(b)) {
+      mp.set(b, mp.get(b) + 1);
+    } else {
+      mp.set(b, 1);
+    }
+  }
+
+  for (v of mp.values()) {
+    ret *= v + 1;
+  }
+  ret--;
+
+  console.log(ret);
+}
+```

@@ -1,0 +1,93 @@
+---
+title: 백준 2559 - 수열
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2024-09-08T00:57:09.913Z
+---
+
+## 문제 링크
+
+[2559 - 수열](https://www.acmicpc.net/problem/2559)
+
+## 사용 알고리즘
+
+- 누적 합
+- 두 포인터
+- 슬라이딩 윈도우
+
+## 시간 복잡도
+
+- $O(N)$
+
+## 문제 풀이
+
+이 문제는 누적합(Prefix Sum)을 이용하여 풀 수 있습니다. 풀이 과정은 아래와 같습니다.
+
+1. 주어지는 수열을 입력 받음과 동시에 누적합을 계산해서 개별 배열에 저장
+2. 누적합 배열을 순회
+   1. 연속된 온도의 합을 계산해서 최대값을 갱신
+3. 최대값 출력
+
+여기서 주의해야할 부분은 **최대값과 최소값을 구할 경우에는 최소에서 최대, 최대에서 최소로 값을 갱신해야한다는 점**이다. 이 문제에서는 최대값을 구하기 때문에 문제 상에서 최대값이 될 수 있는 범위의 최소값으로 초기화를 시켜줘야 모든 테스트 케이스에서 통과할 수 있다.
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, k, a[100004], psum[100004], ret = -1000004;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  cin >> n >> k;
+
+  for (int i = 1; i <= n; i++) {
+    cin >> a[i];
+    psum[i] = psum[i - 1] + a[i];
+  }
+
+  for (int i = k; i <= n; i++) {
+    ret = max(ret, psum[i] - psum[i - k]);
+  }
+
+  cout << ret;
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+let ret = -10000004;
+const psum = Array.from({ length: 100004 }).fill(0);
+
+const [n, k] = input
+  .shift()
+  .split(' ')
+  .map((v) => +v);
+
+const arr = input
+  .shift()
+  .split(' ')
+  .map((v) => +v);
+
+for (let i = 1; i <= n; i++) {
+  psum[i] = psum[i - 1] + arr[i - 1];
+}
+
+for (let i = k; i <= n; i++) {
+  ret = Math.max(ret, psum[i] - psum[i - k]);
+}
+
+console.log(ret);
+```

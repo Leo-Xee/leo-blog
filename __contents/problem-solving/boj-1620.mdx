@@ -1,0 +1,98 @@
+---
+title: 백준 1620 - 나는야 포켓몬 마스터 이다솜
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2024-10-03T14:21:12.729Z
+---
+
+## 문제 링크
+
+[1620 - 나는야 포켓몬 마스터 이다솜](https://www.acmicpc.net/problem/1620)
+
+## 사용 알고리즘
+
+- 자료 구조
+- 해시를 사용한 집합과 맵
+
+## 시간 복잡도
+
+- $O(N)$
+
+## 문제 풀이
+
+이 문제는 자료구조 중 하나인 Map을 활용하면 쉽게 풀 수 있습니다. 풀이 과정은 아래와 같습니다.
+
+1. Map 자료구조 상 `key` 값을 통해 `value`를 찾을 수 있기 때문에 2개의 Map을 선언
+2. 첫 번째 Map은 포켓몬 번호를 `key`, 포켓몬 이름을 `value`로 하여 저장
+3. 두 번째 Map은 포켓몬 이름을 `key`, 포켓몬 번호를 `value`로 하여 저장
+4. 입력 받은 문자열이 숫자인지 아닌지를 판단하여 각각의 Map에서 값을 찾아 출력
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, m;
+string s;
+map<int, string> mp1;
+map<string, int> mp2;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  cin >> n >> m;
+
+  for (int i = 0; i < n; i++) {
+    cin >> s;
+    mp1.insert({i + 1, s});
+    mp2.insert({s, i + 1});
+  }
+
+  for (int i = 0; i < m; i++) {
+    cin >> s;
+
+    if (atoi(s.c_str()) == 0) {
+      cout << mp2[s] << "\n";
+    } else {
+      cout << mp1[atoi(s.c_str())] << "\n";
+    }
+  }
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+const mp1 = new Map();
+const mp2 = new Map();
+
+const [_, m] = input
+  .shift()
+  .split(' ')
+  .map((v) => +v);
+
+const quizzes = input.splice(-m);
+
+input.forEach((v, idx) => {
+  mp1.set(idx + 1, v);
+  mp2.set(v, idx + 1);
+});
+
+quizzes.forEach((v) => {
+  if (isNaN(Number(v))) {
+    console.log(mp2.get(v));
+  } else {
+    console.log(mp1.get(Number(v)));
+  }
+});
+```

@@ -1,0 +1,115 @@
+---
+title: 백준 10773 - 제로
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2025-02-11T14:21:12.729Z
+---
+
+## 문제 링크
+
+[10773 - 제로](https://www.acmicpc.net/problem/10773)
+
+## 사용 알고리즘
+
+- 스택
+
+## 시간 복잡도
+
+- O(N)
+
+## 문제 풀이
+
+단순하게 스택 자료구조를 활용하는 문제입니다.
+
+1. 입력 받은 K번 순회
+   1. 입력받은 수가 0인 경우, 빈 스택이 아니면 요소 제거
+   2. 입력받은 수가 0이 아닌 경우, 스택에 추가
+2. 스택에 저장된 수의 합을 출력
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int k, a, ret;
+stack<int> st;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  cin >> k;
+
+  while (k--) {
+    cin >> a;
+
+    if (a) {
+      st.push(a);
+    } else {
+      if (st.size() != 0) st.pop();
+    }
+  }
+
+  while (st.size() != 0) {
+    ret += st.top();
+    st.pop();
+  }
+
+  cout << ret;
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+class Stack {
+  constructor() {
+    this.items = [];
+  }
+
+  push(el) {
+    this.items.push(el);
+  }
+
+  pop() {
+    if (!this.empty()) {
+      return this.items.pop();
+    }
+  }
+
+  empty() {
+    return this.items.length === 0;
+  }
+
+  size() {
+    return this.items.length;
+  }
+
+  top() {
+    return this.items[this.items.length - 1];
+  }
+}
+
+input.shift();
+const arr = input.map((v) => +v);
+const stack = new Stack();
+let ret = 0;
+
+arr.forEach((v) => (v ? stack.push(v) : !stack.empty() && stack.pop()));
+
+while (!stack.empty()) {
+  ret += stack.top();
+  stack.pop();
+}
+
+console.log(ret);
+```

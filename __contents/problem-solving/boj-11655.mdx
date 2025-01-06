@@ -1,0 +1,104 @@
+---
+title: 백준 11655 - ROT13
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2024-08-25T00:37:49.908Z
+---
+
+## 문제 링크
+
+[11655 - ROT13](https://www.acmicpc.net/problem/11655)
+
+## 사용 알고리즘
+
+- 구현
+- 문자열
+
+## 시간 복잡도
+
+- $O(N)$
+
+## 문제 풀이
+
+풀이 과정은 아래와 같습니다.
+
+1. 문자열 순회
+   1. 문자열의 각 문자를 아스키 코드로 변환
+   2. 아스키 코드가 대문자일 경우, `13`을 더한 값이 `90`보다 클 경우 `13`을 빼고, 아니면 `13`을 더함
+   3. 아스키 코드가 소문자일 경우, `13`을 더한 값이 `122`보다 클 경우 `13`을 빼고, 아니면 `13`을 더함
+   4. 아스키 코드가 대문자나 소문자가 아닐 경우, 그대로 둠
+2. 문자열 출력
+
+특히, 1-2와 1-3의 과정에서 전체 알파벳 개수의 절반인 `13`을 더하거나 빼는 방법으로 알파벳 범위를 벗어나지 않고 순환하도록 구현할 수 있습니다.
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+string s;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  getline(cin, s);
+
+  for (int i = 0; i < s.size(); i++) {
+    if (s[i] >= 65 && s[i] <= 90) {
+      if (s[i] + 13 > 90) {
+        s[i] -= 13;
+      } else {
+        s[i] += 13;
+      }
+    }
+
+    if (s[i] >= 97 && s[i] <= 122) {
+      if (s[i] + 13 > 122) {
+        s[i] -= 13;
+      } else {
+        s[i] += 13;
+      }
+    }
+  }
+
+  cout << s;
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript" hl:{3}
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString(); // trim 추가 시에 출력 형식 에러 발생
+
+const ret = input.split('').map((v) => {
+  const code = v.charCodeAt();
+
+  if (code >= 65 && code <= 90) {
+    if (code + 13 > 90) {
+      return String.fromCharCode(code - 13);
+    } else {
+      return String.fromCharCode(code + 13);
+    }
+  }
+
+  if (code >= 97 && code <= 122) {
+    if (code + 13 > 122) {
+      return String.fromCharCode(code - 13);
+    } else {
+      return String.fromCharCode(code + 13);
+    }
+  }
+
+  return v;
+});
+
+console.log(ret.join(''));
+```

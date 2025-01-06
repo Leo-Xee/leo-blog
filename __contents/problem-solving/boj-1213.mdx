@@ -1,0 +1,134 @@
+---
+title: 백준 1213 - 팰린드롬 만들기
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2024-10-12T14:21:12.729Z
+---
+
+## 문제 링크
+
+[1213 - 팰린드롬 만들기](https://www.acmicpc.net/problem/1213)
+
+## 사용 알고리즘
+
+- 구현
+- 문자열
+
+## 시간 복잡도
+
+- $O(N)$
+
+## 문제 풀이
+
+먼저 팰린드롬에 대해서 생각해보면 팰린드롬의 경우 앞에서 읽으나 뒤에서 읽으나 같은 문자열이 되어야 합니다. 그렇기 때문에 팰린드롬을 구성하는 특정 문자의 개수가 홀수인 케이스가 2개 이상이면 팰린드롬을 만들 수 없다는 점을 중점적으로 생각해야 합니다.
+
+풀이 과정은 아래와 같습니다.
+
+1. 입력으로 주어진 문자열의 카운트 배열을 구성
+2. 알파벳의 역순으로 순회 (팰린드롬을 알파벳 오름차순으로 구성하기 위함.)
+   1. 현재 알파벳의 개수가 홀수인 경우
+      1. 문자 개수가 홀수인 케이스를 위한 플래그를 1만큼 증가
+      2. 중앙에 넣어야 할 문자로 지정
+      3. 현재 알파벳의 개수 1만큼 감소
+   2. 문자 개수가 홀수인 케이스를 위한 플래그가 2인 경우 팰린드롬을 구성할 수 없으므로 반복문 탈출
+   3. 현재 알파벳의 개수가 짝수인 경우
+      1. 양쪽에 현재 알파벳을 추가하고 개수를 2만큼 감소
+3. 중앙에 넣어야 할 문자가 있으면 결과 문자열의 중앙에 추가
+4. 구성한 팰린드롬 혹은 구성할 수 없다는 특정 문자열 출력
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+string s, ret;
+int cnt[26], fail;
+char mid;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  cin >> s;
+  for (char it : s) cnt[it - 'A']++;
+
+  for (int i = 'Z'; i >= 'A'; i--) {
+    if (cnt[i - 'A']) {
+      if (cnt[i - 'A'] % 2 == 1) {
+        fail++;
+        mid = char(i);
+        cnt[i - 'A']--;
+      }
+    }
+
+    if (fail == 2) break;
+
+    for (int j = 0; j < cnt[i - 'A']; j += 2) {
+      ret = char(i) + ret;
+      ret += char(i);
+    }
+  }
+
+  if (mid) {
+    ret.insert(ret.begin() + ret.size() / 2, mid);
+  }
+
+  if (fail == 2) {
+    cout << "I'm Sorry Hansoo";
+  } else {
+    cout << ret;
+  }
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+const s = input[0];
+const cnt = Array.from({ length: 26 }).fill(0);
+let ret = '';
+let mid = '';
+let fail = 0;
+
+for (let i = 0; i < s.length; i++) {
+  cnt[s[i].charCodeAt() - 'A'.charCodeAt()]++;
+}
+
+for (let i = 'Z'.charCodeAt(); i >= 'A'.charCodeAt(); i--) {
+  const idx = i - 'A'.charCodeAt();
+
+  if (cnt[idx]) {
+    if (cnt[idx] % 2 === 1) {
+      fail++;
+      mid = String.fromCharCode(i);
+      cnt[idx]--;
+    }
+  }
+
+  if (fail === 2) break;
+
+  for (let j = 0; j < cnt[idx]; j += 2) {
+    ret = String.fromCharCode(i) + ret + String.fromCharCode(i);
+  }
+}
+
+if (mid) {
+  let midIdx = Math.floor(ret.length / 2);
+  ret = ret.slice(0, midIdx) + mid + ret.slice(midIdx);
+}
+
+if (fail == 2) {
+  console.log("I'm Sorry Hansoo");
+} else {
+  console.log(ret);
+}
+```

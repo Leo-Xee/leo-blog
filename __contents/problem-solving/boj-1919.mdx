@@ -1,0 +1,87 @@
+---
+title: 백준 1919 - 애너그램 만들기
+description:
+thumbnail:
+tags: ['BaekJoon']
+createdAt: 2025-02-08T14:21:12.729Z
+---
+
+## 문제 링크
+
+[1919 - 애너그램 만들기](https://www.acmicpc.net/problem/1919)
+
+## 사용 알고리즘
+
+- 문자열
+- 구현
+
+## 시간 복잡도
+
+- O(N)
+
+## 문제 풀이
+
+애너그램 관계를 만들기 위해 제거해야하는 케이스는 2개의 문자열에서 사용된 문자의 개수가 다른 경우입니다.
+
+풀이 과정은 아래와 같습니다.
+
+1. 첫 번째 문자열을 순회
+   1. 각 알파벳마다 알파벳 카운트 배열에 1 증가
+2. 두 번째 문자열을 순회
+   1. 각 알파벳마다 알파벳 카운트 배열에 1 감소
+3. 알파벳 카운트 배열을 순회하며 0이 아닌 경우에 해당 카운트의 절대값을 누적해서 출력
+
+### C++
+
+```c++ title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int cnt[26], ret;
+string a, b;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  cin >> a >> b;
+
+  for (char c : a) cnt[c - 'a']++;
+  for (char c : b) cnt[c - 'a']--;
+
+  for (int it : cnt) {
+    if (it != 0) ret += abs(it);
+  }
+
+  cout << ret;
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+let ret = 0;
+const cnt = Array.from({ length: 26 }).fill(0);
+const [a, b] = input.map((v) => v.split(''));
+
+a.forEach((v) => {
+  cnt[v.charCodeAt() - 'a'.charCodeAt()]++;
+});
+
+b.forEach((v) => {
+  cnt[v.charCodeAt() - 'a'.charCodeAt()]--;
+});
+
+cnt.forEach((v) => {
+  if (v !== 0) ret += Math.abs(v);
+});
+
+console.log(ret);
+```
