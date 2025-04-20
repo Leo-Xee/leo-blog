@@ -8,6 +8,7 @@ import { Footer } from '@/components/common/Footer';
 import '@/styles/reset.css';
 import '@/styles/global.css';
 import { INTRODUCTION } from '@/constants';
+import { WelcomeLogger } from '@/components/WelcomeLogger';
 import { openGraph, twitter } from './shared-metadata';
 
 const pretendard = localFont({
@@ -87,6 +88,7 @@ export default function IndexLayout({
           value={{ light: lightTheme, dark: darkTheme }}
         >
           <AppBarContainer />
+          <WelcomeLogger />
           {children}
           <Footer />
         </ThemeProvider>

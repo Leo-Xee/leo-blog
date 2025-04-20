@@ -16,7 +16,10 @@ function PostList({ type, posts }: PostListProps) {
       <ul className={styles.postList}>
         {posts.map((post) => (
           <li key={post.slug}>
-            <Link href={`${type}/${post.slug}`} className={styles.postListItem}>
+            <Link
+              href={`/${type}/${post.slug}`}
+              className={styles.postListItem}
+            >
               <h3 className={styles.postTitle}>{post.title}</h3>
               {post.description && <div>{post.description}</div>}
             </Link>
