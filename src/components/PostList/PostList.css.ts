@@ -14,14 +14,19 @@ export const postList = style({
 
 export const postListItem = style({
   display: 'flex',
-  flexDirection: 'column',
-  gap: vars.space.space01,
+  justifyContent: 'space-between',
+  alignItems: 'center',
   width: '100%',
-  padding: vars.space.space03,
+  padding: vars.space.space02,
   borderRadius: vars.borderRadius.radii03,
   transitionDuration: '0.3s',
 
   '@media': {
+    'screen and (max-width: 768px)': {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+    },
+
     '(hover: hover) and (pointer: fine)': {
       ':hover': {
         backgroundColor: vars.themeColor.gray100,
@@ -43,5 +48,15 @@ export const postTitle = style([
   heading3,
   {
     margin: vars.space.none,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    paddingRight: vars.space.space02,
   },
 ]);
+
+export const postDate = style({
+  width: '86px',
+  color: vars.themeColor.gray700,
+  fontSize: vars.fontSize.sm,
+});
