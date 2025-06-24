@@ -50,7 +50,8 @@ export const postTitle = style([
     margin: vars.space.none,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
+    wordBreak: 'keep-all',
+    overflowWrap: 'break-word',
     paddingRight: vars.space.space02,
   },
 ]);
