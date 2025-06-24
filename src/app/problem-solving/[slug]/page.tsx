@@ -5,13 +5,11 @@ import { PostTitle } from '@/components/PostTitle';
 import { POST_LIST_SUMMARY } from '@/constants';
 import { getAllPosts, getPost } from '@/libs/api';
 
-type Params = {
-  params: {
-    slug: string;
-  };
+type Props = {
+  params: Promise<{ slug: string }>;
 };
-
-export async function generateMetadata({ params: { slug } }: Params) {
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
   const post = getPost('problem-solving', slug);
 
   return {
@@ -28,7 +26,8 @@ export async function generateMetadata({ params: { slug } }: Params) {
   };
 }
 
-export default async function Problem({ params: { slug } }: Params) {
+export default async function Problem({ params }: Props) {
+  const { slug } = await params;
   const post = getPost('problem-solving', slug);
 
   return (

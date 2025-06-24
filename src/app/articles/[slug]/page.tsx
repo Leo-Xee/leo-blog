@@ -5,12 +5,11 @@ import { Template } from '@/components/common/Template';
 import { CustomMDXRemote } from '@/components/common/CustomMDXRemote';
 
 type Params = {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({ params: { slug } }: Params) {
+export async function generateMetadata({ params }: Params) {
+  const { slug } = await params;
   const post = getPost('articles', slug);
 
   return {
@@ -27,7 +26,8 @@ export async function generateMetadata({ params: { slug } }: Params) {
   };
 }
 
-export default async function Article({ params: { slug } }: Params) {
+export default async function Article({ params }: Params) {
+  const { slug } = await params;
   const post = getPost('articles', slug);
 
   return (
