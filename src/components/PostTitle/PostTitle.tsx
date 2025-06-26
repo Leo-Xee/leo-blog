@@ -4,6 +4,7 @@ import readingTime from 'reading-time';
 import { format } from 'date-fns';
 import { ClockIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import * as style from './PostTitle.css';
+import { PostTag } from '../PostTag';
 
 type PostTitleProps = {
   post: Post;
@@ -16,6 +17,12 @@ function PostTitle({ post }: PostTitleProps) {
 
   return (
     <div className={style.container}>
+      <div className={style.postTagContainer}>
+        {post.tags.map((tag) => (
+          <PostTag key={tag} tagName={tag} />
+        ))}
+      </div>
+
       <h1 className={style.postTitle}>{title}</h1>
 
       <div className={style.postMeta}>

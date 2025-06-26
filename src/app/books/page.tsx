@@ -4,6 +4,8 @@ import { PostListSummary } from '@/components/PostListSummary';
 import { POST_LIST_SUMMARY } from '@/constants';
 import { getAllPosts } from '@/libs/api';
 import { Metadata } from 'next';
+import { PostTagTabs } from '@/components/PostTagTabs';
+import { Suspense } from 'react';
 import { openGraph, twitter } from '../shared-metadata';
 
 export const metadata: Metadata = {
@@ -28,7 +30,11 @@ export default function Books() {
     <Template.Root>
       <Template.Main>
         <PostListSummary type="books" posts={posts} />
-        <PostList type="books" posts={posts} />
+
+        <Suspense fallback={null}>
+          <PostTagTabs posts={posts} />
+          <PostList type="books" posts={posts} />
+        </Suspense>
       </Template.Main>
     </Template.Root>
   );
