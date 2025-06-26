@@ -11,6 +11,11 @@ export const container = style({
   marginBottom: vars.space.space20,
 });
 
+export const postTagContainer = style({
+  display: 'flex',
+  gap: vars.space.space02,
+});
+
 export const postTitle = style([
   heading1,
   {

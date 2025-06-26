@@ -1,11 +1,11 @@
 'use client';
 
 import { Post, PostType } from '@/types/post';
-import Link from 'next/link';
 import React from 'react';
-import { format } from 'date-fns';
 import { motion } from 'framer-motion';
+import { useSearchParams } from 'next/navigation';
 import * as styles from './PostList.css';
+import { PostListItem } from '../PostListItem';
 
 type PostListProps = {
   type: PostType;
@@ -13,23 +13,30 @@ type PostListProps = {
 };
 
 function PostList({ type, posts }: PostListProps) {
-  return (
-    <div>
-      <h2 className={styles.title}>All Posts</h2>
+  const searchParams = useSearchParams();
+  const tagSearchParam = searchParams.get('tag');
 
-      <motion.ul
-        className={styles.postList}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{
-          staggerChildren: 0.08,
-          delayChildren: 0.08,
-        }}
-      >
-        {posts.map((post, index) => (
-          <motion.li
-            key={post.slug}
+  const filteredPosts = tagSearchParam
+    ? posts.filter((post) => post.tags.includes(tagSearchParam))
+    : posts;
+
+  return (
+    <motion.ul
+      className={styles.postList}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{
+        staggerChildren: 0.05,
+        delayChildren: 0.05,
+      }}
+    >
+      {filteredPosts.map((post, index) => {
+        const key = `${post.slug}-${tagSearchParam?.toLowerCase().replace(' ', '-')}`;
+
+        return (
+          <motion.div
+            key={key}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
@@ -38,21 +45,14 @@ function PostList({ type, posts }: PostListProps) {
               stiffness: 300,
               damping: 30,
               mass: 0.8,
-              delay: index * 0.08,
+              delay: index * 0.05,
             }}
           >
-            <Link href={`/${type}/${post.slug}`}>
-              <div className={styles.postListItem}>
-                <h3 className={styles.postTitle}>{post.title}</h3>
-                <span className={styles.postDate}>
-                  {format(post.createdAt, 'yyyy. MM. dd')}
-                </span>
-              </div>
-            </Link>
-          </motion.li>
-        ))}
-      </motion.ul>
-    </div>
+            <PostListItem postType={type} post={post} />
+          </motion.div>
+        );
+      })}
+    </motion.ul>
   );
 }
 
