@@ -1,0 +1,163 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 레오 블로그 개발 규칙
+
+## 🎯 프로젝트 개요
+Next.js 15 기반의 개인 기술 블로그로 App Router, TypeScript, Vanilla Extract CSS를 사용합니다. 블로그는 Articles(기술 글), Problem Solving(문제 해결), Books(독서) 세 가지 콘텐츠 타입을 지원합니다.
+
+## 📁 핵심 아키텍처 파일
+- 메인 설정: [next.config.mjs](mdc:next.config.mjs)
+- 패키지 의존성: [package.json](mdc:package.json)
+- TypeScript 설정: [tsconfig.json](mdc:tsconfig.json)
+- 루트 레이아웃: [src/app/layout.tsx](mdc:src/app/layout.tsx)
+- 콘텐츠 API: [src/libs/api.ts](mdc:src/libs/api.ts)
+- 포스트 타입: [src/types/post.ts](mdc:src/types/post.ts)
+- 상수: [src/constants/index.ts](mdc:src/constants/index.ts)
+
+## ✅ 필수 준수 사항 - 핵심 규칙
+
+### 1. 파일 구조 및 명명 규칙
+- **반드시** MDX 콘텐츠는 `__contents/[type]/` 디렉토리에 배치
+- **반드시** 파일명과 컴포넌트 디렉토리는 kebab-case 사용
+- **반드시** 컴포넌트 디렉토리에 index.ts 배럴 내보내기 포함
+- **반드시** 모든 새 파일은 TypeScript 사용 (.ts/.tsx 확장자)
+
+### 2. 콘텐츠 관리
+- **반드시** MDX front matter에 title, description, thumbnail, tags, createdAt 포함하여 검증
+- **반드시** [src/types/post.ts](mdc:src/types/post.ts)의 Post 타입 사용
+- **반드시** 포스트를 createdAt 기준 내림차순 정렬 (최신순)
+- **반드시** 이미지는 `public/assets/contents/[post-slug]/` 디렉토리에 배치
+
+### 3. 컴포넌트 개발
+- **반드시** 스타일링에 Vanilla Extract CSS 사용 (.css.ts 파일)
+- **반드시** 컴포넌트 디렉토리 구조: Component.tsx, Component.css.ts, index.ts
+- **반드시** [src/components/common/AppBar](mdc:src/components/common/AppBar) 같은 기존 컴포넌트 패턴 사용
+- **반드시** 모바일/데스크톱 반응형 디자인 구현
+
+### 4. App Router 모범 사례
+- **반드시** App Router 구조 사용 (app/ 디렉토리)
+- **반드시** Next.js 15 패턴을 사용하여 SEO용 적절한 메타데이터 구현
+- **반드시** 콘텐츠 페이지에 [slug] 패턴으로 동적 라우트 사용
+- **반드시** 페이지/레이아웃 파일에서 viewport와 metadata 내보내기
+
+### 5. TypeScript 표준
+- **반드시** props와 반환값에 적절한 타입 정의
+- **반드시** 기존 PostType 유니온 사용: 'articles' | 'problem-solving' | 'books'
+- **반드시** 'type' 키워드로 타입 임포트: `import type { Post } from '@/types/post'`
+
+## 🚫 금지 사항 - 절대 해서는 안 되는 것들
+
+### 1. 아키텍처 위반
+- **절대** Vanilla Extract CSS 파일 없이 컴포넌트 생성 금지
+- **절대** 일반 CSS 파일이나 인라인 스타일 사용 금지
+- **절대** `__contents/` 디렉토리 구조 외부에 콘텐츠 배치 금지
+- **절대** 논의 없이 정적 내보내기 설정 수정 금지
+
+### 2. 콘텐츠 구조 위반
+- **절대** 적절한 front matter 없이 MDX 파일 생성 금지
+- **절대** 정의된 세 카테고리 외의 다른 포스트 타입 사용 금지
+- **절대** 적절한 에셋 디렉토리 구조 외부에 이미지 배치 금지
+- **절대** MDX 콘텐츠에서 절대 경로로 이미지 참조 금지
+
+### 3. 컴포넌트 안티패턴
+- **절대** TypeScript 타입 없이 컴포넌트 생성 금지
+- **절대** 명시적 이유 없이 any나 unknown 타입 사용 금지
+- **절대** index.ts 배럴 내보내기 패턴 생략 금지
+- **절대** 깊게 중첩된 컴포넌트 계층 구조 생성 금지 (최대 3레벨)
+
+### 4. 성능 및 SEO 위반
+- **절대** 전체 아이콘 라이브러리 임포트 금지 (특정 임포트 사용)
+- **절대** 콘텐츠 이미지 최적화 생략 금지
+- **절대** 적절한 메타데이터 없이 페이지 생성 금지
+- **절대** 정적 콘텐츠에 클라이언트 사이드 렌더링 사용 금지
+
+### 5. 코드 품질 위반
+- **절대** TypeScript 에러가 있는 코드 커밋 금지
+- **절대** 프로덕션 코드에 console.log 사용 금지
+- **절대** ESLint/Prettier 포맷팅 생략 금지
+- **절대** 필요한 곳에 적절한 에러 바운더리 없이 컴포넌트 생성 금지
+
+## 🎨 스타일링 가이드라인
+
+### Vanilla Extract 패턴
+```typescript
+// 컴포넌트 스타일에 항상 이 패턴 사용
+import { style } from '@vanilla-extract/css';
+import { tokens } from '@/styles/tokens';
+
+export const container = style({
+  padding: tokens.space.medium,
+  '@media': {
+    'screen and (min-width: 768px)': {
+      padding: tokens.space.large,
+    },
+  },
+});
+```
+
+### 테마 통합
+- **반드시** [src/styles/tokens.ts](mdc:src/styles/tokens.ts)의 디자인 토큰 사용
+- **반드시** 다크/라이트 테마 지원 구현
+- **반드시** 테마 값에 CSS 커스텀 속성 사용
+
+## 📝 콘텐츠 생성 규칙
+
+### MDX Front Matter 템플릿
+```yaml
+---
+title: "명확하고 설명적인 제목"
+description: "160자 미만의 매력적인 설명"
+thumbnail: "/assets/contents/post-slug/thumbnail.png"
+tags: ["tag1", "tag2", "tag3"]
+createdAt: "2024-01-01"
+---
+```
+
+### 이미지 처리
+- **반드시** 프로젝트에 추가하기 전에 이미지 최적화
+- **반드시** 접근성을 위한 설명적 alt 텍스트 사용
+- **반드시** 명명 패턴 준수: 1.png, 2.png 등
+
+## 🚀 개발 워크플로우
+
+### 작업 시작 전
+1. 유사한 컴포넌트의 기존 패턴 확인
+2. TypeScript 타입이 적절히 정의되었는지 확인
+3. 반응형 디자인 고려사항 확인
+4. Vanilla Extract로 컴포넌트 구조 계획
+
+### 코드 리뷰 체크리스트
+- [ ] TypeScript 컴파일 통과
+- [ ] 모든 컴포넌트에 적절한 스타일링
+- [ ] 반응형 디자인 구현
+- [ ] SEO 메타데이터 포함
+- [ ] 성능 고려사항 처리
+- [ ] 접근성 표준 충족
+
+## 🧪 테스트 및 품질
+
+### 품질 게이트
+- **반드시** 커밋 전에 `yarn lint` 실행
+- **반드시** 여러 화면 크기에서 반응형 동작 테스트
+- **반드시** 다크/라이트 테마 호환성 확인
+- **반드시** 정적 내보내기 빌드가 성공적으로 되는지 확인
+
+## 📚 학습 자료
+
+### 주요 문서
+- Next.js 15 App Router 문서
+- Vanilla Extract CSS 문서
+- MDX 및 next-mdx-remote 가이드
+- TypeScript 모범 사례
+
+### 내부 참조
+- 새 컴포넌트는 [src/components/common](mdc:src/components/common)의 패턴 따르기
+- 콘텐츠 가져오기는 [src/libs/api.ts](mdc:src/libs/api.ts) 패턴 사용
+- 설정값은 [src/constants/index.ts](mdc:src/constants/index.ts) 참조
+
+---
+
+**기억하세요**: 이 블로그는 지식 공유와 성장에 관한 것입니다. 모든 컴포넌트와 콘텐츠는 품질, 접근성, 사용자 경험의 우수성을 반영해야 합니다.

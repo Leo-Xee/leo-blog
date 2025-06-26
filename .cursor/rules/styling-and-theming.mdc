@@ -1,0 +1,222 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 스타일링 및 테마 규칙
+
+## 🎨 Vanilla Extract CSS 표준
+
+### 핵심 스타일 파일
+- 디자인 토큰: [src/styles/tokens.ts](mdc:src/styles/tokens.ts)
+- 테마 정의: [src/styles/themes.css.ts](mdc:src/styles/themes.css.ts)
+- 전역 스타일: [src/styles/global.css.ts](mdc:src/styles/global.css.ts)
+- 색상 시스템: [src/styles/colors.ts](mdc:src/styles/colors.ts)
+
+## ✅ 필수 준수 사항 - 스타일링 규칙
+
+### 1. 컴포넌트 스타일링 구조
+- **반드시** `.tsx` 컴포넌트와 함께 `.css.ts` 파일 생성
+- **반드시** 컴포넌트 스타일에 style() 함수 사용
+- **반드시** 기본 내보내기가 아닌 명명된 내보내기로 스타일 내보내기
+- **반드시** 관련 스타일들을 같은 파일에 그룹화
+
+### 2. 디자인 토큰 사용법
+- **반드시** 디자인 토큰 임포트 및 사용: `import { tokens } from '@/styles/tokens';`
+- **반드시** 하드코딩된 값 대신 토큰 값 사용
+- **반드시** 간격은 `tokens.space.*`로 참조
+- **반드시** 색상은 `tokens.colors.*`로 참조
+
+### 3. 반응형 디자인 패턴
+```typescript
+// 항상 이 미디어 쿼리 패턴 사용
+export const responsiveContainer = style({
+  padding: tokens.space.small,
+  '@media': {
+    'screen and (min-width: 768px)': {
+      padding: tokens.space.large,
+    },
+  },
+});
+```
+
+### 4. 테마 통합
+- **반드시** 테마 의존적 값에 CSS 커스텀 속성 사용
+- **반드시** 라이트 및 다크 테마 모두 테스트
+- **반드시** 적절한 색상 대비율 확보
+- **반드시** 디자인 시스템의 의미적 색상 이름 사용
+
+### 5. 컴포넌트 스타일 구성
+```typescript
+// 항상 이 순서로 스타일 구성:
+// 1. 레이아웃 스타일
+// 2. 타이포그래피 스타일
+// 3. 색상/배경 스타일
+// 4. 상호작용 상태
+// 5. 반응형 오버라이드
+
+export const button = style({
+  // 레이아웃
+  display: 'flex',
+  padding: tokens.space.medium,
+
+  // 타이포그래피
+  fontSize: tokens.fontSize.base,
+  fontWeight: tokens.fontWeight.medium,
+
+  // 색상
+  backgroundColor: tokens.colors.primary,
+  color: tokens.colors.primaryForeground,
+
+  // 상태
+  ':hover': {
+    backgroundColor: tokens.colors.primaryHover,
+  },
+
+  // 반응형
+  '@media': {
+    'screen and (min-width: 768px)': {
+      padding: tokens.space.large,
+    },
+  },
+});
+```
+
+## 🚫 금지 사항 - 스타일링 위반
+
+### 1. 스타일 구성 위반
+- **절대** JSX에서 인라인 스타일 사용 금지
+- **절대** Vanilla Extract 없이 CSS 파일 생성 금지
+- **절대** CSS 모듈과 Vanilla Extract 혼용 금지
+- **절대** 컴포넌트별 스타일에 전역 CSS 사용 금지
+
+### 2. 토큰 시스템 위반
+- **절대** 색상 값 하드코딩 금지 (#ffffff, rgb() 등)
+- **절대** 간격 값 하드코딩 금지 (16px, 2rem 등)
+- **절대** 폰트 크기나 행간 하드코딩 금지
+- **절대** 디자인 토큰 시스템 우회 금지
+
+### 3. 테마 시스템 위반
+- **절대** 스타일에서 라이트 테마를 기본값으로 가정 금지
+- **절대** CSS 커스텀 속성 없이 테마 의존적 스타일 생성 금지
+- **절대** 컴포넌트에서 테마별 값 직접 사용 금지
+- **절대** 두 테마 변형 테스트 생략 금지
+
+### 4. 반응형 디자인 위반
+- **절대** 반응형 브레이크포인트에 고정 픽셀 값 사용 금지
+- **절대** 모바일 우선이 아닌 디자인 생성 금지 (모바일 우선 접근법 사용)
+- **절대** 태블릿/중간 화면 브레이크포인트 누락 금지
+- **절대** 한 화면 크기에서만 테스트 금지
+
+### 5. 성능 위반
+- **절대** 사용하지 않는 스타일 내보내기 생성 금지
+- **절대** 컴포넌트 간 유사한 스타일 중복 금지
+- **절대** 간단한 것으로 충분할 때 복잡한 CSS 선택자 사용 금지
+- **절대** 지나치게 구체적인 스타일 오버라이드 생성 금지
+
+## 🎯 고급 스타일링 패턴
+
+### 변형 패턴
+```typescript
+// 컴포넌트 변형에 recipe() 사용
+import { recipe } from '@vanilla-extract/recipes';
+
+export const buttonVariants = recipe({
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  variants: {
+    size: {
+      small: { padding: tokens.space.small },
+      medium: { padding: tokens.space.medium },
+      large: { padding: tokens.space.large },
+    },
+    variant: {
+      primary: { backgroundColor: tokens.colors.primary },
+      secondary: { backgroundColor: tokens.colors.secondary },
+    },
+  },
+  defaultVariants: {
+    size: 'medium',
+    variant: 'primary',
+  },
+});
+```
+
+### 복잡한 선택자 패턴
+```typescript
+// 필요할 때 복잡한 선택자에 globalStyle() 사용
+import { globalStyle } from '@vanilla-extract/css';
+
+globalStyle(`${articleContent} h2`, {
+  marginTop: tokens.space.large,
+  marginBottom: tokens.space.medium,
+});
+```
+
+### 애니메이션 통합
+```typescript
+// 애니메이션에 keyframes 사용
+import { keyframes } from '@vanilla-extract/css';
+
+const fadeIn = keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 },
+});
+
+export const animatedElement = style({
+  animation: `${fadeIn} 0.3s ease-in-out`,
+});
+```
+
+## 📱 모바일 우선 디자인 규칙
+
+### 브레이크포인트 전략
+- **반드시** 모바일 우선으로 디자인 (320px 기준)
+- **반드시** 태블릿 스타일 추가 (768px+)
+- **반드시** 데스크톱 스타일 추가 (1024px+)
+- **반드시** 가능한 경우 실제 기기에서 테스트
+
+### 터치 친화적 디자인
+- **반드시** 최소 44px 터치 타겟 사용
+- **반드시** 상호작용 요소 간 적절한 간격 제공
+- **반드시** 모바일에서 엄지 도달 영역 고려
+- **반드시** 제스처 상호작용 테스트
+
+## 🔧 개발 도구 및 워크플로우
+
+### 스타일 개발 프로세스
+1. 컴포넌트 요구사항과 변형 정의
+2. 디자인 토큰을 사용하여 스타일 생성
+3. 반응형 브레이크포인트 구현
+4. 두 테마 변형 테스트
+5. 접근성 대비율 검증
+6. 빌드 출력으로 성능 확인
+
+### 스타일 디버깅
+- 브라우저 개발자 도구로 생성된 CSS 검사
+- 컴파일된 출력에서 디자인 토큰 사용 확인
+- 빌드 분석에서 사용하지 않는 스타일 확인
+- CSS 커스텀 속성 폴백 검증
+
+## 🎨 디자인 시스템 일관성
+
+### 컴포넌트 라이브러리 표준
+- **반드시** 기존 컴포넌트 패턴 따르기
+- **반드시** 공통 스타일 유틸리티 재사용
+- **반드시** 시각적 계층 일관성 유지
+- **반드시** 새로운 스타일 패턴 문서화
+
+### 품질 체크리스트
+- [ ] 디자인 토큰만 사용
+- [ ] 라이트/다크 테마 모두 지원
+- [ ] 모든 화면 크기에서 반응형
+- [ ] 접근 가능한 색상 대비
+- [ ] 성능 최적화
+- [ ] 확립된 패턴 준수
+
+---
+
+**기억하세요**: 일관된 스타일링은 응집력 있는 사용자 경험을 만듭니다. 모든 스타일 결정은 모든 기기와 테마에서 가독성과 사용성을 향상시켜야 합니다.
