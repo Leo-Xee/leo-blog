@@ -4,6 +4,7 @@ import { PostListSummary } from '@/components/PostListSummary';
 import { POST_LIST_SUMMARY } from '@/constants';
 import { getAllPosts } from '@/libs/api';
 import { Metadata } from 'next';
+import { PostTagTabs } from '@/components/PostTagTabs';
 import { openGraph, twitter } from '../shared-metadata';
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function Articles() {
     <Template.Root>
       <Template.Main>
         <PostListSummary type="articles" posts={posts} />
+        <PostTagTabs posts={posts} />
         <PostList type="articles" posts={posts} />
       </Template.Main>
     </Template.Root>
