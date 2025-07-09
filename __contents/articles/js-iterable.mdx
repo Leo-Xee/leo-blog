@@ -1,0 +1,336 @@
+---
+title: 이터러블 이해하기 (w. ES2025)
+description:
+thumbnail:
+tags: ['JavaScript']
+createdAt: 2025-07-09T18:12:21.770Z
+---
+
+## TL;DR
+
+<Blockquote type="info">
+
+- **이터레이션 프로토콜 개념**: ES6에서 도입된 순회 가능한 데이터 구조를 만들기 위한 규약으로, 이터러블 프로토콜과 이터레이터 프로토콜로 구성됩니다.
+- **빌트인 이터러블과 사용자 정의**: String, Array, Map, Set 등의 빌트인 객체들이 이터러블을 지원하며, 일반 객체도 `Symbol.iterator`를 구현하면 `for...of 문`, 전개 연산자, 비구조화 할당의 대상으로 사용할 수 있습니다.
+- **이터레이터 헬퍼 메서드(ES2025)**: 새로 추가된 `Iterator.prototype`의 메서드들(`filter`, `map`, `reduce` 등)은 모든 이터러블에서 사용 가능하고, 지연 평가를 통해 메모리를 효율적으로 사용하는 장점을 제공합니다.
+
+</Blockquote>
+
+## 이터레이션 프로토콜
+
+**이터레이션 프로토콜(Iteration Protocol)은 순회가능한 데이터 구조를 만들기 위한 규약**이며 ES6에서 도입되었습니다. 이 규약은 `for 문`, `for … in 문`, `forEach 메서드` 등의 다양한 방법으로 **파편화된 순회 방법의 문제를 해결하기 위해서 등장했습니다.**
+
+이터레이션 프로토콜은 이터러블 프로토콜과 이터레이터 프로토콜로 구성됩니다. 즉, 이터레이션 프로토콜을 만족하기 위해서는 이터러블 프로토콜과 이터레이터 프로토콜을 만족해야한다는 의미입니다.
+
+이터레이션 프로토콜을 만족하는 객체는 **`for ... of 문`, 전개 연산자, 비구조화 할당의 대상으로 사용할 수 있습니다.**
+
+### 이터러블 프로토콜
+
+이터러블 프로토콜(Iterable Protocol)은 특정 객체 혹은 특정 객체의 프로토타입 체인상의 **`Symbol.iterator` 메소드를 호출할 경우에 이터레이터 프로토콜을 준수하는 이터레이터가 반환되어야한다는 규약입니다.**
+
+### 이터레이터 프로토콜
+
+이터레이터 프로토콜(Iterator Protocol)은 **이터레이터가 `next` 메서드를 포함하고 `next` 메서드를 호출할 경우에 `{ value, done }` 형태의 이터레이터 리절트 객체를 반환해야한다는 규악**입니다.
+
+## 이터러블
+
+이터러블(iterable)은 이터러블 프로토콜을 준수하는 객체를 의미합니다.
+
+배열은 프로토타입 체인상의 `Symbol.iterator`를 상속받는 대표적인 빌트인 이터러블입니다.
+
+```jsx
+const array = [1, 2, 3];
+
+console.log(Symbol.iterator in array); // true
+console.log(typeof array[Symbol.iterator]); // function
+console.log(array[Symbol.iterator].toString()); // function values() { [native code] }
+```
+
+위 코드를 보면 `array`의 `Symbol.iterator`에 `values` 라는 함수가 바인딩되어 있고 해당 함수는 아래에서 설명할 이터레이터를 반환합니다. 그렇기 때문에 배열은 이터러블 프로토콜은 준수함으로 이터러블이라고 할 수 있습니다.
+
+### 빌트인 이터러블
+
+자바스크립트는 이터레이션 프로토콜을 준수하는 객체인 빌트인 이터러블을 아래와 같이 제공합니다.
+
+- `String.prototype[Symbol.iterator]`
+- `Array.prototype[Symbol.iterator]`
+- `Map.prototype[Symbol.iterator]`
+- `Set.prototype[Symbol.iterator]`
+- `TypedArray.prototype[Symbol.iterator]`
+- `arguments.prototype[Symbol.iterator]`
+- `NodeList.prototype[Symbol.iterator]`
+- `HTMLCollection.prototype[Symbol.iterator]`
+
+## 이터레이터
+
+이터레이터(Iterator)는 이터레이터 프로토콜을 준수하는 객체를 의미합니다.
+
+참고로, 프로그래밍에서 이터레이터는 아래와 같이 정의됩니다.
+
+<Blockquote type="success">
+  - **반복자**(iterator)는 객체 지향적 프로그래밍에서 배열이나 그와 유사한 자료
+  구조의 내부의 요소를 순회(traversing)하는 객체이다. -
+  [위키피디아](https://ko.wikipedia.org/wiki/%EB%B0%98%EB%B3%B5%EC%9E%90)
+</Blockquote>
+
+아래 코드를 보면 이터레이터 프로토콜의 규약대로 동작함을 확인할 수 있습니다.
+
+```jsx
+const array = [1, 2, 3];
+
+const iterator = array[Symbol.iterator]();
+
+console.log(iterator.next()); // { value: 1, done: false }
+console.log(iterator.next()); // { value: 2, done: false }
+console.log(iterator.next()); // { value: 3, done: false }
+console.log(iterator.next()); // { value: undefined, done: true }
+```
+
+전체 동작 과정을 설명하면 아래와 같습니다.
+
+1. `array[Symbol.iterator]`를 호출하면 이터레이터가 반환되어 `iterator` 변수에 바인딩됩니다.
+2. 이터레이터는 `next` 메소드를 가지고 있고 `next` 메소드를 호출하면 `{ value, done }` 형태의 [이터레이터 리절트 객체](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-iteratorresult-interface)를 반환합니다.
+   - `value`는 현재 순회 중인 요소, `done`은 순회의 완료 여부를 나타냅니다.
+3. 이터레이터의 `next` 메소드가 호출될 때마다 순차적으로 순회하면서 이터레이터 리젝트 객체를 반환합니다.
+
+아래 그림은 이터레이터의 동작 과정을 도식화한 것입니다.
+
+![그림1. 이터레이터 동작 과정](/assets/contents/js-iterable/1.png)
+
+이터레이션 프로토콜을 만족하는 객체는 아래와 같이 **`for ... of 문`, 전개 연산자, 비구조화 할당의 대상으로 사용할 수 있습니다.**
+
+```jsx
+const string = 'HELLO';
+const array = [1, 2, 3];
+const map = new Map([
+  ['A', 'a'],
+  ['B', 'b'],
+  ['C', 'c'],
+]);
+const set = new Set(['가', '나', '다']);
+const int8Array = new Int8Array([10, 20, 30, 40, 50]);
+
+for (const s of string) {
+  console.log(s); // H\nE\nL\nL\nO\n
+}
+
+console.log(...array); // 1 2 3
+
+const [x, y, z] = map;
+console.log(x, y, z); // [ 'A', 'a' ] [ 'B', 'b' ] [ 'C', 'c' ]
+
+console.log(...set); // 가 나 다
+
+for (const el of int8Array) {
+  console.log(el); // 10\n20\n30\n40\n50\n
+}
+```
+
+### for … of 문과 for … in 문 비교
+
+`for ... of 문`과 `for ... in 문` 은 유사한 구조와 달리 동작 방식은 전혀 다른데 간단히 비교해보도록 해보겠습니다.
+
+- `for ... of 문` : 이터러블을 순회
+- `for ... in 문` : 객체 내 프로퍼티의 프로퍼티 어트리뷰트의 `enumerable`이 `true` 인 프로퍼티를 순회
+
+```jsx
+for (const char of 'LEO') {
+  console.log(char); // L\nE\nO\n
+}
+
+const sb = Symbol();
+const object = { name: 'LEO', [sb]: 10 };
+console.log(Object.getOwnPropertyDescriptor(object, 'name')); // { value: 'LEO', writable: true, enumerable: true, configurable: true }
+
+for (const key in object) {
+  console.log(key); // name만 출력(Symbol은 열거형에 해당되지 않아 순회의 대상이 아닙니다.)
+}
+```
+
+## 이터러블과 유사 배열 객체
+
+유사 배열 객체는 배열처럼 인덱스로 프로퍼티 값에 접근할 수 있고 `length` 프로퍼티를 가지는 객체를 의미합니다.
+
+아래 예시를 보면 유사 배열 객체는 이터러블이 아닌 일반 객체이기 때문에 `for ... of 문` 의 대상이 될 수 없어서 에러가 발생합니다. 이 경우에는 `Array.from` 메서드를 활용하면 배열로 변환하여 사용할 수 있습니다.
+
+```jsx
+const arrayLike = {
+  0: 1,
+  1: 2,
+  2: 3,
+  length: 3,
+};
+
+for (const element of arrayLike) {
+  console.log(element); // TypeError: arrayLike is not iterable
+}
+
+const array = Array.from(arrayLike);
+
+for (const element of array) {
+  console.log(element); // 1\n2\n3\n
+}
+```
+
+## 사용자 정의 이터러블
+
+지금까지 빌트인 이터러블을 통해 다양한 예시를 살펴봤는데 **사실 이터레이션 프로토콜을 준수하도록 구현하면 일반 객체도 이터러블이 될 수 있습니다.**
+
+일반 객체의 `Symbol.iterator`에 이터레이터를 반환하는 함수를 바인딩하면 이터러블로써 동일하게 동작합니다.
+
+```jsx
+const range = {
+  from: 1,
+  to: 5,
+
+  [Symbol.iterator]() {
+    let current = this.from;
+    let max = this.to;
+
+    return {
+      next() {
+        const isDone = current > max;
+        return {
+          done: isDone,
+          value: !isDone ? current++ : undefined,
+        };
+      },
+    };
+  },
+};
+
+for (const el of range) {
+  console.log(el); // 1\n2\n3\n4\n5\n
+}
+
+const iter = range[Symbol.iterator]();
+
+console.log(iter.next()); // { done: false, value: 1 }
+console.log(iter.next()); // { done: false, value: 2 }
+console.log(iter.next()); // { done: false, value: 3 }
+console.log(iter.next()); // { done: false, value: 4 }
+console.log(iter.next()); // { done: false, value: 5 }
+console.log(iter.next()); // { done: true, value: undefined }
+```
+
+위의 예시는 고정된 특정값(`from`, `to`)에 이터러블의 로직이 제한된다는 한계점을 가지고 있습니다.
+
+하지만 아래와 같이 이터러블을 반환하는 함수를 구현하면 무한하게 동작하는 이터러블을 구현할 수도 있습니다.
+
+```jsx
+// 인자로 받은 특정한 숫자까지의 소수를 생성하는 함수
+function makePrimeTo(limit) {
+  return {
+    [Symbol.iterator]() {
+      let current = 2;
+
+      function isPrime(n) {
+        if (n < 2) return false;
+        if (n === 2) return true;
+        if (n % 2 === 0) return false;
+
+        for (let i = 3; i <= Math.sqrt(n); i += 2) {
+          if (n % i === 0) return false;
+        }
+        return true;
+      }
+
+      return {
+        next() {
+          while (current <= limit && !isPrime(current)) {
+            current++;
+          }
+
+          if (current > limit) {
+            return { done: true };
+          }
+
+          const value = current;
+          current++;
+          return { value, done: false };
+        },
+      };
+    },
+  };
+}
+
+for (const prime of makePrimeTo(20)) {
+  console.log(prime); // 2\n3\n5\n7\n11\n13\n17\n19\n
+}
+```
+
+## 이터레이터 헬퍼 메소드(ES2025)
+
+최근에 승인된 ECMAScript 2025에서 [이터레이터 헬퍼 메서드](https://exploringjs.com/js/book/ch_sync-iteration.html#class-iterator)가 아래와 같이 추가되었습니다. 관련 자세한 내용은 재남님께서 블로그 포스트로 잘 정리해주셔서 [여기](https://roy-jung.github.io/iterator-helper-overview/)를 참고해주시면 좋을 것 같습니다.
+
+아래와 같이 배열의 주요 메서드가 `Iterator.prototype`에 메서드로 추가되었고 이는 배열 메서드와 동일하게 동작합니다.
+
+```jsx
+const array = [1, 2, 3, 4, 5];
+const newArray = [];
+
+// iterator.filter
+const test1 = array
+  .values()
+  .filter((v) => v % 2 === 0)
+  .toArray();
+
+console.log(test1); // [2, 4]
+
+// iterator.map
+const test2 = array
+  .values()
+  .map((v) => v * 10)
+  .toArray();
+
+console.log(test2); // [10, 20, 30, 40, 50]
+
+// iterator.flatMap
+const test3 = array
+  .values()
+  .flatMap((v) => [v, v * 10])
+  .toArray();
+
+console.log(test3); // [1, 10, 2, 20, 3, 30, 4, 40, 5, 50]
+
+// iterator.some
+const test4 = array.values().some((v) => v === 5);
+
+console.log(test4); // true
+
+// iterator.every
+const test5 = array.values().every((v) => typeof v === 'number');
+
+console.log(test5); // true
+
+// iterator.find
+const test6 = array.values().find((v) => v % 3 === 0);
+
+console.log(test6); // 3
+
+// iterator.reduce
+const test7 = array.values().reduce((cur, acc) => cur + acc, 0);
+
+console.log(test7); // 15
+
+// iterator.forEach
+const test8 = array.values().forEach((v) => {
+  newArray.push(v * 100);
+});
+
+console.log(newArray); // [100, 200, 300, 400, 500]
+```
+
+여기에서 배열 메서드로 존재하는데 이터레이터 메서드로 추가되는 것이 어떤 이점이 있는지에 대한 궁금증이 생길 수 있는데 **2가지의 큰 이점**이 있습니다.
+
+- 이터레이터 메서드는 **모든 이터러블 자료구조에서 활용될 수 있습니다.**
+- 이터레이터 메서드는 **지연 평가(Lazy Evaluation)를 기반으로 동작해서 메모리를 효율적으로 사용합니다.**
+  - 예를 들어, 배열과 문자열과 같은 자료구조의 경우에는 `map` 과 같은 메서드의 연산을 하기 위해 동일한 크기의 메모리를 미리 확보한 다음에 연산을 진행하는 **반면에 이터레이터는 순회할 때마다 점진적으로 메모리를 확보합니다.**
+
+## 참조
+
+- https://tc39.es/ecma262/#sec-iteration
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
+- https://ko.javascript.info/iterable
+- https://www.inflearn.com/course/es6-2/dashboard
+- https://product.kyobobook.co.kr/detail/S000001766445
