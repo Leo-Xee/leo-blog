@@ -16,7 +16,7 @@ $ yarn dev
 
 ## 기술 스택
 
-- Nextjs 14+ (App Router)
+- Nextjs 15+ (App Router)
 - Vanilla-Extract
 - Framer-Motion
 
@@ -26,8 +26,8 @@ $ yarn dev
 - [x] GFM 기반 마크다운
 - [x] 다크 모드
 - [x] 코드 블럭 하이라이트
-- [ ] 댓글 시스템
-- [ ] 태그 시스템
+- [x] 댓글 시스템
+- [x] 태그 시스템
 - [x] TOC(Table of Content)
 - [ ] SEO
 

@@ -1,4 +1,5 @@
 import { openGraph, twitter } from '@/app/shared-metadata';
+import { Comments } from '@/components/common/Comments';
 import CustomMDXRemote from '@/components/common/CustomMDXRemote/CustomMDXRemote';
 import { Template } from '@/components/common/Template';
 import { TOC } from '@/components/common/TOC';
@@ -41,6 +42,7 @@ export default async function Book({ params }: Props) {
       </Template.Header>
       <Template.Main>
         <CustomMDXRemote post={post} />
+        <Comments />
       </Template.Main>
       <Template.Aside>
         <TOC post={post} />

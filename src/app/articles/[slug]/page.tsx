@@ -3,6 +3,7 @@ import { getAllPosts, getPost } from '@/libs/api';
 import { TOC } from '@/components/common/TOC';
 import { Template } from '@/components/common/Template';
 import { CustomMDXRemote } from '@/components/common/CustomMDXRemote';
+import { Comments } from '@/components/common/Comments';
 
 type Params = {
   params: Promise<{ slug: string }>;
@@ -37,6 +38,7 @@ export default async function Article({ params }: Params) {
       </Template.Header>
       <Template.Main>
         <CustomMDXRemote post={post} />
+        <Comments />
       </Template.Main>
       <Template.Aside>
         <TOC post={post} />
