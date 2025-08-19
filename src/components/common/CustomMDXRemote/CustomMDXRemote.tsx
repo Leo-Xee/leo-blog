@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import addClasses from 'rehype-class-names';
 import { Blockquote } from '@/components/Blockquote';
+import rehypeMathjax from 'rehype-mathjax';
 import * as styles from './CustomMDXRemote.css';
 
 const components = {
@@ -56,6 +57,7 @@ async function CustomMDXRemote({ post }: CustomMDXRemoteProps) {
             addHeadingSlug,
             [autoLinkHeading, { behavior: 'wrap' }],
             [addClasses, classStyles],
+            rehypeMathjax,
             [
               rehypePrettyCode,
               {
