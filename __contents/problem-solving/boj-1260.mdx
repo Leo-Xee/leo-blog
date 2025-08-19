@@ -1,0 +1,148 @@
+---
+title: 백준 1260 - DFS와 BFS
+description:
+thumbnail:
+tags: ['Baekjoon', 'DFS', 'BFS']
+createdAt: 2025-08-20T09:12:38.904Z
+---
+
+## 문제 링크
+
+[1260 - DFS와 BFS](https://www.acmicpc.net/problem/1260)
+
+## 사용 알고리즘
+
+- DFS
+- BFS
+
+## 시간 복잡도
+
+- $O(MlogM)$
+
+## 문제 풀이
+
+1. 인접 리스트(`adj`) 기반으로 양방향 간선을 고려해서 입력을 받는다.
+2. 방문할 수 있는 정점이 여러 개인 경우에 작은 것부터 방문해야하므로 오름차순 정렬을 적용한다.
+3. DFS를 진행하고 최초 방문 시에 해당 정점을 결과 벡터(`ret1`)에 추가한다.
+4. 방문 배열(`visited`)을 초기화한다.
+5. BFS를 수행하고 최초 방문 시에 해당 정점을 결과 벡터(`ret2`)에 추가한다.
+6. `ret1`, `ret2`를 순회하면서 출력한다.
+
+### C++
+
+```cpp title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> adj[10004], ret1, ret2;
+int visited[10004];
+int n, m, v, from, to;
+
+void dfs(int here) {
+  if (visited[here]) return;
+  visited[here] = 1;
+  ret1.push_back(here);
+  for (int there : adj[here]) {
+    if (visited[there]) continue;
+    dfs(there);
+  }
+}
+
+void bfs(int here) {
+  queue<int> q;
+  visited[here] = 1;
+  q.push(here);
+
+  while (q.size()) {
+    int here = q.front();
+    q.pop();
+    ret2.push_back(here);
+    for (int there : adj[here]) {
+      if (visited[there]) continue;
+      visited[there] = 1;
+      q.push(there);
+    }
+  }
+}
+
+int main() {
+  cin >> n >> m >> v;
+  for (int i = 0; i < m; i++) {
+    cin >> from >> to;
+    adj[from].push_back(to);
+    adj[to].push_back(from);
+  }
+
+  for (int i = 1; i <= n; i++) {
+    sort(adj[i].begin(), adj[i].end());
+  }
+
+  dfs(v);
+  fill(visited, visited + 10004, 0);
+  bfs(v);
+
+  for (int it : ret1) cout << it << " ";
+  cout << "\n";
+  for (int it : ret2) cout << it << " ";
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : '../input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+const [N, _, V] = input
+  .shift()
+  .split(' ')
+  .map((v) => +v);
+const edges = input.map((v) => v.split(' ').map((v) => +v));
+const adj = [...Array(N + 1)].map(() => []);
+let vis = [...Array(N + 1)].fill(0);
+const ret1 = [];
+const ret2 = [];
+
+const dfs = (here) => {
+  if (vis[here]) return;
+  vis[here] = 1;
+  ret1.push(here);
+  for (let there of adj[here]) {
+    if (vis[there]) continue;
+    dfs(there);
+  }
+};
+
+const bfs = (here) => {
+  const q = [];
+  vis[here] = 1;
+  q.push(here);
+  while (q.length) {
+    const here = q.shift();
+    ret2.push(here);
+    for (let there of adj[here]) {
+      if (vis[there]) continue;
+      vis[there] = 1;
+      q.push(there);
+    }
+  }
+};
+
+for (let [from, to] of edges) {
+  adj[from].push(to);
+  adj[to].push(from);
+}
+
+// 비교함수를 제공하지 않으면, 배열의 모든 요소를 문자열로 변환한 다음 UTF-16 코드 단위 순서로 정렬한다.
+for (let it of adj) it.sort((a, b) => a - b);
+
+dfs(V);
+vis = [...Array(N + 1)].fill(0);
+bfs(V);
+
+console.log(ret1.join(' '));
+console.log(ret2.join(' '));
+```

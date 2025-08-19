@@ -1,0 +1,126 @@
+---
+title: 백준 2910 - 빈도 정렬
+description:
+thumbnail:
+tags: ['Baekjoon', 'Sort', 'Map']
+createdAt: 2025-08-24T09:27:10.547Z
+---
+
+## 문제 링크
+
+[2910 - 빈도 정렬](https://www.acmicpc.net/problem/2910)
+
+## 사용 알고리즘
+
+- 정렬
+- 해시 맵
+
+## 시간 복잡도
+
+- $O(NlogN)$
+
+## 문제 풀이
+
+1. 수열을 입력 받는다.
+   1. 숫자:빈도로 구성된 맵(`mp`)을 구성한다.
+   1. 숫자:순서로 구성된 맵(`mp_first`)을 구성한다.
+2. `mp`을 순회하여 빈도:숫자의 Pair를 요소로 하는 결과 벡터(`ret`)를 구성한다.
+3. `ret`을 커스텀 비교 함수를 통해 정렬한다.
+   1. 빈도가 다를 경우에는 빈도 내림차순으로 정렬한다.
+   2. 빈도가 같을 경우에는 순서 오름차순으로 정렬한다.
+4. `ret`을 순회하여 빈도만틈 숫자를 출력한다.
+
+### C++
+
+```cpp title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, c, a[1004];
+map<int, int> mp, mp_first;  // mp = 숫자:빈도 수, mp_first = 숫자:나온순서
+vector<pair<int, int>> ret;  // ret = {빈도수, 숫자}
+
+// true면 a가 앞에 위치, false면 b가 앞에 위치
+bool cmp(pair<int, int> a, pair<int, int> b) {
+  if (a.first == b.first) {
+    return mp_first[a.second] < mp_first[b.second];
+  }
+  return a.first > b.first;
+}
+
+int main() {
+  cin >> n >> c;
+  for (int i = 0; i < n; i++) {
+    cin >> a[i];
+    mp[a[i]]++;
+
+    if (mp_first[a[i]] == 0) {
+      mp_first[a[i]] = i + 1;
+    }
+  }
+
+  for (auto it : mp) {
+    ret.push_back({it.second, it.first});
+  }
+
+  sort(ret.begin(), ret.end(), cmp);
+
+  for (auto it : ret) {
+    for (int i = 0; i < it.first; i++) {
+      cout << it.second << " ";
+    }
+  }
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : '../input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+input
+  .shift()
+  .split(' ')
+  .map((v) => +v);
+
+const nums = input
+  .shift()
+  .split(' ')
+  .map((v) => +v);
+
+const mp = new Map(); // 숫자:빈도
+const omp = new Map(); // 숫자:순서
+const ret = []; // [숫자, 빈도]
+
+nums.forEach((num, idx) => {
+  if (mp.has(num)) {
+    mp.set(num, mp.get(num) + 1);
+  } else {
+    mp.set(num, 1);
+    if (!omp.has(num)) omp.set(num, idx + 1);
+  }
+});
+
+for (let [num, freq] of mp) {
+  ret.push([num, freq]);
+}
+
+// 음수면 a가 앞에 위치, 양수면 b가 앞에 위치
+ret.sort((a, b) => {
+  if (a[1] === b[1]) {
+    return omp.get(a[0]) - omp.get(b[0]);
+  }
+  return b[1] - a[1];
+});
+
+console.log(
+  ret
+    .map(([num, freq]) => `${num} `.repeat(freq))
+    .join('')
+    .trim()
+);
+```
