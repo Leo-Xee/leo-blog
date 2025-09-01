@@ -1,0 +1,145 @@
+---
+title: 백준 4659 - 비밀번호 발음하기
+description:
+thumbnail:
+tags: ['Baekjoon', 'Implementation']
+createdAt: 2025-09-13T12:27:47.554Z
+---
+
+## 문제 링크
+
+[4659 - 비밀번호 발음하기](https://www.acmicpc.net/problem/4659)
+
+## 사용 알고리즘
+
+- 문자열
+- 구현
+
+## 시간 복잡도
+
+- $O(T)$
+
+## 문제 풀이
+
+1. 테스트 케이스를 순회한다.
+   1. `end`를 입력 받으면 순회를 종료한다.
+   2. 조건에 따른 플래그 변수를 정의한다.
+   3. 문자열을 순회한다.
+      1. 문자가 모음이면 모음의 카운트를 증가, 자음의 카운트를 리셋하고 `is_include_vowel`를 `1`로 지정한다.
+      2. 문자가 자음이면 자음의 카운트를 증가, 모음의 카운트를 리셋한다.
+      3. 모음이나 자음이 3개 연속으로 위치할 경우에는 실패 플래그(`is_fail`)을 `true`로 변경한다.
+      4. 직전 문자와 현재 문자가 연속적으로 위치하거나 `ee`와 `oo`가 아닌 경우에 `is_fail`를 `true`로 변경한다.
+      5. 모음이 하나도 포함되지 않은 경우에는 `is_fail`를 `true`로 변경한다.
+      6. `is_fail` 값에 따라 주어진 문장을 출력한다.
+
+### C++
+
+```cpp title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+string s;
+
+bool isVowel(int code) {
+  return (code == 'a' || code == 'e' || code == 'i' || code == 'o' || code == 'u');
+}
+
+int main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout.tie(0);
+
+  while (true) {
+    bool is_fail = 0;
+    bool is_include_vowel = 0;
+    int consonant_count = 0;
+    int vowel_count = 0;
+    int prev = -1;
+
+    cin >> s;
+    if (s == "end") break;
+
+    for (int i = 0; i < s.size(); i++) {
+      int code = s[i];
+
+      // 1번, 2번 조건 체크
+      if (isVowel(code)) {
+        vowel_count++;
+        consonant_count = 0;
+        is_include_vowel = 1;
+      } else {
+        consonant_count++;
+        vowel_count = 0;
+      }
+
+      if (vowel_count == 3 || consonant_count == 3) is_fail = 1;
+
+      // 3번 조건 체크
+      if (i >= 1 && (prev == code) && (code != 'e' && code != 'o')) {
+        is_fail = 1;
+      }
+      prev = code;
+    }
+
+    if (!is_include_vowel) is_fail = 1;
+    if (is_fail) {
+      cout << "<" << s << ">" << " is not acceptable.\n";
+    } else {
+      cout << "<" << s << ">" << " is acceptable.\n";
+    }
+  }
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : '../input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+const isVowel = (c) => {
+  return 'aeiou'.includes(c);
+};
+
+while (true) {
+  const s = input.shift();
+
+  if (s === 'end') break;
+
+  let success = 1;
+  let vowelCnt = 0;
+  let consonantCnt = 0;
+  let hasVowel = 0;
+  let prev = -1;
+
+  for (let i = 0; i < s.length; i++) {
+    let c = s[i];
+
+    if (isVowel(c)) {
+      vowelCnt++;
+      consonantCnt = 0;
+      hasVowel = 1;
+    } else {
+      consonantCnt++;
+      vowelCnt = 0;
+    }
+
+    if (vowelCnt === 3 || consonantCnt === 3) success = 0;
+
+    if (i > 0 && prev === c && c !== 'e' && c !== 'o') {
+      success = 0;
+    }
+    prev = c;
+  }
+
+  if (!hasVowel) success = 0;
+  if (success) {
+    console.log(`<${s}> is acceptable.`);
+  } else {
+    console.log(`<${s}> is not acceptable.`);
+  }
+}
+```

@@ -1,0 +1,168 @@
+---
+title: 백준 10026 - 적록색약
+description:
+thumbnail:
+tags: ['Baekjoon', 'BFS', 'DFS']
+createdAt: 2025-09-01T03:12:29.115Z
+---
+
+## 문제 링크
+
+[문제 번호 - 적록색약](https://www.acmicpc.net/problem/10026)
+
+## 사용 알고리즘
+
+- BFS
+- DFS
+
+## 시간 복잡도
+
+- $O(N^2)$
+
+## 문제 풀이
+
+2개의 맵에서 연결된 컴포넌트의 개수를 구하는 문제입니다.
+
+풀이 과정은 아래와 같습니다.
+
+1. 일반 케이스와 적록색약 케이스를 구분해서 BFS를 수행한다.
+   1. 일반 케이스는 입력 받은 그리드(`a`)대로 진행하되 다음 좌표의 색상이 현재 좌표의 색상과 경우에 진행한다.
+   2. 적록색약 케이스는 빨강과 초록을 구분하지 못하므로 `a`의 좍표값이 'R'이면 'G'로 변경한 후 동일하게 진행한다.
+2. 각 케이스의 구역의 수를 결과 배열(`ret`)에 반영한다.
+3. `ret`을 출력한다.
+
+### C++
+
+```cpp title="C++"
+
+#include <bits/stdc++.h>
+using namespace std;
+
+const int dy[] = {-1, 0, 1, 0};
+const int dx[] = {0, 1, 0, -1};
+
+int n;
+char a[104][104];
+int visited[104][104], ret[2];
+
+void bfs(int y, int x) {
+  queue<pair<int, int>> q;
+  q.push({y, x});
+  visited[y][x] = 1;
+
+  while (q.size()) {
+    tie(y, x) = q.front();
+    q.pop();
+    for (int i = 0; i < 4; i++) {
+      int ny = y + dy[i];
+      int nx = x + dx[i];
+      if (ny < 0 || ny >= n || nx < 0 || nx >= n) continue;
+      if (!visited[ny][nx] && a[y][x] == a[ny][nx]) {
+        q.push({ny, nx});
+        visited[ny][nx] = 1;
+      }
+    }
+  }
+}
+
+int main() {
+  scanf("%d", &n);
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      scanf(" %c", &a[i][j]);
+    }
+  }
+
+  for (int num = 0; num < 2; num++) {
+    int cnt = 0;
+    fill(&visited[0][0], &visited[0][0] + 104 * 104, 0);
+
+    if (num == 1) {
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+          if (a[i][j] == 'R') {
+            a[i][j] = 'G';
+          }
+        }
+      }
+    }
+
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        if (!visited[i][j]) {
+          bfs(i, j);
+          cnt++;
+        }
+      }
+    }
+
+    ret[num] = cnt;
+  }
+
+  for (auto it : ret) printf("%d ", it);
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : '../input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+const dy = [-1, 0, 1, 0];
+const dx = [0, 1, 0, -1];
+
+const N = +input.shift();
+const a = input.map((v) => v.split(''));
+let vis = Array.from({ length: N }, () => Array.from({ length: N }).fill(0));
+let normal = 0;
+let blind = 0;
+
+const bfs = (y, x) => {
+  const q = [];
+  q.push([y, x]);
+  vis[y][x] = 1;
+  while (q.length) {
+    [y, x] = q.shift();
+    for (let i = 0; i < 4; i++) {
+      const ny = y + dy[i];
+      const nx = x + dx[i];
+      if (ny < 0 || ny >= N || nx < 0 || nx >= N) continue;
+      if (vis[ny][nx] || a[y][x] !== a[ny][nx]) continue;
+      q.push([ny, nx]);
+      vis[ny][nx] = 1;
+    }
+  }
+};
+
+const startCount = () => {
+  let cnt = 0;
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      if (!vis[i][j]) {
+        bfs(i, j);
+        cnt++;
+      }
+    }
+  }
+  return cnt;
+};
+
+normal = startCount();
+
+vis = Array.from({ length: N }, () => Array.from({ length: N }).fill(0));
+
+for (let i = 0; i < N; i++) {
+  for (let j = 0; j < N; j++) {
+    if (a[i][j] === 'R') a[i][j] = 'G';
+  }
+}
+
+blind = startCount();
+
+console.log(`${normal} ${blind}`);
+```
