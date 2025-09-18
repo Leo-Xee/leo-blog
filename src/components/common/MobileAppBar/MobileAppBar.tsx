@@ -38,7 +38,7 @@ function MobileAppBar() {
   return (
     <header className={styles.appBar}>
       <Link href="/" className={styles.avatar}>
-        <Image src={AvatarImg} width={30} height={30} alt="" />
+        <Image src={AvatarImg} width={40} height={40} alt="" />
       </Link>
 
       <div className={styles.menus}>
