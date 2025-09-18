@@ -40,7 +40,7 @@ function AppBar() {
         }}
       >
         <div className={styles.wrapper}>
-          <Image src={AvatarImg} width={30} height={30} alt="" />
+          <Image src={AvatarImg} width={40} height={40} alt="" />
 
           <nav>
             <ul className={styles.navList}>
