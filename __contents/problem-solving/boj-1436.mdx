@@ -1,0 +1,75 @@
+---
+title: 백준 1436 - 영화감독 숌
+description:
+thumbnail:
+tags: ['Baekjoon', 'Implementation']
+createdAt: 2025-10-07T04:37:04.014Z
+---
+
+## 문제 링크
+
+[1436 - 영화감독 숌](https://www.acmicpc.net/problem/1436)
+
+## 사용 알고리즘
+
+- 구현
+
+## 시간 복잡도
+
+- $O(N \times logN)$
+
+## 문제 풀이
+
+1. 1부터 값을 계속 증가시킨다.
+2. 증가된 값에 `"666"`이 존재하면 `cnt`를 `1`만큼 증가시킨다.
+3. 입력값과 `cnt`가 동일하면 반복문을 탈출한다.
+4. 증가된 값을 출력한다.
+
+### C++
+
+```cpp title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, cnt, ret;
+
+int main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout.tie(0);
+
+  cin >> n;
+
+  while (true) {
+    ret++;
+    if (to_string(ret).find("666") != string::npos) cnt++;
+    if (cnt == n) break;
+  }
+
+  cout << ret << "\n";
+
+  return 0;
+}
+
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : '../input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+const N = +input;
+
+let ret = 0;
+let cnt = 0;
+
+while (true) {
+  ret++;
+  if (ret.toString().includes('666')) cnt++;
+  if (N === cnt) break;
+}
+
+console.log(ret);
+```
