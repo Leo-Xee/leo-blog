@@ -1,0 +1,79 @@
+---
+title: 백준 11650 - 좌표 정렬하기
+description:
+thumbnail:
+tags: ['Baekjoon', 'Sorting']
+createdAt: 2025-10-22T07:40:20.737Z
+---
+
+## 문제 링크
+
+[11650 - 좌표 정렬하기](https https://www.acmicpc.net/problem/11650)
+
+## 사용 알고리즘
+
+- 정렬
+
+## 시간 복잡도
+
+- $O(N \times logN)$
+
+## 문제 풀이
+
+1.  커스텀 비교함수를 활용해서 x, y 좌표 기준 오름차순을 적용해 출력한다.
+
+### C++
+
+```cpp title="C++"
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, x, y;
+vector<pair<int, int>> v;
+
+bool cmp(pair<int, int> a, pair<int, int> b) {
+  if (a.first != b.first) return a.first < b.first;
+  return a.second < b.second;
+}
+
+int main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout.tie(0);
+
+  cin >> n;
+
+  for (int i = 0; i < n; i++) {
+    cin >> x >> y;
+    v.push_back({x, y});
+  }
+
+  sort(v.begin(), v.end(), cmp);
+
+  for (auto it : v) cout << it.first << " " << it.second << '\n';
+
+  return 0;
+}
+```
+
+### JavaScript
+
+```js title="JavaScript"
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : '../input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+const [, ...arr] = input.map((v) => v.split(' ').map((v) => +v));
+
+const ret = arr.sort((a, b) => {
+  if (a[0] !== b[0]) return a[0] - b[0];
+  return a[1] - b[1];
+});
+
+console.log(
+  ret
+    .map((v) => v.join(' '))
+    .map((v) => v)
+    .join('\n')
+);
+```
