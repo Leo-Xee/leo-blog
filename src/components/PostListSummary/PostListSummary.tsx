@@ -12,15 +12,15 @@ function PostListSummary({ posts, type }: PostListSummaryProps) {
   const summariesStatus = [
     {
       type: 'articles',
-      description: `지금까지 총 ${posts.length}개의 글을 작성했어요.`,
+      description: `지금까지 총 ${posts.length}개의 글을 작성했습니다.`,
     },
     {
       type: 'problem-solving',
-      description: `지금까지 총 ${posts.length}개의 알고리즘 문제를 풀고 글을 작성했어요.`,
+      description: `지금까지 총 ${posts.length}개의 알고리즘 문제를 풀고 글을 작성했습니다.`,
     },
     {
       type: 'books',
-      description: `지금까지 총 ${posts.length}권의 책을 읽고 글을 작성했어요.`,
+      description: `지금까지 총 ${posts.length}권의 책을 읽고 글을 작성했습니다.`,
     },
   ];
 
