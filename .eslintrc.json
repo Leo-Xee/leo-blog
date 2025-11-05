@@ -18,5 +18,18 @@
     "react/no-danger": "off",
     // vanilla extract의 경우 개별 export하는 케이스가 꽤 있어 해제함
     "import/prefer-default-export": "off"
-  }
+  },
+  "overrides": [
+    {
+      // 스크립트에 규칙을 분리 적용하고 불필요한 규칙 해제
+      "files": ["scripts/**"],
+      "rules": {
+        "no-console": "off",
+        "import/no-extraneous-dependencies": "off",
+        "consistent-return": "off",
+        "no-underscore-dangle": "off",
+        "@typescript-eslint/naming-convention": "off"
+      }
+    }
+  ]
 }
