@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import AvatarImg from '@assets/leo.png';
+import AvatarImg from '@assets/leo.jpg';
 import { usePathname } from 'next/navigation';
 import { NAV_ITEMS } from '@/constants';
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -33,14 +33,22 @@ function AppBar() {
           type: 'spring',
         }}
         animate={{
-          width: isTop ? vars.breakpoint.tablet : '408px',
+          width: isTop ? vars.breakpoint.tablet : '416px',
           borderRadius: isTop
             ? vars.borderRadius.radii02
             : vars.borderRadius.rounded,
         }}
       >
         <div className={styles.wrapper}>
-          <Image src={AvatarImg} width={40} height={40} alt="" />
+          <Link href="/">
+            <Image
+              src={AvatarImg}
+              width={40}
+              height={40}
+              alt=""
+              className={styles.avatar}
+            />
+          </Link>
 
           <nav>
             <ul className={styles.navList}>

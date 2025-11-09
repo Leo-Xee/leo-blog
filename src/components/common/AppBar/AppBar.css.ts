@@ -38,12 +38,11 @@ export const appBar = style({
 export const wrapper = style({
   display: 'flex',
   alignItems: 'center',
-  gap: vars.space.space03,
+  gap: vars.space.space02,
 });
 
 export const navList = style({
   display: 'flex',
-  gap: vars.space.space01,
 });
 
 export const navItem = style({
@@ -79,4 +78,20 @@ export const ActiveNavItem = style([
 
 export const navigation = style({
   display: 'flex',
+});
+
+export const avatar = style({
+  display: 'block',
+  borderRadius: vars.borderRadius.rounded,
+  transitionProperty: 'all',
+  transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  transitionDuration: '300ms',
+
+  '@media': {
+    '(hover: hover) and (pointer: fine)': {
+      ':hover': {
+        transform: 'scale(1.2)',
+      },
+    },
+  },
 });
