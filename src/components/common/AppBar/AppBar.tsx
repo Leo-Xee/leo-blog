@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import AvatarImg from '@assets/leo.jpg';
+import AvatarImg from '@assets/leo.png';
 import { usePathname } from 'next/navigation';
 import { NAV_ITEMS } from '@/constants';
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -40,15 +40,7 @@ function AppBar() {
         }}
       >
         <div className={styles.wrapper}>
-          <Link href="/">
-            <Image
-              src={AvatarImg}
-              width={40}
-              height={40}
-              alt=""
-              className={styles.avatar}
-            />
-          </Link>
+          <Image src={AvatarImg} width={40} height={40} alt="" />
 
           <nav>
             <ul className={styles.navList}>

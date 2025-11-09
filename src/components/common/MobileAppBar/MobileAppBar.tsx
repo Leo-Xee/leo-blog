@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import AvatarImg from '@assets/leo.jpg';
+import AvatarImg from '@assets/leo.png';
 import { Bars2Icon, XMarkIcon } from '@heroicons/react/20/solid';
 import { NAV_ITEMS } from '@/constants';
 import Link from 'next/link';
@@ -37,14 +37,8 @@ function MobileAppBar() {
 
   return (
     <header className={styles.appBar}>
-      <Link href="/">
-        <Image
-          src={AvatarImg}
-          width={40}
-          height={40}
-          alt=""
-          className={styles.avatar}
-        />
+      <Link href="/" className={styles.avatar}>
+        <Image src={AvatarImg} width={40} height={40} alt="" />
       </Link>
 
       <div className={styles.menus}>

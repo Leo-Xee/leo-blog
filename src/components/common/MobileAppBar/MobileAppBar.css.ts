@@ -27,7 +27,6 @@ export const appBar = style({
 export const avatar = style({
   display: 'flex',
   alignItems: 'center',
-  borderRadius: vars.borderRadius.rounded,
 });
 
 export const menus = style({
