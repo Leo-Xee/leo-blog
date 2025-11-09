@@ -80,3 +80,21 @@ export const ActiveNavItem = style([
 export const navigation = style({
   display: 'flex',
 });
+
+export const avatarWrapper = style({});
+
+export const avatar = style({
+  display: 'block',
+  borderRadius: vars.borderRadius.rounded,
+  transitionProperty: 'all',
+  transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  transitionDuration: '300ms',
+
+  '@media': {
+    '(hover: hover) and (pointer: fine)': {
+      ':hover': {
+        transform: 'scale(1.2)',
+      },
+    },
+  },
+});
