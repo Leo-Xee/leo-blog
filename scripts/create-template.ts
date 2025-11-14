@@ -49,11 +49,11 @@ function createFrontMatter(title: string, tags: string): string {
   const formattedTags = tagArr.map((tag) => `"${tag}"`).join(', ');
 
   return `---
-title: "${title}"
-description: ""
-thumbnail: ""
+title: ${title}
+description:
+thumbnail:
 tags: [${formattedTags}]
-createdAt: "${new Date().toISOString()}"
+createdAt: ${new Date().toISOString()}
 ---
 `;
 }
