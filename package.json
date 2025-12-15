@@ -19,7 +19,7 @@
     "framer-motion": "^12.19.1",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
-    "next": "15.3.6",
+    "next": "15.5.9",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.3.0",
     "react": "^19.1.0",
